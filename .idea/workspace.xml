@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="59e80b35-75cf-4461-b344-7e17a9005290" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/MyVet_db.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/ActivityBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/BookingRequestBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/BookingResponseBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/MedicalDocumentBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/PetBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/PetOwnerBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/ProgressBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/RegistrationBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/SessionBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/StatisticsBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/TimeSlotBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/bean/VeterinarianBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/applicativo/ActivityController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/applicativo/AvailabilityController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/applicativo/BookingController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/applicativo/LoginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/applicativo/MedicalDocumentController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/applicativo/RegistrationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/applicativo/StatisticsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/applicativo/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/BookAppointmentCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/CancelAppointmentCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/DashboardAdminCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/DashboardPetOwnerCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/DashboardVeterinarianCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/EditProfileCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/InitialCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/LoginCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/MainCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/ManagePetCareCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/MedicalDocumentsCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/ModeSelectorCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/RegistrationCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/SetAvailabilityCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/StatisticsCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/ViewActivitiesCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/ViewAppointmentCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/cli/ViewSlotsCLI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/BookAppointmentGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/DashboardAdminGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/DashboardPetOwnerGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/DashboardVeterinarianGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/GUIUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/LoginGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/MainGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/ManagePetCareGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/MedicalDocumentsGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/RegistrationGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/SetAvailabilityGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/StatisticsGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/ViewActivitiesGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/ViewAppointmentGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/controller/gui/ViewSlotsGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/AbstractBookingDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/ActivityDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/BookingDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/ConnectionFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/DAOFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/LoginDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/MedicalDocumentDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/PetDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/PetOwnerDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/ProgressDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/RegistrationDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/TimeSlotDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/UserDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/VeterinarianDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/db/ActivityDAODB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/db/BookingDAODB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/db/LoginDAODB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/db/MedicalDocumentDAODB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/db/PetDAODB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/db/PetOwnerDAODB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/db/ProgressDAODB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/db/RegistrationDAODB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/db/TimeSlotDAODB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/db/UserDAODB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/db/VeterinarianDAODB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/file/BookingDAOFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/file/LocalDateAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/file/LocalDateTimeAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/file/LocalTimeAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/file/TimeSlotDAOFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/memory/ActivityDAOMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/memory/BookingDAOMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/memory/LoginDAOMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/memory/MedicalDocumentDAOMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/memory/PetDAOMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/memory/PetOwnerDAOMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/memory/ProgressDAOMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/memory/RegistrationDAOMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/memory/TimeSlotDAOMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/memory/UserDAOMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/dao/memory/VeterinarianDAOMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/demo/DemoDataStore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/enumerator/BookingStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/enumerator/DocumentType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/enumerator/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/exception/AvailabilityException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/exception/BookingException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/exception/DAOException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/exception/LoginException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/exception/NotificationException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/exception/RegistrationException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/model/Admin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/model/CareActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/model/Credentials.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/model/MedicalDocument.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/model/Pet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/model/PetOwner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/model/Progress.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/model/TimeSlot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/model/Veterinarian.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/pattern/observer/BookingCancellationObserver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/pattern/observer/BookingConfirmationObserver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/pattern/observer/Observable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/pattern/observer/Observer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/pattern/singleton/SessionManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/pattern/state/AbstractCLIState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/pattern/state/CLIStateMachine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/service/NotificationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/util/PasswordUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/util/Printer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/util/ValidationUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/BookAppointmentCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/CLIRenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/CancelAppointmentCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/DashboardAdminCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/DashboardPetOwnerCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/DashboardVeterinarianCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/EditProfileCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/InitialCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/LoginCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/ManagePetCareCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/MedicalDocumentsCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/ModeSelectorCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/RegistrationCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/SetAvailabilityCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/StatisticsCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/ViewActivitiesCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/ViewAppointmentCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/cli/ViewSlotsCLIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/BookAppointmentGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/DashboardAdminGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/DashboardGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/DashboardPetOwnerGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/DashboardVeterinarianGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/LoginGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/ManagePetCareGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/MedicalDocumentsGUIVIew.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/PageGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/RegistrationGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/SetAvailabilityGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/StatisticsGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/ViewActivitiesGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/ViewAppointmentGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/ispwproject/myvet/view/gui/ViewSlotsGUIView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Exception" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="3HpMnclgfd0MkXCPnxZB4nHTiis" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/mange/Desktop/MyVet/src/main/java/it/ispwproject/myvet",
+    "onboarding.tips.debug.path": "C:/Users/mange/Desktop/MyVet/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mange\Desktop\MyVet\src\main\java\it\ispwproject\myvet" />
+      <recent name="C:\Users\mange\Desktop\MyVet\src\main\java\it\ispwproject\myvet\dao" />
+      <recent name="C:\Users\mange\Desktop\MyVet\src\main\java\it\ispwproject\myvet\controller" />
+      <recent name="C:\Users\mange\Desktop\MyVet\src\main\resources" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="59e80b35-75cf-4461-b344-7e17a9005290" name="Changes" comment="" />
+      <created>1786560727633</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1786560727633</updated>
+    </task>
+    <servers />
+  </component>
+</project>
