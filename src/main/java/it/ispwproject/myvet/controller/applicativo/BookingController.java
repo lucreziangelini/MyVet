@@ -11,8 +11,11 @@ import it.ispwproject.myvet.pattern.observer.BookingConfirmationObserver;
 import it.ispwproject.myvet.pattern.singleton.SessionManager;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BookingController {
 
@@ -108,6 +111,7 @@ public class BookingController {
             BookingRequestBean request)
             throws DAOException, BookingException {
 
+        validateBookingRequest(request);
         PetOwner owner = getLoggedPetOwner();
 
         Pet pet = petDAO.findById(
@@ -134,6 +138,14 @@ public class BookingController {
         if (slot == null) {
             throw new DAOException("Slot non trovato.");
         }
+
+        validateBookingSelection(
+                owner,
+                pet,
+                veterinarian,
+                slot,
+                request.getTimeSlot()
+        );
 
         boolean reserved = timeSlotDAO.reserveSlot(
                 slot.getId(),
@@ -190,6 +202,7 @@ public class BookingController {
             BookingRequestBean request)
             throws DAOException, BookingException {
 
+        validateBookingRequest(request);
         PetOwner owner = getLoggedPetOwner();
 
         Pet pet = petDAO.findById(
@@ -216,6 +229,14 @@ public class BookingController {
         if (slot == null) {
             throw new DAOException("Slot non trovato.");
         }
+
+        validateBookingSelection(
+                owner,
+                pet,
+                veterinarian,
+                slot,
+                request.getTimeSlot()
+        );
 
         for (Booking booking :
                 bookingDAO.findByPetOwner(owner.getId())) {
@@ -291,6 +312,7 @@ public class BookingController {
     public List<BookingResponseBean> getPetOwnerBookings(
             int petOwnerId) throws DAOException {
 
+        validateLoggedPetOwner(petOwnerId);
         List<BookingResponseBean> result = new ArrayList<>();
 
         for (Booking booking :
@@ -350,6 +372,7 @@ public class BookingController {
     public List<BookingResponseBean> getPetOwnerPastBookings(
             int petOwnerId) throws DAOException {
 
+        validateLoggedPetOwner(petOwnerId);
         List<BookingResponseBean> result = new ArrayList<>();
 
         for (Booking booking :
@@ -410,6 +433,8 @@ public class BookingController {
             int bookingId,
             int petOwnerId) throws DAOException {
 
+        validateLoggedPetOwner(petOwnerId);
+
         List<Booking> bookings =
                 bookingDAO.findByPetOwner(petOwnerId);
 
@@ -419,11 +444,21 @@ public class BookingController {
                 .findFirst()
                 .orElse(null);
 
-        if (booking != null) {
-            booking.attach(
-                    new BookingCancellationObserver(booking)
+        if (booking == null) {
+            throw new DAOException(
+                    "Appuntamento non trovato o non autorizzato."
             );
         }
+
+        if (!booking.isCancellable()) {
+            throw new DAOException(
+                    "L'appuntamento non può più essere annullato."
+            );
+        }
+
+        booking.attach(
+                new BookingCancellationObserver(booking)
+        );
 
         bookingDAO.cancel(
                 bookingId,
@@ -480,11 +515,116 @@ public class BookingController {
     private PetOwner getLoggedPetOwner()
             throws DAOException {
 
-        String email = SessionManager
+        User loggedUser = SessionManager
                 .getInstance()
-                .getCurrentSession()
-                .getEmail();
+                .getLoggedUser();
 
-        return (PetOwner) userDAO.findByEmail(email);
+        if (!(loggedUser instanceof PetOwner)) {
+            throw new DAOException(
+                    "L'utente autenticato non è un pet owner."
+            );
+        }
+
+        User persistedUser = userDAO.findByEmail(
+                loggedUser.getEmail()
+        );
+
+        if (!(persistedUser instanceof PetOwner owner)) {
+            throw new DAOException(
+                    "Pet owner autenticato non trovato."
+            );
+        }
+
+        return owner;
+    }
+
+    private void validateLoggedPetOwner(int petOwnerId)
+            throws DAOException {
+
+        PetOwner owner = getLoggedPetOwner();
+
+        if (owner.getId() != petOwnerId) {
+            throw new DAOException(
+                    "Non puoi accedere alle prenotazioni di un altro utente."
+            );
+        }
+    }
+
+    private void validateBookingRequest(
+            BookingRequestBean request) throws BookingException {
+
+        if (request == null
+                || request.getPet() == null
+                || request.getVeterinarian() == null
+                || request.getTimeSlot() == null) {
+
+            throw new BookingException(
+                    "Dati della prenotazione incompleti."
+            );
+        }
+    }
+
+    private void validateBookingSelection(
+            PetOwner owner,
+            Pet pet,
+            Veterinarian veterinarian,
+            TimeSlot slot,
+            TimeSlotBean requestedSlot)
+            throws DAOException, BookingException {
+
+        boolean petBelongsToOwner = petDAO
+                .getByOwner(owner.getId())
+                .stream()
+                .anyMatch(ownedPet ->
+                        ownedPet.getId() == pet.getId());
+
+        if (!petBelongsToOwner) {
+            throw new BookingException(
+                    "L'animale selezionato non appartiene al pet owner autenticato."
+            );
+        }
+
+        if (slot.getVeterinarian() == null
+                || slot.getVeterinarian().getId()
+                != veterinarian.getId()) {
+
+            throw new BookingException(
+                    "Lo slot selezionato non appartiene al veterinario scelto."
+            );
+        }
+
+        if (slot.getDate() == null
+                || slot.getStartTime() == null
+                || slot.getEndTime() == null
+                || !slot.getStartTime().isBefore(slot.getEndTime())) {
+
+            throw new BookingException(
+                    "Lo slot selezionato non è valido."
+            );
+        }
+
+        if (requestedSlot.getDate() != null
+                && !Objects.equals(
+                requestedSlot.getDate(),
+                slot.getDate())) {
+
+            throw new BookingException(
+                    "La data dello slot selezionato non è valida."
+            );
+        }
+
+        LocalDateTime appointmentStart = LocalDateTime.of(
+                slot.getDate(),
+                slot.getStartTime()
+        );
+
+        if (!appointmentStart.isAfter(
+                LocalDateTime.now(ZoneId.systemDefault()))) {
+
+            throw new BookingException(
+                    "Non puoi prenotare uno slot passato."
+            );
+        }
+
     }
 }

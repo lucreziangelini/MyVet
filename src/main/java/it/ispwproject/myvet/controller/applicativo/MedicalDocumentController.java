@@ -9,6 +9,8 @@ import it.ispwproject.myvet.dao.PetDAO;
 import it.ispwproject.myvet.exception.DAOException;
 import it.ispwproject.myvet.model.MedicalDocument;
 import it.ispwproject.myvet.model.Pet;
+import it.ispwproject.myvet.model.PetOwner;
+import it.ispwproject.myvet.model.User;
 import it.ispwproject.myvet.model.Veterinarian;
 import it.ispwproject.myvet.pattern.singleton.SessionManager;
 
@@ -31,10 +33,19 @@ public class MedicalDocumentController {
     public void uploadDocument(MedicalDocumentBean bean)
             throws DAOException {
 
-        Veterinarian veterinarian =
-                (Veterinarian) SessionManager
-                        .getInstance()
-                        .getLoggedUser();
+        User loggedUser = getLoggedUser();
+
+        if (!(loggedUser instanceof Veterinarian veterinarian)) {
+            throw new DAOException(
+                    "Solo un veterinario può caricare documenti medici."
+            );
+        }
+
+        if (bean == null || bean.getPet() == null) {
+            throw new DAOException(
+                    "Dati del documento incompleti."
+            );
+        }
 
         Pet pet = petDAO.findById(
                 bean.getPet().getId()
@@ -45,6 +56,8 @@ public class MedicalDocumentController {
                     "Animale non trovato."
             );
         }
+
+        validateVeterinarianAccess(veterinarian, pet);
 
         LocalDateTime uploadedAt =
                 LocalDateTime.now(
@@ -75,6 +88,16 @@ public class MedicalDocumentController {
     public List<MedicalDocumentBean> getDocuments(
             int petId) throws DAOException {
 
+        Pet pet = petDAO.findById(petId);
+
+        if (pet == null) {
+            throw new DAOException(
+                    "Animale non trovato."
+            );
+        }
+
+        validateDocumentAccess(getLoggedUser(), pet);
+
         List<MedicalDocumentBean> result =
                 new ArrayList<>();
 
@@ -85,6 +108,67 @@ public class MedicalDocumentController {
         }
 
         return result;
+    }
+
+    private User getLoggedUser() throws DAOException {
+        User loggedUser = SessionManager
+                .getInstance()
+                .getLoggedUser();
+
+        if (loggedUser == null) {
+            throw new DAOException(
+                    "Nessun utente autenticato."
+            );
+        }
+
+        return loggedUser;
+    }
+
+    private void validateDocumentAccess(
+            User loggedUser,
+            Pet pet) throws DAOException {
+
+        if (loggedUser instanceof PetOwner owner) {
+            boolean ownsPet = petDAO
+                    .getByOwner(owner.getId())
+                    .stream()
+                    .anyMatch(ownedPet ->
+                            ownedPet.getId() == pet.getId());
+
+            if (!ownsPet) {
+                throw new DAOException(
+                        "Non puoi visualizzare i documenti di questo animale."
+                );
+            }
+
+            return;
+        }
+
+        if (loggedUser instanceof Veterinarian veterinarian) {
+            validateVeterinarianAccess(veterinarian, pet);
+            return;
+        }
+
+        throw new DAOException(
+                "Non sei autorizzato a visualizzare documenti medici."
+        );
+    }
+
+    private void validateVeterinarianAccess(
+            Veterinarian veterinarian,
+            Pet pet) throws DAOException {
+
+        boolean assignedPet = petDAO
+                .getByVeterinarian(veterinarian.getId())
+                .stream()
+                .anyMatch(availablePet ->
+                        availablePet.getId() == pet.getId());
+
+        if (!assignedPet) {
+            throw new DAOException(
+                    "Il veterinario non è associato a questo animale."
+            );
+        }
     }
 
     private MedicalDocumentBean toMedicalDocumentBean(

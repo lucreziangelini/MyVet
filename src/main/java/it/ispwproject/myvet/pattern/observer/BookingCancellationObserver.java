@@ -53,8 +53,9 @@ public class BookingCancellationObserver implements Observer {
                 booking.getVeterinarian().getId(),
                 booking.getVeterinarian().getName(),
                 booking.getVeterinarian().getSurname(),
+                booking.getVeterinarian().getBio(),
                 booking.getVeterinarian().getEmail(),
-                booking.getVeterinarian().getClinicAddress(),
+                booking.getVeterinarian().getSpecialization(),
                 false
         );
 

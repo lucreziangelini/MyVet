@@ -4,7 +4,8 @@ import it.ispwproject.myvet.enumerator.Role;
 
 public class Veterinarian extends User {
 
-    private String clinicAddress;
+    private String bio;
+    private String specialization;
 
     public Veterinarian() {
         super();
@@ -15,7 +16,8 @@ public class Veterinarian extends User {
                         String surname,
                         String email,
                         String password,
-                        String clinicAddress) {
+                        String bio,
+                        String specialization) {
         super(
                 id,
                 name,
@@ -25,10 +27,24 @@ public class Veterinarian extends User {
                 Role.VETERINARIAN
         );
 
-        this.clinicAddress = clinicAddress;
+        this.bio = bio;
+        this.specialization = specialization;
     }
 
-    public String getClinicAddress() {return clinicAddress;}
-    public void setClinicAddress(String clinicAddress) {this.clinicAddress = clinicAddress;}
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
 
 }

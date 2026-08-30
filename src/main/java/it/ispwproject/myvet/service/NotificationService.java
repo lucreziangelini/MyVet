@@ -84,7 +84,6 @@ public final class NotificationService {
     private static final String KEY_OWNER_NAME = "ownerName";
     private static final String KEY_VETERINARIAN_NAME = "veterinarianName";
     private static final String KEY_PET_NAME = "petName";
-    private static final String KEY_CLINIC_ADDRESS = "clinicAddress";
     private static final String KEY_DATE = "date";
     private static final String KEY_START_TIME = "startTime";
     private static final String KEY_END_TIME = "endTime";
@@ -213,11 +212,6 @@ public final class NotificationService {
         personalization.addDynamicTemplateData(
                 KEY_PET_NAME,
                 booking.getPet().getName()
-        );
-
-        personalization.addDynamicTemplateData(
-                KEY_CLINIC_ADDRESS,
-                booking.getVeterinarian().getClinicAddress()
         );
 
         personalization.addDynamicTemplateData(

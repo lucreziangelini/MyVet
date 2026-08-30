@@ -15,6 +15,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -601,6 +603,15 @@ public class ViewAppointmentGUIView extends PageGUIView {
             boolean cancellable,
             Consumer<BookingResponseBean> onCancel) {
 
+        boolean canCancel = cancellable
+                && booking.getTimeSlot() != null
+                && booking.getTimeSlot().getDate() != null
+                && booking.getTimeSlot().getStartTime() != null
+                && LocalDateTime.of(
+                booking.getTimeSlot().getDate(),
+                booking.getTimeSlot().getStartTime()
+        ).isAfter(LocalDateTime.now(ZoneId.systemDefault()));
+
         VBox card = new VBox(8);
 
         card.getStyleClass().add(
@@ -724,7 +735,7 @@ public class ViewAppointmentGUIView extends PageGUIView {
 
         // Il pulsante di annullamento è presente solo
         // per gli appuntamenti futuri confermati
-        if (cancellable) {
+        if (canCancel) {
             HBox bottomRow = new HBox();
 
             bottomRow.setAlignment(

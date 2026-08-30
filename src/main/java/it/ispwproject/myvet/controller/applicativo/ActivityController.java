@@ -207,7 +207,7 @@ public class ActivityController {
     private User getLoggedUser() throws DAOException {
         SessionBean session = SessionManager
                 .getInstance()
-                .getCurrentSession();
+                .getLoggedUser();
 
         User user = userDAO.findByEmail(
                 session.getEmail()

@@ -48,7 +48,7 @@ public class PetDAOMemory implements PetDAO {
                                 && booking.getVeterinarian().getId()
                                 == veterinarianId
                                 && booking.getStatus()
-                                != BookingStatus.CANCELLED
+                                == BookingStatus.CONFIRMED
                                 && booking.getPet() != null)
                 .map(booking -> booking.getPet().getId())
                 .distinct()

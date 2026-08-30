@@ -7,7 +7,7 @@ import java.util.logging.SimpleFormatter;
 
 public class AppLogger {
 
-    private static final Logger LOGGER = Logger.getLogger("BrainBankLogger");
+    private static final Logger LOGGER = Logger.getLogger("MyVetLogger");
 
     static {
         ConsoleHandler handler = new ConsoleHandler();

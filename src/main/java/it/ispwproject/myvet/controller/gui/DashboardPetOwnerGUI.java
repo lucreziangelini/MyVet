@@ -115,7 +115,14 @@ public class DashboardPetOwnerGUI {
 
     private List<BookingResponseBean> loadBookings() {
         try {
-            return bookingController.getMyBookings();
+            int petOwnerId = SessionManager
+                    .getInstance()
+                    .getLoggedUser()
+                    .getId();
+
+            return bookingController.getPetOwnerBookings(
+                    petOwnerId
+            );
         } catch (DAOException e) {
             return List.of();
         }

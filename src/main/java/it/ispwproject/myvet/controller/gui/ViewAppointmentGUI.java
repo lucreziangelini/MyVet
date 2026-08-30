@@ -4,6 +4,7 @@ import it.ispwproject.myvet.bean.BookingResponseBean;
 import it.ispwproject.myvet.controller.applicativo.BookingController;
 import it.ispwproject.myvet.enumerator.BookingStatus;
 import it.ispwproject.myvet.exception.DAOException;
+import it.ispwproject.myvet.pattern.singleton.SessionManager;
 import it.ispwproject.myvet.view.gui.ViewAppointmentGUIView;
 
 import javafx.scene.control.Alert;
@@ -39,8 +40,15 @@ public class ViewAppointmentGUI {
         view.clearError();
 
         try {
+            int petOwnerId = SessionManager
+                    .getInstance()
+                    .getLoggedUser()
+                    .getId();
+
             List<BookingResponseBean> bookings =
-                    bookingController.getMyBookings();
+                    bookingController.getPetOwnerBookings(
+                            petOwnerId
+                    );
 
             LocalDate today =
                     LocalDate.now(ZoneId.systemDefault());
@@ -167,7 +175,11 @@ public class ViewAppointmentGUI {
             if (result == ButtonType.OK) {
                 try {
                     bookingController.cancelBooking(
-                            booking.getId()
+                            booking.getId(),
+                            SessionManager
+                                    .getInstance()
+                                    .getLoggedUser()
+                                    .getId()
                     );
 
                     show();

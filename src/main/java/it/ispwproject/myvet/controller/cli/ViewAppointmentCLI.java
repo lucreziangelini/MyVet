@@ -4,6 +4,7 @@ import it.ispwproject.myvet.bean.BookingResponseBean;
 import it.ispwproject.myvet.controller.applicativo.BookingController;
 import it.ispwproject.myvet.enumerator.BookingStatus;
 import it.ispwproject.myvet.exception.DAOException;
+import it.ispwproject.myvet.pattern.singleton.SessionManager;
 import it.ispwproject.myvet.pattern.state.AbstractCLIState;
 import it.ispwproject.myvet.pattern.state.CLIStateMachine;
 import it.ispwproject.myvet.view.cli.ViewAppointmentCLIView;
@@ -29,8 +30,15 @@ public class ViewAppointmentCLI extends AbstractCLIState {
     @Override
     public void action(CLIStateMachine context) {
         try {
+            int petOwnerId = SessionManager
+                    .getInstance()
+                    .getLoggedUser()
+                    .getId();
+
             List<BookingResponseBean> all =
-                    bookingController.getMyBookings();
+                    bookingController.getPetOwnerBookings(
+                            petOwnerId
+                    );
 
             LocalDate today =
                     LocalDate.now(ZoneId.systemDefault());

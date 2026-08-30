@@ -208,7 +208,7 @@ public class BookAppointmentGUI {
 
         try {
             List<TimeSlotBean> slots =
-                    bookingController.getAvailableTimeSlots(
+                    bookingController.getVeterinarianAvailability(
                                     veterinarian,
                                     date
                             )
@@ -368,7 +368,7 @@ public class BookAppointmentGUI {
                         confirm.close();
 
                         try {
-                            bookingController.releaseTimeSlot(
+                            bookingController.releaseSlot(
                                     selectedSlot.getId()
                             );
                         } catch (DAOException ignored) {
@@ -394,7 +394,7 @@ public class BookAppointmentGUI {
                 confirmBooking(request);
             } else {
                 try {
-                    bookingController.releaseTimeSlot(
+                    bookingController.releaseSlot(
                             selectedSlot.getId()
                     );
                 } catch (DAOException e) {
@@ -453,7 +453,7 @@ public class BookAppointmentGUI {
 
         } catch (BookingException e) {
             try {
-                bookingController.releaseTimeSlot(
+                bookingController.releaseSlot(
                         selectedSlot.getId()
                 );
             } catch (DAOException ignored) {

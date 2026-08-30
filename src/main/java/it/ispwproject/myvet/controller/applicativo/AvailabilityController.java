@@ -193,7 +193,7 @@ public class AvailabilityController {
 
         String email = SessionManager
                 .getInstance()
-                .getCurrentSession()
+                .getLoggedUser()
                 .getEmail();
 
         return (Veterinarian) userDAO.findByEmail(email);

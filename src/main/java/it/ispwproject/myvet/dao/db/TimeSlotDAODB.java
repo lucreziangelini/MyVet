@@ -14,7 +14,7 @@ import java.util.List;
 public class TimeSlotDAODB implements TimeSlotDAO {
 
     private static final String GET_AVAILABLE_BY_VETERINARIAN =
-            "SELECT id, date, start_time, end_time, available, reserved_until " +
+            "SELECT id, veterinarian_id, date, start_time, end_time, available, reserved_until " +
                     "FROM time_slot " +
                     "WHERE veterinarian_id = ? AND available = TRUE " +
                     "AND (date > CURDATE() OR " +
@@ -23,7 +23,7 @@ public class TimeSlotDAODB implements TimeSlotDAO {
                     "ORDER BY date, start_time";
 
     private static final String GET_AVAILABLE_BY_VETERINARIAN_AND_DATE =
-            "SELECT id, date, start_time, end_time, available, reserved_until " +
+            "SELECT id, veterinarian_id, date, start_time, end_time, available, reserved_until " +
                     "FROM time_slot " +
                     "WHERE veterinarian_id = ? AND date = ? " +
                     "AND available = TRUE " +
@@ -33,7 +33,7 @@ public class TimeSlotDAODB implements TimeSlotDAO {
                     "ORDER BY start_time";
 
     private static final String GET_ALL_BY_VETERINARIAN =
-            "SELECT id, date, start_time, end_time, available, reserved_until " +
+            "SELECT id, veterinarian_id, date, start_time, end_time, available, reserved_until " +
                     "FROM time_slot " +
                     "WHERE veterinarian_id = ? " +
                     "AND (date > CURDATE() OR " +
@@ -41,7 +41,7 @@ public class TimeSlotDAODB implements TimeSlotDAO {
                     "ORDER BY date, start_time";
 
     private static final String GET_PAST_BY_VETERINARIAN =
-            "SELECT id, date, start_time, end_time, available, reserved_until " +
+            "SELECT id, veterinarian_id, date, start_time, end_time, available, reserved_until " +
                     "FROM time_slot " +
                     "WHERE veterinarian_id = ? " +
                     "AND (date < CURDATE() OR " +
@@ -49,7 +49,7 @@ public class TimeSlotDAODB implements TimeSlotDAO {
                     "ORDER BY date DESC, start_time";
 
     private static final String FIND_BY_ID =
-            "SELECT id, date, start_time, end_time, available, reserved_until " +
+            "SELECT id, veterinarian_id, date, start_time, end_time, available, reserved_until " +
                     "FROM time_slot WHERE id = ?";
 
     private static final String SAVE =
@@ -349,6 +349,10 @@ public class TimeSlotDAODB implements TimeSlotDAO {
                 rs.getTime("start_time").toLocalTime(),
                 rs.getTime("end_time").toLocalTime()
         );
+
+        Veterinarian veterinarian = new Veterinarian();
+        veterinarian.setId(rs.getInt("veterinarian_id"));
+        slot.setVeterinarian(veterinarian);
 
         slot.setAvailable(
                 rs.getBoolean("available")

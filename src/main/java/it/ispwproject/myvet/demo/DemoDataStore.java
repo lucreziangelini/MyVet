@@ -85,7 +85,8 @@ public class DemoDataStore {
                 "Verdi",
                 "luca.vet@demo.it",
                 "demo",
-                "Via delle Cliniche 10, Roma"
+                "Veterinario con esperienza nella cura degli animali da compagnia.",
+                "Medicina generale"
         );
 
         Veterinarian veterinarian2 = new Veterinarian(
@@ -94,7 +95,8 @@ public class DemoDataStore {
                 "Romano",
                 "giulia.vet@demo.it",
                 "demo",
-                "Piazza della Salute 5, Roma"
+                "Veterinaria specializzata nella prevenzione e nel benessere animale.",
+                "Medicina preventiva"
         );
 
         Admin admin = new Admin(

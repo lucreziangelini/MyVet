@@ -4,6 +4,7 @@ import it.ispwproject.myvet.bean.BookingResponseBean;
 import it.ispwproject.myvet.controller.applicativo.BookingController;
 import it.ispwproject.myvet.enumerator.BookingStatus;
 import it.ispwproject.myvet.exception.DAOException;
+import it.ispwproject.myvet.pattern.singleton.SessionManager;
 import it.ispwproject.myvet.pattern.state.AbstractCLIState;
 import it.ispwproject.myvet.pattern.state.CLIStateMachine;
 import it.ispwproject.myvet.view.cli.CancelAppointmentCLIView;
@@ -31,9 +32,14 @@ public class CancelAppointmentCLI
     public void action(CLIStateMachine context) {
 
         try {
+            int petOwnerId = SessionManager
+                    .getInstance()
+                    .getLoggedUser()
+                    .getId();
+
             List<BookingResponseBean> cancellable =
                     bookingController
-                            .getMyBookings()
+                            .getPetOwnerBookings(petOwnerId)
                             .stream()
                             .filter(booking ->
                                     booking.getStatus()
@@ -55,7 +61,7 @@ public class CancelAppointmentCLI
                                                             )
                                                     )
                                                     && booking.getTimeSlot()
-                                                    .getEndTime()
+                                                    .getStartTime()
                                                     .isAfter(
                                                             LocalTime.now(
                                                                     ZoneId.systemDefault()
@@ -105,7 +111,8 @@ public class CancelAppointmentCLI
             }
 
             bookingController.cancelBooking(
-                    selected.getId()
+                    selected.getId(),
+                    petOwnerId
             );
 
             view.mostraSuccesso();

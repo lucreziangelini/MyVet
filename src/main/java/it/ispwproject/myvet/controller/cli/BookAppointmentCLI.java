@@ -132,7 +132,7 @@ public class BookAppointmentCLI extends AbstractCLIState {
             // Step 4 - slot
             List<TimeSlotBean> available =
                     bookingController
-                            .getAvailableTimeSlots(
+                            .getVeterinarianAvailability(
                                     veterinarian,
                                     date
                             )
