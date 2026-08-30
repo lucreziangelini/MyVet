@@ -64,7 +64,7 @@ public class SetAvailabilityGUIView extends PageGUIView {
         card.setPrefWidth(420);
 
         HBox centerWrapper = new HBox(card);
-        centerWrapper.getStyleClass().add("brainbank-background");
+        centerWrapper.getStyleClass().add("myvet-background");
         centerWrapper.setAlignment(Pos.TOP_CENTER);
         centerWrapper.setPadding(new Insets(30, 0, 0, 0));
 
