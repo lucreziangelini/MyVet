@@ -31,6 +31,7 @@ import java.util.Locale;
 public class DashboardPetOwnerGUIView extends DashboardGUIView {
 
     private static final String BOOKING_COLOR = "#8FBC8F";
+    private static final String INFO_TEXT_STYLE = "info-text";
 
     // ScrollPane esposto al controller per aggiornare il calendario
     public final ScrollPane calendarScroll = new ScrollPane();
@@ -454,7 +455,7 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
                 "Qui trovi i tuoi prossimi appuntamenti e tutti i servizi "
                         + "dedicati ai tuoi animali."
         );
-        subtitle.getStyleClass().add("info-text");
+        subtitle.getStyleClass().add(INFO_TEXT_STYLE);
         subtitle.setWrapText(true);
 
         Button quickBook = new Button("Prenota ora  →");
@@ -513,7 +514,7 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
             Label empty = new Label(
                     "Non hai ancora appuntamenti in programma."
             );
-            empty.getStyleClass().add("info-text");
+            empty.getStyleClass().add(INFO_TEXT_STYLE);
             empty.setWrapText(true);
             card.getChildren().add(empty);
             return card;
@@ -566,7 +567,7 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
         pet.getStyleClass().add("appointment-pet");
 
         Label veterinarian = new Label(veterinarianName);
-        veterinarian.getStyleClass().add("info-text");
+        veterinarian.getStyleClass().add(INFO_TEXT_STYLE);
         veterinarian.setWrapText(true);
 
         VBox details = new VBox(2, pet, veterinarian);

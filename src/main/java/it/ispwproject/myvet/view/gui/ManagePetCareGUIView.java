@@ -25,6 +25,10 @@ import java.util.function.Consumer;
 
 public class ManagePetCareGUIView extends PageGUIView {
 
+    private static final String INFO_CARD_STYLE = "info-card";
+    private static final String SMALL_LABEL_STYLE = "small-label";
+    private static final String INFO_TEXT_STYLE = "info-text";
+
     public final ComboBox<PetBean> petCombo =
             new ComboBox<>();
 
@@ -86,7 +90,7 @@ public class ManagePetCareGUIView extends PageGUIView {
         VBox selectorCard = new VBox(10);
 
         selectorCard.getStyleClass().add(
-                "info-card"
+                INFO_CARD_STYLE
         );
 
         selectorCard.setMaxWidth(720);
@@ -98,7 +102,7 @@ public class ManagePetCareGUIView extends PageGUIView {
                 new Label("Seleziona animale");
 
         petLabel.getStyleClass().add(
-                "small-label"
+                SMALL_LABEL_STYLE
         );
 
         selectorCard.getChildren().addAll(
@@ -231,7 +235,7 @@ public class ManagePetCareGUIView extends PageGUIView {
         );
 
         petHeader.getStyleClass().add(
-                "info-card"
+                INFO_CARD_STYLE
         );
 
         petHeader.setMaxWidth(720);
@@ -281,7 +285,7 @@ public class ManagePetCareGUIView extends PageGUIView {
                 );
 
         speciesLabel.getStyleClass().add(
-                "info-text"
+                INFO_TEXT_STYLE
         );
 
         petInfo.getChildren().addAll(
@@ -299,7 +303,7 @@ public class ManagePetCareGUIView extends PageGUIView {
                     );
 
             breedLabel.getStyleClass().add(
-                    "info-text"
+                    INFO_TEXT_STYLE
             );
 
             petInfo.getChildren().add(
@@ -321,7 +325,7 @@ public class ManagePetCareGUIView extends PageGUIView {
                     );
 
             birthDateLabel.getStyleClass().add(
-                    "info-text"
+                    INFO_TEXT_STYLE
             );
 
             petInfo.getChildren().add(
@@ -348,7 +352,7 @@ public class ManagePetCareGUIView extends PageGUIView {
         VBox progressBox = new VBox(12);
 
         progressBox.getStyleClass().add(
-                "info-card"
+                INFO_CARD_STYLE
         );
 
         progressBox.setPrefWidth(340);
@@ -361,7 +365,7 @@ public class ManagePetCareGUIView extends PageGUIView {
                 new Label("📝  Progressi");
 
         progressTitle.getStyleClass().add(
-                "small-label"
+                SMALL_LABEL_STYLE
         );
 
         TextArea notesArea =
@@ -399,7 +403,7 @@ public class ManagePetCareGUIView extends PageGUIView {
                 );
 
         lastUpdate.getStyleClass().add(
-                "info-text"
+                INFO_TEXT_STYLE
         );
 
         lastUpdate.setStyle(
@@ -469,7 +473,7 @@ public class ManagePetCareGUIView extends PageGUIView {
         VBox activityBox = new VBox(8);
 
         activityBox.getStyleClass().add(
-                "info-card"
+                INFO_CARD_STYLE
         );
 
         activityBox.setPrefWidth(340);
@@ -479,7 +483,7 @@ public class ManagePetCareGUIView extends PageGUIView {
                 new Label("✅  Attività di cura");
 
         activityTitle.getStyleClass().add(
-                "small-label"
+                SMALL_LABEL_STYLE
         );
 
         activityBox.getChildren().add(
@@ -500,7 +504,7 @@ public class ManagePetCareGUIView extends PageGUIView {
                     );
 
             noActivities.getStyleClass().add(
-                    "info-text"
+                    INFO_TEXT_STYLE
             );
 
             noActivities.setStyle(
@@ -556,7 +560,7 @@ public class ManagePetCareGUIView extends PageGUIView {
         statusIcon.getStyleClass().add(
                 activity.isCompleted()
                         ? "success-label"
-                        : "info-text"
+                        : INFO_TEXT_STYLE
         );
 
         statusIcon.setStyle(

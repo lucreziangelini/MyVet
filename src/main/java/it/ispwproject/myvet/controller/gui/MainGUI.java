@@ -12,7 +12,7 @@ public class MainGUI extends Application {
 
     @Override
     public void start(Stage stage) {
-        primaryStage = stage;
+        initializePrimaryStage(stage);
 
         stage.setTitle("MyVet");
         stage.setWidth(WINDOW_WIDTH);
@@ -22,6 +22,10 @@ public class MainGUI extends Application {
         stage.setResizable(true);
 
         showLogin();
+    }
+
+    private static void initializePrimaryStage(Stage stage) {
+        primaryStage = stage;
     }
 
     public static void showLogin() {

@@ -22,6 +22,11 @@ import java.util.function.Consumer;
 
 public class ViewAppointmentGUIView extends PageGUIView {
 
+    private static final String TOGGLE_CARD_STYLE = "toggle-card";
+    private static final String EXPIRED_STYLE = "expired";
+    private static final String INFO_TEXT_STYLE = "info-text";
+    private static final String REGISTER_LABEL_STYLE = "register-label";
+
     public final Label errorLabel =
             buildErrorLabel();
 
@@ -77,17 +82,17 @@ public class ViewAppointmentGUIView extends PageGUIView {
                 );
 
         confirmedButton.getStyleClass().add(
-                "toggle-card"
+                TOGGLE_CARD_STYLE
         );
 
         cancelledButton.getStyleClass().addAll(
-                "toggle-card",
+                TOGGLE_CARD_STYLE,
                 "cancelled"
         );
 
         pastButton.getStyleClass().addAll(
-                "toggle-card",
-                "expired"
+                TOGGLE_CARD_STYLE,
+                EXPIRED_STYLE
         );
 
         configureToggleButton(confirmedButton);
@@ -151,8 +156,8 @@ public class ViewAppointmentGUIView extends PageGUIView {
                     new ToggleButton("Tutti");
 
             allButton.getStyleClass().addAll(
-                    "toggle-card",
-                    "expired"
+                    TOGGLE_CARD_STYLE,
+                    EXPIRED_STYLE
             );
 
             allButton.setToggleGroup(petGroup);
@@ -180,8 +185,8 @@ public class ViewAppointmentGUIView extends PageGUIView {
                         new ToggleButton(petName);
 
                 petButton.getStyleClass().addAll(
-                        "toggle-card",
-                        "expired"
+                        TOGGLE_CARD_STYLE,
+                        EXPIRED_STYLE
                 );
 
                 petButton.setToggleGroup(petGroup);
@@ -494,7 +499,7 @@ public class ViewAppointmentGUIView extends PageGUIView {
                 );
 
         countLabel.getStyleClass().add(
-                "info-text"
+                INFO_TEXT_STYLE
         );
 
         countLabel.setStyle(
@@ -532,7 +537,7 @@ public class ViewAppointmentGUIView extends PageGUIView {
                 );
 
         dateLabel.getStyleClass().add(
-                "register-label"
+                REGISTER_LABEL_STYLE
         );
 
         dateLabel.setPrefWidth(90);
@@ -547,7 +552,7 @@ public class ViewAppointmentGUIView extends PageGUIView {
                 );
 
         timeLabel.getStyleClass().add(
-                "info-text"
+                INFO_TEXT_STYLE
         );
 
         timeLabel.setPrefWidth(110);
@@ -559,7 +564,7 @@ public class ViewAppointmentGUIView extends PageGUIView {
                 );
 
         veterinarianLabel.getStyleClass().add(
-                "register-label"
+                REGISTER_LABEL_STYLE
         );
 
         HBox.setHgrow(
@@ -706,7 +711,7 @@ public class ViewAppointmentGUIView extends PageGUIView {
                 );
 
         veterinarianLabel.getStyleClass().add(
-                "register-label"
+                REGISTER_LABEL_STYLE
         );
 
         information.getChildren().addAll(
@@ -725,7 +730,7 @@ public class ViewAppointmentGUIView extends PageGUIView {
                     );
 
             emailLabel.getStyleClass().add(
-                    "info-text"
+                    INFO_TEXT_STYLE
             );
 
             information.getChildren().add(
@@ -799,7 +804,7 @@ public class ViewAppointmentGUIView extends PageGUIView {
         Label label = new Label(text);
 
         label.getStyleClass().add(
-                "register-label"
+                REGISTER_LABEL_STYLE
         );
 
         return label;

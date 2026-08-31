@@ -25,6 +25,7 @@ public abstract class DashboardGUIView {
     public static final int LABEL_WIDTH = 42;
     public static final int HEADER_H    = 72;
     public static final int DAYS        = 7;
+    private static final String SMALL_LABEL_STYLE = "small-label";
 
     // ────────────────────────────────────────────────────────────────────────
     // Navbar comune
@@ -136,7 +137,7 @@ public abstract class DashboardGUIView {
 
     public void addMonthRow(Pane pane, LocalDate firstDay, int colW) {
         LocalDate lastDay = firstDay.plusDays(DAYS - 1);
-        String month = firstDay.getMonth() == lastDay.getMonth()
+        String month = firstDay.getMonth().equals(lastDay.getMonth())
                 ? cap(firstDay.getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN))
                 + " " + firstDay.getYear()
                 : cap(firstDay.getMonth().getDisplayName(TextStyle.SHORT, Locale.ITALIAN))
@@ -227,7 +228,7 @@ public abstract class DashboardGUIView {
         header.setPadding(new Insets(12, 16, 12, 16));
 
         Label headerLbl = new Label("Le tue informazioni");
-        headerLbl.getStyleClass().add("small-label");
+        headerLbl.getStyleClass().add(SMALL_LABEL_STYLE);
         HBox.setHgrow(headerLbl, Priority.ALWAYS);
 
         Label arrow = new Label("▼");
@@ -280,7 +281,7 @@ public abstract class DashboardGUIView {
         editBtn.setAlignment(Pos.CENTER);
 
         Label emailKey = new Label("Email:");
-        emailKey.getStyleClass().add("small-label");
+        emailKey.getStyleClass().add(SMALL_LABEL_STYLE);
         emailKey.setPrefWidth(70);
 
         HBox viewRow = new HBox(8, emailKey, emailLbl, editBtn);
@@ -383,7 +384,7 @@ public abstract class DashboardGUIView {
 
     public HBox infoRow(String label, String value) {
         Label lbl = new Label(label + ":");
-        lbl.getStyleClass().add("small-label");
+        lbl.getStyleClass().add(SMALL_LABEL_STYLE);
         lbl.setPrefWidth(70);
         Label val = new Label(value != null ? value : "—");
         val.getStyleClass().add("info-text");

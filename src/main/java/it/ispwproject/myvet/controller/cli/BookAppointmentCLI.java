@@ -207,34 +207,10 @@ public class BookAppointmentCLI extends AbstractCLIState {
 
             view.mostraConferma(response);
 
-            if (!veterinarian.isFavourite()
-                    && view.chiediConferma(
-                    "Vuoi aggiungere "
-                            + veterinarian.getFullName()
-                            + " ai veterinari preferiti?"
-            )) {
-
-                bookingController
-                        .addVeterinarianToFavourites(
-                                veterinarian.getId()
-                        );
-
-                view.mostraMessaggio(
-                        "⭐ Veterinario aggiunto ai preferiti."
-                );
-            }
+            addToFavouritesIfRequested(veterinarian);
 
         } catch (BookingException e) {
-
-            if (slot != null) {
-                try {
-                    bookingController.releaseSlot(
-                            slot.getId()
-                    );
-                } catch (DAOException ignored) {
-                    // Ignora
-                }
-            }
+            releaseSlotSafely(slot);
 
             view.mostraMessaggio(
                     "❌ Errore: " + e.getMessage()
@@ -248,5 +224,43 @@ public class BookAppointmentCLI extends AbstractCLIState {
         }
 
         goBack(context);
+    }
+
+    private void addToFavouritesIfRequested(
+            VeterinarianBean veterinarian) throws DAOException {
+
+        if (veterinarian.isFavourite()) {
+            return;
+        }
+
+        boolean confirmed = view.chiediConferma(
+                "Vuoi aggiungere "
+                        + veterinarian.getFullName()
+                        + " ai veterinari preferiti?"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        bookingController.addVeterinarianToFavourites(
+                veterinarian.getId()
+        );
+
+        view.mostraMessaggio(
+                "⭐ Veterinario aggiunto ai preferiti."
+        );
+    }
+
+    private void releaseSlotSafely(TimeSlotBean slot) {
+        if (slot == null) {
+            return;
+        }
+
+        try {
+            bookingController.releaseSlot(slot.getId());
+        } catch (DAOException ignored) {
+            // Il rilascio è best effort: conserva come errore principale quello della prenotazione.
+        }
     }
 }

@@ -16,6 +16,8 @@ import java.util.List;
 
 public class ManagePetCareGUI {
 
+    private static final String ERROR_PREFIX = "Errore: ";
+
     private final Stage stage;
 
     private final ActivityController activityController =
@@ -38,7 +40,7 @@ public class ManagePetCareGUI {
         } catch (DAOException e) {
             view.setPets(List.of());
             view.errorLabel.setText(
-                    "Errore: " + e.getMessage()
+                    ERROR_PREFIX + e.getMessage()
             );
         }
 
@@ -80,7 +82,7 @@ public class ManagePetCareGUI {
 
         } catch (DAOException e) {
             view.errorLabel.setText(
-                    "Errore: " + e.getMessage()
+                    ERROR_PREFIX + e.getMessage()
             );
         }
     }
@@ -106,7 +108,7 @@ public class ManagePetCareGUI {
 
         } catch (DAOException e) {
             view.errorLabel.setText(
-                    "Errore: " + e.getMessage()
+                    ERROR_PREFIX + e.getMessage()
             );
         }
     }
@@ -137,7 +139,7 @@ public class ManagePetCareGUI {
 
         } catch (DAOException e) {
             view.errorLabel.setText(
-                    "Errore: " + e.getMessage()
+                    ERROR_PREFIX + e.getMessage()
             );
         }
     }

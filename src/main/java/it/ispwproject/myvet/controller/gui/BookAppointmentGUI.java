@@ -32,6 +32,7 @@ import java.util.List;
 public class BookAppointmentGUI {
 
     private static final int RESERVATION_SECONDS = 300;
+    private static final String ERROR_PREFIX = "Errore: ";
 
     private final javafx.stage.Stage stage;
 
@@ -207,7 +208,7 @@ public class BookAppointmentGUI {
             );
 
         } catch (DAOException e) {
-            view.setError("Errore: " + e.getMessage());
+            view.setError(ERROR_PREFIX + e.getMessage());
         }
     }
 
@@ -268,7 +269,7 @@ public class BookAppointmentGUI {
             );
 
         } catch (DAOException e) {
-            view.setError("Errore: " + e.getMessage());
+            view.setError(ERROR_PREFIX + e.getMessage());
         }
     }
 
@@ -292,7 +293,7 @@ public class BookAppointmentGUI {
                 showCountdownDialog(request, summary);
 
             } catch (DAOException | BookingException e) {
-                view.setError("Errore: " + e.getMessage());
+                view.setError(ERROR_PREFIX + e.getMessage());
             }
         });
     }
@@ -417,7 +418,7 @@ public class BookAppointmentGUI {
                     );
                 } catch (DAOException e) {
                     view.setError(
-                            "Errore: " + e.getMessage()
+                            ERROR_PREFIX + e.getMessage()
                     );
                 }
             }
@@ -486,10 +487,10 @@ public class BookAppointmentGUI {
                 // Lo slot potrebbe essere già stato rilasciato.
             }
 
-            view.setError("Errore: " + e.getMessage());
+            view.setError(ERROR_PREFIX + e.getMessage());
 
         } catch (DAOException e) {
-            view.setError("Errore: " + e.getMessage());
+            view.setError(ERROR_PREFIX + e.getMessage());
         }
     }
 

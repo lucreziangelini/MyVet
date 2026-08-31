@@ -17,7 +17,9 @@ public class RegistrationBean {
     private String bio;
     private String specialization;
 
-    public RegistrationBean() {}
+    public RegistrationBean() {
+        // Costruttore vuoto necessario per creare il bean e valorizzarlo tramite setter.
+    }
 
     public String getName() {
         return name;

@@ -19,6 +19,7 @@ public class ViewActivitiesGUIView
 
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final String SMALL_LABEL_STYLE = "small-label";
 
     public final Label errorLabel =
             buildErrorLabel();
@@ -121,7 +122,7 @@ public class ViewActivitiesGUIView
                 new Label("Da completare");
 
         title.getStyleClass().add(
-                "small-label"
+                SMALL_LABEL_STYLE
         );
 
         content.getChildren().add(
@@ -156,7 +157,7 @@ public class ViewActivitiesGUIView
                 new Label("Completate");
 
         title.getStyleClass().add(
-                "small-label"
+                SMALL_LABEL_STYLE
         );
 
         content.getChildren().add(
@@ -251,7 +252,7 @@ public class ViewActivitiesGUIView
                     );
 
             petLabel.getStyleClass().add(
-                    "small-label"
+                    SMALL_LABEL_STYLE
             );
 
             information.getChildren().add(

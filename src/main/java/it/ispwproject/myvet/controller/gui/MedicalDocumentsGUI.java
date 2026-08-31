@@ -18,6 +18,8 @@ import java.util.List;
 
 public class MedicalDocumentsGUI {
 
+    private static final String ERROR_PREFIX = "Errore: ";
+
     private final Stage stage;
 
     private final MedicalDocumentController documentController =
@@ -98,7 +100,7 @@ public class MedicalDocumentsGUI {
         } catch (DAOException e) {
             view.setPets(List.of(), veterinarian);
             view.setError(
-                    "Errore: " + e.getMessage()
+                    ERROR_PREFIX + e.getMessage()
             );
         }
     }
@@ -117,7 +119,7 @@ public class MedicalDocumentsGUI {
 
         } catch (DAOException e) {
             view.setError(
-                    "Errore: " + e.getMessage()
+                    ERROR_PREFIX + e.getMessage()
             );
         }
     }
@@ -173,7 +175,7 @@ public class MedicalDocumentsGUI {
 
         } catch (DAOException e) {
             view.setError(
-                    "Errore: " + e.getMessage()
+                    ERROR_PREFIX + e.getMessage()
             );
         }
     }

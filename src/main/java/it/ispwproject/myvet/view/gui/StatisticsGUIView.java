@@ -14,6 +14,8 @@ import java.util.Map;
 
 public class StatisticsGUIView extends PageGUIView {
 
+    private static final String BACKGROUND_STYLE = "myvet-background";
+
     // ────────────────────────────────────────────────────────────────────────
     // Costruzione della pagina delle statistiche
     // ────────────────────────────────────────────────────────────────────────
@@ -23,7 +25,7 @@ public class StatisticsGUIView extends PageGUIView {
                 new BorderPane();
 
         root.getStyleClass().add(
-                "myvet-background"
+                BACKGROUND_STYLE
         );
 
         root.setTop(
@@ -46,7 +48,7 @@ public class StatisticsGUIView extends PageGUIView {
         VBox content = new VBox(24);
 
         content.getStyleClass().add(
-                "myvet-background"
+                BACKGROUND_STYLE
         );
 
         content.setAlignment(
@@ -113,7 +115,7 @@ public class StatisticsGUIView extends PageGUIView {
         VBox content = new VBox(24);
 
         content.getStyleClass().add(
-                "myvet-background"
+                BACKGROUND_STYLE
         );
 
         content.setAlignment(

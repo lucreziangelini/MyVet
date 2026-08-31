@@ -71,40 +71,8 @@ public class ViewSlotsCLI extends AbstractCLIState {
                                     petBySlot
                             );
 
-                    case 4 -> {
-                        if (!disponibili.isEmpty()) {
-                            view.mostraSlotDisponibili(disponibili);
-
-                            int choice = view.chiediScelta(
-                                    "Seleziona la fascia oraria da eliminare",
-                                    0,
-                                    disponibili.size()
-                            );
-
-                            if (choice != 0) {
-                                if (view.chiediConferma(
-                                        "Sei sicuro di voler eliminare questa fascia oraria?"
-                                )) {
-                                    availabilityController.deleteSlot(
-                                            disponibili.get(choice - 1).getId()
-                                    );
-
-                                    view.mostraSuccessoEliminazione();
-                                    running = false;
-
-                                } else {
-                                    view.mostraMessaggio(
-                                            "Operazione annullata."
-                                    );
-                                }
-                            }
-
-                        } else {
-                            view.mostraMessaggio(
-                                    "Nessuna fascia oraria disponibile da eliminare."
-                            );
-                        }
-                    }
+                    case 4 -> running =
+                            !deleteAvailableSlot(disponibili);
 
                     case 0 -> running = false;
 
@@ -118,5 +86,43 @@ public class ViewSlotsCLI extends AbstractCLIState {
         }
 
         goBack(context);
+    }
+
+    private boolean deleteAvailableSlot(
+            List<TimeSlotBean> availableSlots) throws DAOException {
+
+        if (availableSlots.isEmpty()) {
+            view.mostraMessaggio(
+                    "Nessuna fascia oraria disponibile da eliminare."
+            );
+            return false;
+        }
+
+        view.mostraSlotDisponibili(availableSlots);
+
+        int choice = view.chiediScelta(
+                "Seleziona la fascia oraria da eliminare",
+                0,
+                availableSlots.size()
+        );
+
+        if (choice == 0) {
+            return false;
+        }
+
+        boolean confirmed = view.chiediConferma(
+                "Sei sicuro di voler eliminare questa fascia oraria?"
+        );
+
+        if (!confirmed) {
+            view.mostraMessaggio("Operazione annullata.");
+            return false;
+        }
+
+        availabilityController.deleteSlot(
+                availableSlots.get(choice - 1).getId()
+        );
+        view.mostraSuccessoEliminazione();
+        return true;
     }
 }

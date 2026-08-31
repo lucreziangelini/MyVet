@@ -49,6 +49,12 @@ public class MedicalDocumentsGUIView extends PageGUIView {
 
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final String INFO_TEXT_STYLE = "info-text";
+    private static final String MEDICAL_REPORT_LABEL = "Referto medico";
+    private static final String LAB_RESULT_LABEL = "Risultato di laboratorio";
+    private static final String PRESCRIPTION_LABEL = "Prescrizione";
+    private static final String VACCINATION_CERTIFICATE_LABEL =
+            "Certificato di vaccinazione";
 
     public MedicalDocumentsGUIView() {
         configurePetCombo();
@@ -99,7 +105,7 @@ public class MedicalDocumentsGUIView extends PageGUIView {
                 "Seleziona un animale per visualizzare "
                         + "i documenti disponibili."
         );
-        instruction.getStyleClass().add("info-text");
+        instruction.getStyleClass().add(INFO_TEXT_STYLE);
         instruction.setWrapText(true);
 
         HBox actions = new HBox(
@@ -237,7 +243,7 @@ public class MedicalDocumentsGUIView extends PageGUIView {
             Label emptyLabel = new Label(
                     "Seleziona un animale per continuare."
             );
-            emptyLabel.getStyleClass().add("info-text");
+            emptyLabel.getStyleClass().add(INFO_TEXT_STYLE);
             documentsContainer.getChildren().add(emptyLabel);
             return;
         }
@@ -260,7 +266,7 @@ public class MedicalDocumentsGUIView extends PageGUIView {
                             ? "Nessun documento medico disponibile."
                             : "Nessun documento corrisponde alla ricerca."
             );
-            emptyLabel.getStyleClass().add("info-text");
+            emptyLabel.getStyleClass().add(INFO_TEXT_STYLE);
 
             documentsContainer
                     .getChildren()
@@ -361,7 +367,7 @@ public class MedicalDocumentsGUIView extends PageGUIView {
 
             veterinarian
                     .getStyleClass()
-                    .add("info-text");
+                    .add(INFO_TEXT_STYLE);
 
             card.getChildren().add(veterinarian);
         }
@@ -380,7 +386,7 @@ public class MedicalDocumentsGUIView extends PageGUIView {
             reference.setWrapText(true);
             reference
                     .getStyleClass()
-                    .add("info-text");
+                    .add(INFO_TEXT_STYLE);
 
             card.getChildren().add(reference);
         }
@@ -410,10 +416,10 @@ public class MedicalDocumentsGUIView extends PageGUIView {
 
     public DocumentType chiediTipoDocumento() {
         List<String> documentTypes = List.of(
-                "Referto medico",
-                "Risultato di laboratorio",
-                "Prescrizione",
-                "Certificato di vaccinazione",
+                MEDICAL_REPORT_LABEL,
+                LAB_RESULT_LABEL,
+                PRESCRIPTION_LABEL,
+                VACCINATION_CERTIFICATE_LABEL,
                 "Altro"
         );
 
@@ -438,16 +444,16 @@ public class MedicalDocumentsGUIView extends PageGUIView {
         }
 
         return switch (selected) {
-            case "Referto medico" ->
+            case MEDICAL_REPORT_LABEL ->
                     DocumentType.MEDICAL_REPORT;
 
-            case "Risultato di laboratorio" ->
+            case LAB_RESULT_LABEL ->
                     DocumentType.LAB_RESULT;
 
-            case "Prescrizione" ->
+            case PRESCRIPTION_LABEL ->
                     DocumentType.PRESCRIPTION;
 
-            case "Certificato di vaccinazione" ->
+            case VACCINATION_CERTIFICATE_LABEL ->
                     DocumentType.VACCINATION_CERTIFICATE;
 
             default ->
@@ -488,16 +494,16 @@ public class MedicalDocumentsGUIView extends PageGUIView {
 
         return switch (type) {
             case MEDICAL_REPORT ->
-                    "Referto medico";
+                    MEDICAL_REPORT_LABEL;
 
             case LAB_RESULT ->
-                    "Risultato di laboratorio";
+                    LAB_RESULT_LABEL;
 
             case PRESCRIPTION ->
-                    "Prescrizione";
+                    PRESCRIPTION_LABEL;
 
             case VACCINATION_CERTIFICATE ->
-                    "Certificato di vaccinazione";
+                    VACCINATION_CERTIFICATE_LABEL;
 
             case OTHER ->
                     "Altro";

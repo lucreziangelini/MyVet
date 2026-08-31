@@ -11,6 +11,8 @@ import java.util.List;
 
 public class BookAppointmentCLIView {
 
+    private static final String BACK_LABEL = "Indietro";
+
     public void mostraIntestazione() {
         CLIRenderer.intestazione(
                 "MyVet – Prenota un appuntamento"
@@ -37,7 +39,7 @@ public class BookAppointmentCLIView {
             );
         }
 
-        CLIRenderer.voceMenuZero("Indietro");
+        CLIRenderer.voceMenuZero(BACK_LABEL);
     }
 
     public LocalDate chiediDataPreferita() {
@@ -95,7 +97,7 @@ public class BookAppointmentCLIView {
             }
         }
 
-        CLIRenderer.voceMenuZero("Indietro");
+        CLIRenderer.voceMenuZero(BACK_LABEL);
     }
 
     private void mostraVeterinario(
@@ -130,7 +132,7 @@ public class BookAppointmentCLIView {
             );
         }
 
-        CLIRenderer.voceMenuZero("Indietro");
+        CLIRenderer.voceMenuZero(BACK_LABEL);
     }
 
     public void mostraRiepilogo(

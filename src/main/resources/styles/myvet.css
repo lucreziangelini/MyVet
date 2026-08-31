@@ -509,7 +509,6 @@
 
 .transparent-scroll {
     -fx-background-color: transparent;
-    -fx-background: transparent;
     -fx-border-color: transparent;
 }
 
@@ -517,7 +516,6 @@
 
 .myvet-scroll {
     -fx-background-color: #8EADC2;
-    -fx-background: #8EADC2;
     -fx-border-color: transparent;
     -fx-padding: 0;
 }
@@ -848,7 +846,6 @@
 .myvet-scroll .viewport,
 .myvet-scroll > .corner {
     -fx-background-color: transparent;
-    -fx-background: transparent;
 }
 
 .separator {

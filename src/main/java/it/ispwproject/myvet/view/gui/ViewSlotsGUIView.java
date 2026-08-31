@@ -21,6 +21,8 @@ public class ViewSlotsGUIView extends PageGUIView {
 
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final String TOGGLE_CARD_STYLE = "toggle-card";
+    private static final String ERROR_LABEL_STYLE = "error-label";
 
     public final Label errorLabel =
             buildErrorLabel();
@@ -84,16 +86,16 @@ public class ViewSlotsGUIView extends PageGUIView {
                 );
 
         availableButton.getStyleClass().add(
-                "toggle-card"
+                TOGGLE_CARD_STYLE
         );
 
         bookedButton.getStyleClass().addAll(
-                "toggle-card",
+                TOGGLE_CARD_STYLE,
                 "cancelled"
         );
 
         pastButton.getStyleClass().addAll(
-                "toggle-card",
+                TOGGLE_CARD_STYLE,
                 "expired"
         );
 
@@ -355,13 +357,13 @@ public class ViewSlotsGUIView extends PageGUIView {
 
         if (!slot.isAvailable()) {
             statusDot.getStyleClass().add(
-                    "error-label"
+                    ERROR_LABEL_STYLE
             );
 
             statusLabel.setText("Utilizzato");
 
             statusLabel.getStyleClass().add(
-                    "error-label"
+                    ERROR_LABEL_STYLE
             );
 
             addBookingDetails(
@@ -392,13 +394,13 @@ public class ViewSlotsGUIView extends PageGUIView {
             Label statusLabel) {
 
         statusDot.getStyleClass().add(
-                "error-label"
+                ERROR_LABEL_STYLE
         );
 
         statusLabel.setText("Prenotato");
 
         statusLabel.getStyleClass().add(
-                "error-label"
+                ERROR_LABEL_STYLE
         );
 
         addBookingDetails(

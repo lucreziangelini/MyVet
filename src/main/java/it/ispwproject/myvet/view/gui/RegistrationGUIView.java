@@ -28,6 +28,7 @@ public class RegistrationGUIView {
 
     private static final double VETERINARIAN_SECTION_WIDTH =
             840;
+    private static final String ROLE_RADIO_STYLE = "role-radio";
 
     // Campi esposti al controller
     public final TextField nameField =
@@ -420,8 +421,8 @@ public class RegistrationGUIView {
         femaleRadio.setToggleGroup(genderGroup);
         maleRadio.setToggleGroup(genderGroup);
 
-        femaleRadio.getStyleClass().add("role-radio");
-        maleRadio.getStyleClass().add("role-radio");
+        femaleRadio.getStyleClass().add(ROLE_RADIO_STYLE);
+        maleRadio.getStyleClass().add(ROLE_RADIO_STYLE);
 
         HBox choices = new HBox(18, femaleRadio, maleRadio);
         choices.setAlignment(Pos.CENTER_LEFT);
@@ -526,8 +527,8 @@ public class RegistrationGUIView {
 
         veterinarianRadio.setToggleGroup(roleGroup);
 
-        petOwnerRadio.getStyleClass().add("role-radio");
-        veterinarianRadio.getStyleClass().add("role-radio");
+        petOwnerRadio.getStyleClass().add(ROLE_RADIO_STYLE);
+        veterinarianRadio.getStyleClass().add(ROLE_RADIO_STYLE);
 
         VBox roleBox = new VBox(
                 10,
