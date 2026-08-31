@@ -2,6 +2,7 @@ package it.ispwproject.myvet.controller.cli;
 
 import it.ispwproject.myvet.bean.RegistrationBean;
 import it.ispwproject.myvet.controller.applicativo.RegistrationController;
+import it.ispwproject.myvet.enumerator.Gender;
 import it.ispwproject.myvet.enumerator.Role;
 import it.ispwproject.myvet.exception.DAOException;
 import it.ispwproject.myvet.exception.RegistrationException;
@@ -37,6 +38,9 @@ public class RegistrationCLI extends AbstractCLIState {
 
             Role role = view.chiediRuolo();
             bean.setRole(role);
+
+            Gender gender = view.chiediGenere();
+            bean.setGender(gender);
 
             if (role == Role.VETERINARIAN) {
                 bean.setBio(

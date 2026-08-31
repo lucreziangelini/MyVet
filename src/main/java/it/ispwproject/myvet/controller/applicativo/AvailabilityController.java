@@ -41,7 +41,7 @@ public class AvailabilityController {
                 || slotBean.getStartTime() == null
                 || slotBean.getEndTime() == null) {
             throw new AvailabilityException(
-                    "Dati dello slot incompleti."
+                    "Dati della fascia oraria incompleti."
             );
         }
 
@@ -51,7 +51,7 @@ public class AvailabilityController {
         if (slotBean.getDate().isBefore(
                 today)) {
             throw new AvailabilityException(
-                    "Non puoi aggiungere slot nel passato."
+                    "Non puoi aggiungere fasce orarie nel passato."
             );
         }
 
@@ -86,7 +86,7 @@ public class AvailabilityController {
 
             if (newSlot.overlaps(slot)) {
                 throw new AvailabilityException(
-                        "Lo slot si sovrappone con uno già esistente: "
+                        "La fascia oraria si sovrappone con una già esistente: "
                                 + slot.getDate() + " "
                                 + slot.getStartTime() + " - "
                                 + slot.getEndTime()

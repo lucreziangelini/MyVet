@@ -74,7 +74,7 @@ public class LoginDAODB implements LoginDAO {
 
         } catch (SQLException e) {
             throw new LoginException(
-                    "Errore DB durante il login: "
+                    "Errore del database durante l'accesso: "
                             + e.getMessage(),
                     e
             );

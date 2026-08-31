@@ -70,7 +70,7 @@ public class PetOwnerDAOMemory implements PetOwnerDAO {
 
         if (owner == null || veterinarian == null) {
             throw new DAOException(
-                    "Pet Owner o veterinario non trovato.");
+                    "Proprietario o veterinario non trovato.");
         }
 
         owner.addFavorite(veterinarian);

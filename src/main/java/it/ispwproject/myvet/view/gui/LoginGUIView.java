@@ -14,9 +14,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 
 public class LoginGUIView {
 
@@ -95,6 +99,15 @@ public class LoginGUIView {
         brandName.getStyleClass().add("myvet-brand-name");
         header.getChildren().add(brandName);
 
+        Region headerSpacer = new Region();
+        HBox.setHgrow(headerSpacer, Priority.ALWAYS);
+
+        Label headerNote = new Label(
+                "Cura, appuntamenti e documenti"
+        );
+        headerNote.getStyleClass().add("auth-header-note");
+        header.getChildren().addAll(headerSpacer, headerNote);
+
         VBox loginCard = buildLoginCard(
                 onLogin,
                 onRegister
@@ -127,13 +140,16 @@ public class LoginGUIView {
         panel.setMinWidth(340);
         panel.setPrefWidth(390);
         panel.setMaxWidth(430);
-        panel.getStyleClass().add("auth-card");
+        panel.getStyleClass().addAll(
+                "auth-card",
+                "storyboard-login-card"
+        );
 
         Label title = new Label("Accedi");
         title.getStyleClass().add("auth-title");
 
         Label subtitle = new Label(
-                "Bentornato!\nAccedi per prenderti cura dei tuoi animali."
+                "Accedi a MyVet\nper prenderti cura dei tuoi animali."
         );
         subtitle.getStyleClass().add("auth-subtitle");
         subtitle.setWrapText(true);
@@ -258,34 +274,71 @@ public class LoginGUIView {
         Pane pane = new Pane();
         pane.setMouseTransparent(true);
 
-        Circle topLeft = new Circle(95);
-        topLeft.getStyleClass().add("auth-shape-sage");
-        topLeft.setLayoutX(98);
-        topLeft.setLayoutY(105);
-
-        Circle bottomRight = new Circle(125);
-        bottomRight.getStyleClass().add("auth-shape-yellow");
-        bottomRight.layoutXProperty().bind(
-                pane.widthProperty().subtract(100)
-        );
-        bottomRight.layoutYProperty().bind(
-                pane.heightProperty().subtract(105)
+        Pane leftTree = buildTree();
+        leftTree.setLayoutX(14);
+        leftTree.layoutYProperty().bind(
+                pane.heightProperty().subtract(340)
         );
 
-        Circle middle = new Circle(72);
-        middle.getStyleClass().add("auth-shape-peach");
-        middle.layoutXProperty().bind(
-                pane.widthProperty().subtract(95)
+        Pane rightTree = buildTree();
+        rightTree.layoutXProperty().bind(
+                pane.widthProperty().subtract(112)
         );
-        middle.setLayoutY(125);
+        rightTree.layoutYProperty().bind(
+                pane.heightProperty().subtract(340)
+        );
+
+        Circle leftShrub = new Circle(118);
+        leftShrub.getStyleClass().add("auth-shrub");
+        leftShrub.setLayoutX(32);
+        leftShrub.layoutYProperty().bind(
+                pane.heightProperty().add(78)
+        );
+
+        Circle rightShrub = new Circle(145);
+        rightShrub.getStyleClass().add("auth-shrub");
+        rightShrub.layoutXProperty().bind(
+                pane.widthProperty().subtract(35)
+        );
+        rightShrub.layoutYProperty().bind(
+                pane.heightProperty().add(82)
+        );
 
         pane.getChildren().addAll(
-                topLeft,
-                bottomRight,
-                middle
+                leftTree,
+                rightTree,
+                leftShrub,
+                rightShrub
         );
 
         return pane;
+    }
+
+    private Pane buildTree() {
+        Pane tree = new Pane();
+        tree.setPrefSize(100, 280);
+
+        Rectangle trunk = new Rectangle(
+                42,
+                150,
+                13,
+                120
+        );
+        trunk.getStyleClass().add("auth-tree-trunk");
+
+        Polygon crown = new Polygon(
+                49.0, 8.0,
+                10.0, 94.0,
+                31.0, 94.0,
+                3.0, 150.0,
+                95.0, 150.0,
+                67.0, 94.0,
+                88.0, 94.0
+        );
+        crown.getStyleClass().add("auth-tree-crown");
+
+        tree.getChildren().addAll(trunk, crown);
+        return tree;
     }
 
     private HBox buildAnimalDecoration() {

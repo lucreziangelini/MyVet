@@ -3,12 +3,14 @@ package it.ispwproject.myvet.controller.applicativo;
 import it.ispwproject.myvet.bean.RegistrationBean;
 import it.ispwproject.myvet.dao.DAOFactory;
 import it.ispwproject.myvet.demo.DemoDataStore;
+import it.ispwproject.myvet.enumerator.Gender;
 import it.ispwproject.myvet.enumerator.Role;
 import it.ispwproject.myvet.exception.DAOException;
 import it.ispwproject.myvet.exception.RegistrationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -50,8 +52,29 @@ class RegistrationControllerTest {
         bean.setPassword("Password123");
         bean.setConfirmPassword("Password123");
         bean.setRole(Role.PET_OWNER);
+        bean.setGender(Gender.MALE);
 
         registrationController.register(bean);
+
+        var registeredUser = DemoDataStore.getInstance()
+                .getUsers()
+                .stream()
+                .filter(user -> user.getEmail().equals("mario@test.com"))
+                .findFirst()
+                .orElseThrow();
+
+        assertEquals(Gender.MALE, registeredUser.getGender());
+        assertEquals("Bentornato", registeredUser.getWelcome());
+
+        var femaleDemoUser = DemoDataStore.getInstance()
+                .getUsers()
+                .stream()
+                .filter(user -> user.getEmail().equals("anna@demo.it"))
+                .findFirst()
+                .orElseThrow();
+
+        assertEquals(Gender.FEMALE, femaleDemoUser.getGender());
+        assertEquals("Bentornata", femaleDemoUser.getWelcome());
 
         /*
          * Seconda registrazione con la stessa email:
@@ -67,6 +90,7 @@ class RegistrationControllerTest {
         duplicato.setPassword("Password123");
         duplicato.setConfirmPassword("Password123");
         duplicato.setRole(Role.PET_OWNER);
+        duplicato.setGender(Gender.MALE);
 
         assertThrows(
                 RegistrationException.class,

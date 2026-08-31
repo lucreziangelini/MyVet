@@ -31,10 +31,10 @@ public class LoginCLIView {
         CLIRenderer.errore(messaggio);
     }
 
-    public void mostraSuccesso(String nome) {
+    public void mostraSuccesso(String nome, String saluto) {
         CLIRenderer.messaggio(
                 CLIRenderer.OK
-                        + " Benvenuto, "
+                        + " " + saluto + ", "
                         + nome
                         + "!"
         );

@@ -2,6 +2,7 @@ package it.ispwproject.myvet.controller.gui;
 
 import it.ispwproject.myvet.bean.RegistrationBean;
 import it.ispwproject.myvet.controller.applicativo.RegistrationController;
+import it.ispwproject.myvet.enumerator.Gender;
 import it.ispwproject.myvet.enumerator.Role;
 import it.ispwproject.myvet.exception.DAOException;
 import it.ispwproject.myvet.exception.RegistrationException;
@@ -67,6 +68,14 @@ public class RegistrationGUI {
                         : Role.PET_OWNER
         );
 
+        bean.setGender(
+                view.femaleRadio.isSelected()
+                        ? Gender.FEMALE
+                        : view.maleRadio.isSelected()
+                        ? Gender.MALE
+                        : null
+        );
+
         if (view.veterinarianRadio.isSelected()) {
             bean.setBio(
                     view.bioField.getText().trim()
@@ -100,7 +109,7 @@ public class RegistrationGUI {
 
         alert.setContentText(
                 "Registrazione completata! "
-                        + "Ora puoi effettuare il login."
+                        + "Ora puoi effettuare l'accesso."
         );
 
         alert.showAndWait();

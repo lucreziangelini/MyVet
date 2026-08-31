@@ -364,7 +364,7 @@ public class BookingDAOFile extends AbstractBookingDAO {
 
         } catch (IOException e) {
             AppLogger.logError(
-                    "Errore aggiornamento disponibilità slot: "
+                    "Errore nell'aggiornamento della fascia oraria: "
                             + e.getMessage()
             );
         }

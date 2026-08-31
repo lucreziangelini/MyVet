@@ -28,7 +28,7 @@ public class StatisticsGUIView extends PageGUIView {
 
         root.setTop(
                 buildTopBar(
-                        "Statistiche e report",
+                        "Statistiche e resoconti",
                         onBack
                 )
         );

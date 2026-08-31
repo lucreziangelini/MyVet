@@ -2,6 +2,7 @@ package it.ispwproject.myvet.dao.db;
 
 import it.ispwproject.myvet.dao.ConnectionFactory;
 import it.ispwproject.myvet.dao.UserDAO;
+import it.ispwproject.myvet.enumerator.Gender;
 import it.ispwproject.myvet.enumerator.Role;
 import it.ispwproject.myvet.exception.DAOException;
 import it.ispwproject.myvet.model.Admin;
@@ -19,7 +20,7 @@ import java.util.List;
 public class UserDAODB implements UserDAO {
 
     private static final String FIND_BY_EMAIL =
-            "SELECT u.id, u.name, u.surname, u.email, u.role, " +
+            "SELECT u.id, u.name, u.surname, u.email, u.role, u.gender, " +
                     "vd.bio, vd.specialization " +
                     "FROM user u " +
                     "LEFT JOIN veterinarian_detail vd " +
@@ -30,7 +31,7 @@ public class UserDAODB implements UserDAO {
             "UPDATE user SET email = ? WHERE id = ?";
 
     private static final String GET_ALL =
-            "SELECT u.id, u.name, u.surname, u.email, u.role, " +
+            "SELECT u.id, u.name, u.surname, u.email, u.role, u.gender, " +
                     "vd.bio, vd.specialization " +
                     "FROM user u " +
                     "LEFT JOIN veterinarian_detail vd " +
@@ -90,11 +91,15 @@ public class UserDAODB implements UserDAO {
                         rs.getString("role").toUpperCase()
                 );
 
+                Gender gender = Gender.valueOf(
+                        rs.getString("gender").toUpperCase()
+                );
+
                 String bio = rs.getString("bio");
                 String specialization =
                         rs.getString("specialization");
 
-                return buildUser(
+                User user = buildUser(
                         id,
                         name,
                         surname,
@@ -103,6 +108,9 @@ public class UserDAODB implements UserDAO {
                         bio,
                         specialization
                 );
+
+                user.setGender(gender);
+                return user;
             }
 
         } catch (SQLException e) {
@@ -176,12 +184,15 @@ public class UserDAODB implements UserDAO {
                         rs.getString("role").toUpperCase()
                 );
 
+                Gender gender = Gender.valueOf(
+                        rs.getString("gender").toUpperCase()
+                );
+
                 String bio = rs.getString("bio");
                 String specialization =
                         rs.getString("specialization");
 
-                result.add(
-                        buildUser(
+                User user = buildUser(
                                 id,
                                 name,
                                 surname,
@@ -189,8 +200,10 @@ public class UserDAODB implements UserDAO {
                                 role,
                                 bio,
                                 specialization
-                        )
-                );
+                        );
+
+                user.setGender(gender);
+                result.add(user);
             }
 
         } catch (SQLException e) {

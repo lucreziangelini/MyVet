@@ -11,17 +11,17 @@ public class ModeSelectorCLIView {
 
         CLIRenderer.voceMenu(
                 1,
-                "Demo      (in-memory, nessun DB richiesto)"
+                "Dimostrativa (in memoria, nessun database richiesto)"
         );
 
         CLIRenderer.voceMenu(
                 2,
-                "Database  (persistenza MySQL)"
+                "Database     (persistenza MySQL)"
         );
 
         CLIRenderer.voceMenu(
                 3,
-                "File      (prenotazioni e slot in JSON)"
+                "Archivio     (prenotazioni e fasce orarie in JSON)"
         );
 
         CLIRenderer.voceMenuZero("Esci");

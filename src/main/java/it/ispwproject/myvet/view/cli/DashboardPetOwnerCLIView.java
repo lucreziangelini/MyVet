@@ -2,10 +2,11 @@ package it.ispwproject.myvet.view.cli;
 
 public class DashboardPetOwnerCLIView {
 
-    public void mostraBenvenuto(String nome) {
+    public void mostraBenvenuto(String nome, String saluto) {
         CLIRenderer.intestazioneBenvenuto(
                 nome,
-                "Pet Owner"
+                "Proprietario",
+                saluto
         );
     }
 
@@ -47,7 +48,7 @@ public class DashboardPetOwnerCLIView {
                 "Profilo"
         );
 
-        CLIRenderer.voceMenuZero("Logout");
+        CLIRenderer.voceMenuZero("Esci");
     }
 
     public String chiediScelta() {

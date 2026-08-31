@@ -21,7 +21,7 @@ public abstract class DashboardGUIView {
     // ── Costanti calendario ──────────────────────────────────────────────────
     public static final int HOUR_START  = 8;
     public static final int HOUR_END    = 19;
-    public static final int HOUR_HEIGHT = 28;
+    public static final int HOUR_HEIGHT = 24;
     public static final int LABEL_WIDTH = 42;
     public static final int HEADER_H    = 72;
     public static final int DAYS        = 7;
@@ -41,8 +41,11 @@ public abstract class DashboardGUIView {
         logoView.setFitHeight(56); logoView.setFitWidth(56);
         logoView.setPreserveRatio(true); logoView.setSmooth(true);
 
-        String nome = SessionManager.getInstance().getLoggedUser().getName();
-        Label welcome = new Label("Bentornato\n" + nome + "!");
+        User loggedUser = SessionManager.getInstance().getLoggedUser();
+        String nome = loggedUser.getName();
+        Label welcome = new Label(
+                loggedUser.getWelcome() + "\n" + nome + "!"
+        );
         welcome.getStyleClass().add("welcome-label");
 
         HBox left = new HBox(10, logoView, welcome);
@@ -56,7 +59,7 @@ public abstract class DashboardGUIView {
         ruolo.setMaxWidth(Double.MAX_VALUE);
         ruolo.setAlignment(Pos.CENTER);
 
-        Button logoutBtn = new Button("Log out");
+        Button logoutBtn = new Button("Esci");
         logoutBtn.getStyleClass().add("button");
         logoutBtn.setPadding(new Insets(6, 18, 6, 18));
         logoutBtn.setOnAction(e -> onLogout.run());
@@ -85,10 +88,13 @@ public abstract class DashboardGUIView {
         section.setPrefWidth(620);
         section.setMinWidth(520);
         section.setMaxWidth(Double.MAX_VALUE);
-        section.setAlignment(Pos.TOP_LEFT);
-        VBox.setVgrow(section, Priority.ALWAYS);
+        section.setAlignment(Pos.TOP_CENTER);
+        section.setPadding(new Insets(16));
+        section.getStyleClass().add("dashboard-calendar-section");
+        section.setMaxHeight(Region.USE_PREF_SIZE);
+        VBox.setVgrow(section, Priority.NEVER);
 
-        Label title = new Label("Calendario Appuntamenti");
+        Label title = new Label("Calendario appuntamenti");
         title.getStyleClass().add("calendar-title");
 
         scroll.getStyleClass().add("transparent-scroll");
@@ -96,17 +102,23 @@ public abstract class DashboardGUIView {
         scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scroll.setFitToWidth(true);
         scroll.setMinHeight(200);
-        VBox.setVgrow(scroll, Priority.ALWAYS);
+        double calendarHeight = HEADER_H
+                + (HOUR_END - HOUR_START) * HOUR_HEIGHT
+                + 4;
+        scroll.setPrefHeight(calendarHeight);
+        scroll.setMaxHeight(calendarHeight);
+        VBox.setVgrow(scroll, Priority.NEVER);
 
         Button prevBtn  = makeNavBtn("‹", e -> onPrev.run());
         Button nextBtn  = makeNavBtn("›", e -> onNext.run());
         Button todayBtn = makeTodayBtn(e  -> onToday.run());
 
-        HBox navBar = new HBox(8, prevBtn, todayBtn, nextBtn);
-        navBar.setAlignment(Pos.CENTER_LEFT);
+        HBox navBar = new HBox(6, prevBtn, todayBtn, nextBtn);
+        navBar.setAlignment(Pos.CENTER);
 
         HBox titleRow = new HBox(16, title, navBar);
-        titleRow.setAlignment(Pos.CENTER_LEFT);
+        titleRow.setAlignment(Pos.CENTER);
+        titleRow.setMaxWidth(Double.MAX_VALUE);
 
         section.getChildren().addAll(titleRow, scroll);
         return section;
@@ -250,6 +262,9 @@ public abstract class DashboardGUIView {
     public HBox buildEmailRow(User user, Function<String, Boolean> onSave) {
         Label emailLbl = new Label(user.getEmail() != null ? user.getEmail() : "—");
         emailLbl.getStyleClass().add("info-text");
+        emailLbl.setWrapText(true);
+        emailLbl.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(emailLbl, Priority.ALWAYS);
 
         Button editBtn = new Button();
         var pencilStream = getClass().getResourceAsStream("/icons/pencil.png");
@@ -274,28 +289,34 @@ public abstract class DashboardGUIView {
         TextField emailField = new TextField(user.getEmail());
         emailField.getStyleClass().add("text-field");
         emailField.setPrefHeight(32);
+        emailField.setMaxWidth(Double.MAX_VALUE);
 
-        Button saveBtn   = new Button("✓");
-        Button cancelBtn = new Button("✗");
+        Button saveBtn   = new Button("Salva");
+        Button cancelBtn = new Button("Annulla");
         saveBtn.getStyleClass().add("save-button");
-        saveBtn.setMinWidth(32); saveBtn.setMinHeight(32);
+        saveBtn.setMinHeight(32);
         cancelBtn.getStyleClass().add("cancel-inline-button");
-        cancelBtn.setMinWidth(32); cancelBtn.setMinHeight(32);
+        cancelBtn.setMinHeight(32);
 
-        HBox editRow = new HBox(6, emailField, saveBtn, cancelBtn);
-        editRow.setAlignment(Pos.CENTER_LEFT);
-        editRow.setVisible(false); editRow.setManaged(false);
+        HBox editActions = new HBox(6, saveBtn, cancelBtn);
+        editActions.setAlignment(Pos.CENTER_RIGHT);
 
-        VBox emailContainer = new VBox(4, viewRow, editRow);
+        VBox editPanel = new VBox(7, emailField, editActions);
+        editPanel.setMaxWidth(Double.MAX_VALUE);
+        editPanel.setVisible(false); editPanel.setManaged(false);
+
+        VBox emailContainer = new VBox(6, viewRow, editPanel);
+        emailContainer.setMaxWidth(Double.MAX_VALUE);
 
         editBtn.setOnAction(e -> {
             viewRow.setVisible(false); viewRow.setManaged(false);
-            editRow.setVisible(true);  editRow.setManaged(true);
+            editPanel.setVisible(true);  editPanel.setManaged(true);
+            emailField.selectAll();
             emailField.requestFocus();
         });
         cancelBtn.setOnAction(e -> {
             emailField.setText(user.getEmail());
-            editRow.setVisible(false);  editRow.setManaged(false);
+            editPanel.setVisible(false);  editPanel.setManaged(false);
             viewRow.setVisible(true);   viewRow.setManaged(true);
         });
         saveBtn.setOnAction(e -> {
@@ -309,7 +330,7 @@ public abstract class DashboardGUIView {
                 if (r == ButtonType.OK) {
                     if (onSave.apply(newEmail)) {
                         emailLbl.setText(newEmail);
-                        editRow.setVisible(false);  editRow.setManaged(false);
+                        editPanel.setVisible(false);  editPanel.setManaged(false);
                         viewRow.setVisible(true);   viewRow.setManaged(true);
                     }
                 }
@@ -318,7 +339,10 @@ public abstract class DashboardGUIView {
 
         // Esponiamo emailField come user data per permettere al controller di leggere il valore
         emailContainer.setUserData(emailField);
-        return new HBox(emailContainer);
+        HBox emailRow = new HBox(emailContainer);
+        emailRow.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(emailContainer, Priority.ALWAYS);
+        return emailRow;
     }
 
     // ────────────────────────────────────────────────────────────────────────
@@ -372,8 +396,10 @@ public abstract class DashboardGUIView {
     public Button makeNavBtn(String text, EventHandler<ActionEvent> h) {
         Button btn = new Button(text);
         btn.getStyleClass().add("nav-button");
-        btn.setPrefSize(36, 36);
-        btn.setMinSize(36, 36);
+        btn.setPrefSize(22, 22);
+        btn.setMinSize(22, 22);
+        btn.setMaxSize(22, 22);
+        btn.setFocusTraversable(false);
         btn.setOnAction(h);
         return btn;
     }

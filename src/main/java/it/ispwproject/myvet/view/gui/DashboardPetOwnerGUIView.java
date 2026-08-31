@@ -23,7 +23,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class DashboardPetOwnerGUIView extends DashboardGUIView {
 
@@ -364,13 +367,13 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
         sidebar.setPadding(new Insets(18));
         sidebar.getStyleClass().add("dashboard-sidebar");
 
-        Label dashboardLabel = new Label("Dashboard");
+        Label dashboardLabel = new Label("Riepilogo");
         dashboardLabel.getStyleClass().add("sidebar-section-title");
 
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        Button logoutButton = new Button("↪  Log out");
+        Button logoutButton = new Button("↪  Esci");
         logoutButton.setMaxWidth(Double.MAX_VALUE);
         logoutButton.getStyleClass().add("sidebar-logout");
         logoutButton.setOnAction(event -> onLogout.run());
@@ -411,24 +414,40 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
     }
 
     // Costruisce l'area principale con benvenuto e calendario
-    public VBox buildMainContent(
-            String ownerName,
-            VBox calendarSection) {
+    public HBox buildMainContent(
+            it.ispwproject.myvet.model.User owner,
+            VBox calendarSection,
+            List<BookingResponseBean> bookings,
+            Runnable onBook) {
 
-        VBox content = new VBox(16);
-        content.setAlignment(Pos.TOP_LEFT);
+        HBox content = new HBox(18);
+        content.setAlignment(Pos.TOP_CENTER);
+        content.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(content, Priority.ALWAYS);
+
+        VBox leftColumn = new VBox(16);
+        leftColumn.setPrefWidth(320);
+        leftColumn.setMinWidth(285);
+        leftColumn.setMaxWidth(350);
 
         VBox welcomeCard = new VBox(4);
         welcomeCard.setPadding(new Insets(18, 22, 18, 22));
         welcomeCard.setMaxWidth(Double.MAX_VALUE);
         welcomeCard.getStyleClass().add("welcome-card");
 
-        String displayedName = ownerName == null || ownerName.isBlank()
-                ? "Pet Owner"
-                : ownerName;
+        String displayedName = owner == null
+                || owner.getName() == null
+                || owner.getName().isBlank()
+                ? "Proprietario"
+                : owner.getName();
 
-        Label title = new Label("Bentornato, " + displayedName + "!");
+        String welcome = owner == null
+                ? "Bentornato"
+                : owner.getWelcome();
+
+        Label title = new Label(
+                welcome + ", " + displayedName + "!"
+        );
         title.getStyleClass().add("dashboard-welcome-title");
 
         Label subtitle = new Label(
@@ -438,11 +457,126 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
         subtitle.getStyleClass().add("info-text");
         subtitle.setWrapText(true);
 
-        welcomeCard.getChildren().addAll(title, subtitle);
+        Button quickBook = new Button("Prenota ora  →");
+        quickBook.getStyleClass().add("dashboard-quick-action");
+        quickBook.setOnAction(event -> onBook.run());
+
+        welcomeCard.getChildren().addAll(
+                title,
+                subtitle,
+                quickBook
+        );
+
+        VBox upcomingCard = buildUpcomingAppointmentsCard(bookings);
+        leftColumn.getChildren().addAll(welcomeCard, upcomingCard);
+
         VBox.setVgrow(calendarSection, Priority.ALWAYS);
-        content.getChildren().addAll(welcomeCard, calendarSection);
+        HBox.setHgrow(calendarSection, Priority.ALWAYS);
+        calendarSection.setMaxWidth(Double.MAX_VALUE);
+        content.getChildren().addAll(leftColumn, calendarSection);
 
         return content;
+    }
+
+    private VBox buildUpcomingAppointmentsCard(
+            List<BookingResponseBean> bookings) {
+
+        VBox card = new VBox(10);
+        card.setPadding(new Insets(18));
+        card.setMaxWidth(Double.MAX_VALUE);
+        card.getStyleClass().add("upcoming-card");
+
+        Label title = new Label("Prossimi appuntamenti");
+        title.getStyleClass().add("section-title");
+        card.getChildren().add(title);
+
+        List<BookingResponseBean> upcoming = bookings.stream()
+                .filter(booking ->
+                        booking.getStatus() != BookingStatus.CANCELLED)
+                .filter(booking -> booking.getTimeSlot() != null)
+                .filter(booking ->
+                        booking.getTimeSlot().getDate() != null)
+                .filter(booking ->
+                        booking.getTimeSlot().getStartTime() != null)
+                .filter(booking ->
+                        !booking.getTimeSlot().getDate()
+                                .isBefore(LocalDate.now()))
+                .sorted(Comparator
+                        .comparing((BookingResponseBean booking) ->
+                                booking.getTimeSlot().getDate())
+                        .thenComparing(booking ->
+                                booking.getTimeSlot().getStartTime()))
+                .limit(3)
+                .toList();
+
+        if (upcoming.isEmpty()) {
+            Label empty = new Label(
+                    "Non hai ancora appuntamenti in programma."
+            );
+            empty.getStyleClass().add("info-text");
+            empty.setWrapText(true);
+            card.getChildren().add(empty);
+            return card;
+        }
+
+        for (BookingResponseBean booking : upcoming) {
+            card.getChildren().add(
+                    buildAppointmentPreview(booking)
+            );
+        }
+
+        return card;
+    }
+
+    private HBox buildAppointmentPreview(
+            BookingResponseBean booking) {
+
+        DateTimeFormatter dateFormatter =
+                DateTimeFormatter.ofPattern(
+                        "dd MMM",
+                        Locale.ITALIAN
+                );
+
+        VBox dateBox = new VBox(1);
+        dateBox.setAlignment(Pos.CENTER);
+        dateBox.setMinWidth(58);
+        dateBox.getStyleClass().add("appointment-date-box");
+
+        Label date = new Label(
+                booking.getTimeSlot().getDate()
+                        .format(dateFormatter)
+        );
+        date.getStyleClass().add("appointment-date");
+
+        Label time = new Label(
+                booking.getTimeSlot().getStartTime().toString()
+        );
+        time.getStyleClass().add("appointment-time");
+        dateBox.getChildren().addAll(date, time);
+
+        String petName = booking.getPet() == null
+                ? "Animale"
+                : booking.getPet().getName();
+
+        String veterinarianName = booking.getVeterinarian() == null
+                ? "Veterinario da definire"
+                : booking.getVeterinarian().getFullName();
+
+        Label pet = new Label(petName);
+        pet.getStyleClass().add("appointment-pet");
+
+        Label veterinarian = new Label(veterinarianName);
+        veterinarian.getStyleClass().add("info-text");
+        veterinarian.setWrapText(true);
+
+        VBox details = new VBox(2, pet, veterinarian);
+        HBox.setHgrow(details, Priority.ALWAYS);
+
+        HBox row = new HBox(10, dateBox, details);
+        row.setAlignment(Pos.CENTER_LEFT);
+        row.setMaxWidth(Double.MAX_VALUE);
+        row.getStyleClass().add("appointment-preview");
+        return row;
     }
 
     // Sezione destra mantenuta per le altre viste che la riutilizzano

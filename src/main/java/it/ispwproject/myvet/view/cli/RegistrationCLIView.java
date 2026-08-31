@@ -1,5 +1,6 @@
 package it.ispwproject.myvet.view.cli;
 
+import it.ispwproject.myvet.enumerator.Gender;
 import it.ispwproject.myvet.enumerator.Role;
 
 public class RegistrationCLIView {
@@ -25,7 +26,7 @@ public class RegistrationCLIView {
 
             CLIRenderer.voceMenu(
                     1,
-                    "Pet Owner"
+                    "Proprietario di un animale"
             );
 
             CLIRenderer.voceMenu(
@@ -52,12 +53,37 @@ public class RegistrationCLIView {
         }
     }
 
+    public Gender chiediGenere() {
+        while (true) {
+            CLIRenderer.sezione("Genere");
+            CLIRenderer.voceMenu(1, "Donna");
+            CLIRenderer.voceMenu(2, "Uomo");
+
+            String input =
+                    CLIRenderer.chiediSceltaStringa(
+                            "Scelta [1-2]"
+                    );
+
+            if ("1".equals(input)) {
+                return Gender.FEMALE;
+            }
+
+            if ("2".equals(input)) {
+                return Gender.MALE;
+            }
+
+            CLIRenderer.errore(
+                    "Scelta non valida."
+            );
+        }
+    }
+
     public void mostraSuccesso() {
         CLIRenderer.vuota();
 
         CLIRenderer.successo(
                 "Registrazione completata! "
-                        + "Ora puoi effettuare il login."
+                        + "Ora puoi effettuare l'accesso."
         );
     }
 

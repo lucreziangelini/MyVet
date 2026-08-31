@@ -43,7 +43,7 @@ public class SetAvailabilityGUIView extends PageGUIView {
     public BorderPane buildRoot(Runnable onBack) {
         BorderPane root = buildShell("Imposta disponibilità", onBack);
 
-        Label subtitle  = sectionLabel("Aggiungi un nuovo slot");
+        Label subtitle  = sectionLabel("Aggiungi una nuova fascia oraria");
         Label dateLabel = sectionLabel("Data");
         Label startLabel = sectionLabel("Ora inizio (HH:MM)");
         Label endLabel   = sectionLabel("Ora fine (HH:MM)");

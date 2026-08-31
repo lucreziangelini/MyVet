@@ -86,7 +86,7 @@ public class ViewSlotsGUI {
         confirm.setHeaderText(null);
 
         confirm.setContentText(
-                "Vuoi eliminare questo slot?\n"
+                "Vuoi eliminare questa fascia oraria?\n"
                         + slot.getDate()
                         + "  "
                         + slot.getStartTime()

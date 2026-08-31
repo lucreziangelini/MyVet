@@ -8,7 +8,7 @@ public class StatisticsCLIView {
 
     public void mostraIntestazione() {
         CLIRenderer.intestazione(
-                "MyVet – Statistiche e report"
+                "MyVet – Statistiche e resoconti"
         );
     }
 

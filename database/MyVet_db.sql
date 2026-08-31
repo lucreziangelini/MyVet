@@ -20,6 +20,10 @@ CREATE TABLE myvetdb.user (
     surname VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
+    gender ENUM(
+        'FEMALE',
+        'MALE'
+    ) NOT NULL,
     role ENUM(
         'PET_OWNER',
         'VETERINARIAN',
@@ -442,49 +446,56 @@ INSERT INTO user (
     surname,
     email,
     password,
-    role
+    role,
+    gender
 ) VALUES
 (
     'Anna',
     'Rossi',
     'anna@test.com',
     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
-    'PET_OWNER'
+    'PET_OWNER',
+    'FEMALE'
 ),
 (
     'Marco',
     'Bianchi',
     'marco@test.com',
     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
-    'PET_OWNER'
+    'PET_OWNER',
+    'MALE'
 ),
 (
     'Luca',
     'Verdi',
     'luca.vet@test.com',
     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
-    'VETERINARIAN'
+    'VETERINARIAN',
+    'MALE'
 ),
 (
     'Giulia',
     'Romano',
     'giulia.vet@test.com',
     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
-    'VETERINARIAN'
+    'VETERINARIAN',
+    'FEMALE'
 ),
 (
     'Sara',
     'Conti',
     'sara.vet@test.com',
     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
-    'VETERINARIAN'
+    'VETERINARIAN',
+    'FEMALE'
 ),
 (
     'Admin',
     'MyVet',
     'admin@test.com',
     'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
-    'ADMIN'
+    'ADMIN',
+    'MALE'
 );
 
 -- ══════════════════════════════
@@ -526,22 +537,22 @@ INSERT INTO pet (
 (
     1,
     'Milo',
-    'Dog',
+    'Cane',
     'Labrador',
     '2020-05-12'
 ),
 (
     1,
     'Luna',
-    'Cat',
-    'European Shorthair',
+    'Gatto',
+    'Europeo',
     '2021-09-03'
 ),
 (
     2,
     'Rocky',
-    'Dog',
-    'German Shepherd',
+    'Cane',
+    'Pastore tedesco',
     '2019-02-18'
 );
 

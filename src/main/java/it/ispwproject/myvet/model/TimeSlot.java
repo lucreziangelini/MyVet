@@ -46,7 +46,7 @@ public class TimeSlot {
     public void reserve() {
         if (!available) {
             throw new IllegalStateException(
-                    "The time slot is not available"
+                    "La fascia oraria non è disponibile"
             );
         }
 
@@ -57,7 +57,7 @@ public class TimeSlot {
     public void reserveForMinutes(int minutes) {
         if (minutes <= 0) {
             throw new IllegalArgumentException(
-                    "Reservation duration must be greater than zero"
+                    "La durata della prenotazione deve essere maggiore di zero"
             );
         }
 
@@ -65,7 +65,7 @@ public class TimeSlot {
 
         if (!available) {
             throw new IllegalStateException(
-                    "The time slot is not available"
+                    "La fascia oraria non è disponibile"
             );
         }
 
@@ -77,7 +77,7 @@ public class TimeSlot {
     public void confirmReservation() {
         if (!isReserved()) {
             throw new IllegalStateException(
-                    "The time-slot reservation has expired"
+                    "La prenotazione temporanea della fascia oraria è scaduta"
             );
         }
 

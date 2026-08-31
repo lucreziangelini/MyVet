@@ -594,6 +594,25 @@
     -fx-effect: dropshadow(gaussian, rgba(44, 75, 60, 0.14), 24, 0.15, 0, 7);
 }
 
+.storyboard-login-card {
+    -fx-background-color: rgba(255, 253, 242, 0.90);
+    -fx-border-color: transparent;
+    -fx-background-radius: 22;
+    -fx-effect: dropshadow(gaussian, rgba(44, 75, 60, 0.08), 16, 0.08, 0, 4);
+}
+
+.storyboard-registration-card {
+    -fx-background-color: rgba(255, 253, 242, 0.92);
+    -fx-background-radius: 22;
+    -fx-border-radius: 22;
+}
+
+.auth-header-note {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #56746A;
+}
+
 .auth-title {
     -fx-font-size: 29px;
     -fx-font-weight: bold;
@@ -620,6 +639,19 @@
 .auth-shape-peach {
     -fx-fill: #F7DDB4;
     -fx-opacity: 0.70;
+}
+
+.auth-tree-crown {
+    -fx-fill: #F0E56E;
+    -fx-opacity: 0.95;
+}
+
+.auth-tree-trunk {
+    -fx-fill: #E8D85E;
+}
+
+.auth-shrub {
+    -fx-fill: #075B4E;
 }
 
 .auth-animal {
@@ -864,6 +896,55 @@
     -fx-text-fill: #075B4E;
 }
 
+.dashboard-quick-action {
+    -fx-background-color: transparent;
+    -fx-text-fill: #075B4E;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 0 0 0;
+    -fx-alignment: center-left;
+}
+
+.dashboard-quick-action:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: #0B6B5B;
+}
+
+.upcoming-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 22;
+    -fx-border-color: #E4E8D8;
+    -fx-border-radius: 22;
+    -fx-effect: dropshadow(gaussian, rgba(44, 75, 60, 0.10), 12, 0.10, 0, 4);
+}
+
+.appointment-preview {
+    -fx-background-color: #FAF9EE;
+    -fx-background-radius: 14;
+    -fx-padding: 8;
+}
+
+.appointment-date-box {
+    -fx-background-color: #EEF1DE;
+    -fx-background-radius: 12;
+    -fx-padding: 6 8 6 8;
+}
+
+.appointment-date,
+.appointment-pet {
+    -fx-text-fill: #075B4E;
+    -fx-font-weight: bold;
+}
+
+.appointment-date {
+    -fx-font-size: 11px;
+}
+
+.appointment-time {
+    -fx-text-fill: #667970;
+    -fx-font-size: 10px;
+}
+
 .documents-panel {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 24;
@@ -936,6 +1017,34 @@
     -fx-background-radius: 14;
     -fx-border-color: #E1E6CE;
     -fx-border-radius: 14;
+}
+
+.registration-role-option .radio-button {
+    -fx-text-overrun: clip;
+}
+
+.nav-button {
+    -fx-font-size: 11px;
+    -fx-padding: 0;
+    -fx-background-radius: 11;
+}
+
+.today-button {
+    -fx-font-size: 11px;
+    -fx-padding: 3 10 3 10;
+}
+
+.dashboard-calendar-section {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 24;
+    -fx-border-color: #E4E8D8;
+    -fx-border-radius: 24;
+    -fx-effect: dropshadow(gaussian, rgba(44, 75, 60, 0.10), 14, 0.10, 0, 4);
+}
+
+.dashboard-calendar-section .calendar-pane {
+    -fx-effect: null;
+    -fx-border-color: transparent;
 }
 
 .registration-role-option:hover {

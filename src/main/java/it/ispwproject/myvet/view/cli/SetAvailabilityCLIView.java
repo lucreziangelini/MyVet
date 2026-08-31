@@ -37,7 +37,7 @@ public class SetAvailabilityCLIView {
     }
 
     public void mostraSuccesso() {
-        CLIRenderer.successo("Slot aggiunto con successo.");
+        CLIRenderer.successo("Fascia oraria aggiunta con successo.");
     }
 
     public void mostraErrore(String messaggio) {

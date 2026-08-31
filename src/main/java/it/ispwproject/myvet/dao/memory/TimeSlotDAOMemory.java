@@ -189,7 +189,7 @@ public class TimeSlotDAOMemory implements TimeSlotDAO {
 
         if (!removed) {
             throw new DAOException(
-                    "Slot non trovato o già prenotato.");
+                    "Fascia oraria non trovata o già prenotata.");
         }
     }
 

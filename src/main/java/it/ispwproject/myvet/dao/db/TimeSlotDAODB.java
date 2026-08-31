@@ -113,7 +113,7 @@ public class TimeSlotDAODB implements TimeSlotDAO {
 
         } catch (SQLException e) {
             throw new DAOException(
-                    "Errore durante il rilascio dello slot: "
+                    "Errore durante il rilascio della fascia oraria: "
                             + e.getMessage(),
                     e
             );
@@ -145,7 +145,7 @@ public class TimeSlotDAODB implements TimeSlotDAO {
 
         } catch (SQLException e) {
             throw new DAOException(
-                    "Errore nel caricamento degli slot: "
+                    "Errore nel caricamento delle fasce orarie: "
                             + e.getMessage(),
                     e
             );
@@ -178,7 +178,7 @@ public class TimeSlotDAODB implements TimeSlotDAO {
 
         } catch (SQLException e) {
             throw new DAOException(
-                    "Errore nel caricamento degli slot: "
+                    "Errore nel caricamento delle fasce orarie: "
                             + e.getMessage(),
                     e
             );
@@ -239,7 +239,7 @@ public class TimeSlotDAODB implements TimeSlotDAO {
 
         } catch (SQLException e) {
             throw new DAOException(
-                    "Errore nel caricamento degli slot: "
+                    "Errore nel caricamento delle fasce orarie: "
                             + e.getMessage(),
                     e
             );
@@ -270,7 +270,7 @@ public class TimeSlotDAODB implements TimeSlotDAO {
 
         } catch (SQLException e) {
             throw new DAOException(
-                    "Errore nel caricamento degli slot passati: "
+                    "Errore nel caricamento delle fasce orarie passate: "
                             + e.getMessage(),
                     e
             );
@@ -297,7 +297,7 @@ public class TimeSlotDAODB implements TimeSlotDAO {
 
         } catch (SQLException e) {
             throw new DAOException(
-                    "Errore nel caricamento dello slot: "
+                    "Errore nel caricamento della fascia oraria: "
                             + e.getMessage(),
                     e
             );
@@ -341,7 +341,7 @@ public class TimeSlotDAODB implements TimeSlotDAO {
 
         } catch (SQLException e) {
             throw new DAOException(
-                    "Errore durante il salvataggio dello slot: "
+                    "Errore durante il salvataggio della fascia oraria: "
                             + e.getMessage(),
                     e
             );
@@ -364,13 +364,13 @@ public class TimeSlotDAODB implements TimeSlotDAO {
 
             if (rows == 0) {
                 throw new DAOException(
-                        "Slot non trovato o già prenotato."
+                        "Fascia oraria non trovata o già prenotata."
                 );
             }
 
         } catch (SQLException e) {
             throw new DAOException(
-                    "Errore eliminazione slot: "
+                    "Errore durante l'eliminazione della fascia oraria: "
                             + e.getMessage(),
                     e
             );

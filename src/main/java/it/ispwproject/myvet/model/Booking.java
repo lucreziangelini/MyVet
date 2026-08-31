@@ -35,13 +35,13 @@ public class Booking extends Observable {
     public void confirm() {
         if (status != BookingStatus.PENDING) {
             throw new IllegalStateException(
-                    "Only a pending booking can be confirmed"
+                    "Può essere confermata soltanto una prenotazione in attesa"
             );
         }
 
         if (timeSlot == null) {
             throw new IllegalStateException(
-                    "The selected time slot is not available"
+                    "La fascia oraria selezionata non è disponibile"
             );
         }
 
@@ -51,7 +51,7 @@ public class Booking extends Observable {
             timeSlot.reserve();
         } else {
             throw new IllegalStateException(
-                    "The selected time slot is not available"
+                    "La fascia oraria selezionata non è disponibile"
             );
         }
 
@@ -62,7 +62,7 @@ public class Booking extends Observable {
     public void cancel() {
         if (status != BookingStatus.CONFIRMED) {
             throw new IllegalStateException(
-                    "Only a confirmed booking can be cancelled"
+                    "Può essere annullata soltanto una prenotazione confermata"
             );
         }
 

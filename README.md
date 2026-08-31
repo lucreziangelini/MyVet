@@ -90,20 +90,29 @@ VETERINARIAN_PASS=myvet_veterinarian
 # Admin
 ADMIN_USER=myvet_admin
 ADMIN_PASS=myvet_admin
-
-# SendGrid
-SENDGRID_API_KEY=your_sendgrid_api_key_here
-SENDGRID_FROM_EMAIL=your_verified_sender_email_here
-
-# SendGrid dynamic templates
-SENDGRID_TEMPLATE_CONFIRMATION_OWNER=your_template_id_here
-SENDGRID_TEMPLATE_CANCELLATION_OWNER=your_template_id_here
-SENDGRID_TEMPLATE_CONFIRMATION_VETERINARIAN=your_template_id_here
-SENDGRID_TEMPLATE_CANCELLATION_VETERINARIAN=your_template_id_here
-SENDGRID_TEMPLATE_NEW_CARE_ACTIVITY=your_template_id_here
 ```
 
-⚠️ The `db.properties` file contains database credentials and placeholders for the SendGrid API key and dynamic templates. Do not commit real credentials or API keys to GitHub.
+### SendGrid
+
+Keep real SendGrid credentials out of `db.properties`. Configure these
+environment variables in the IDE run configuration instead:
+
+```text
+SENDGRID_API_KEY=SG.xxxxx
+SENDGRID_FROM_EMAIL=verified-sender@example.com
+SENDGRID_TEMPLATE_CONFIRMATION_OWNER=d-xxxxx
+SENDGRID_TEMPLATE_CANCELLATION_OWNER=d-xxxxx
+SENDGRID_TEMPLATE_CONFIRMATION_VETERINARIAN=d-xxxxx
+SENDGRID_TEMPLATE_CANCELLATION_VETERINARIAN=d-xxxxx
+SENDGRID_TEMPLATE_NEW_CARE_ACTIVITY=d-xxxxx
+```
+
+In IntelliJ IDEA open **Run > Edit Configurations**, select the Maven
+configuration that runs `javafx:run`, and add the entries under
+**Environment variables**. Restart the application after changing them.
+
+⚠️ The `db.properties` file contains database credentials and SendGrid
+placeholders. Never commit real credentials or API keys to GitHub.
 
 ## Demo credentials
 

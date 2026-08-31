@@ -144,7 +144,7 @@ public class BookAppointmentCLI extends AbstractCLIState {
 
             if (available.isEmpty()) {
                 view.mostraMessaggio(
-                        "Nessuno slot disponibile per "
+                        "Nessuna fascia oraria disponibile per "
                                 + "questo veterinario."
                 );
                 goBack(context);
@@ -154,7 +154,7 @@ public class BookAppointmentCLI extends AbstractCLIState {
             view.mostraSlot(available);
 
             int sc = view.chiediScelta(
-                    "Seleziona uno slot",
+                    "Seleziona una fascia oraria",
                     0,
                     available.size()
             );

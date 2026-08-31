@@ -16,8 +16,9 @@ import java.sql.Statement;
 public class RegistrationDAODB implements RegistrationDAO {
 
     private static final String INSERT_USER =
-            "INSERT INTO user (name, surname, email, password, role) " +
-                    "VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO user " +
+                    "(name, surname, email, password, role, gender) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String INSERT_VETERINARIAN_DETAIL =
             "INSERT INTO veterinarian_detail " +
@@ -127,6 +128,7 @@ public class RegistrationDAODB implements RegistrationDAO {
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getPassword());
             ps.setString(5, user.getRole().name());
+            ps.setString(6, user.getGender().name());
 
             ps.executeUpdate();
 

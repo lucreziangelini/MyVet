@@ -14,8 +14,11 @@ public class DashboardVeterinarianCLI extends AbstractCLIState {
 
     @Override
     public void entry(CLIStateMachine context) {
-        String nome = SessionManager.getInstance().getLoggedUser().getName();
-        view.mostraBenvenuto(nome);
+        var user = SessionManager.getInstance().getLoggedUser();
+        view.mostraBenvenuto(
+                user.getName(),
+                user.getWelcome()
+        );
     }
 
     @Override
@@ -33,7 +36,7 @@ public class DashboardVeterinarianCLI extends AbstractCLIState {
                 try {
                     ConnectionFactory.clearRole();
                     SessionManager.getInstance().clearSession();
-                    view.mostraMessaggio("✓ Logout effettuato.");
+                    view.mostraMessaggio("✓ Disconnessione effettuata.");
                     context.reset(new InitialCLI());
                 } catch (java.sql.SQLException ex) {
                     view.mostraMessaggio(

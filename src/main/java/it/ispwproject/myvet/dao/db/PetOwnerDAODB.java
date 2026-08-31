@@ -61,7 +61,7 @@ public class PetOwnerDAODB implements PetOwnerDAO {
 
         } catch (SQLException e) {
             throw new DAOException(
-                    "Errore nel caricamento del Pet Owner: "
+                    "Errore nel caricamento del proprietario: "
                             + e.getMessage(),
                     e
             );
@@ -117,7 +117,7 @@ public class PetOwnerDAODB implements PetOwnerDAO {
 
         } catch (SQLException e) {
             throw new DAOException(
-                    "Errore nel caricamento dei Pet Owner: "
+                    "Errore nel caricamento dei proprietari: "
                             + e.getMessage(),
                     e
             );

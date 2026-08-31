@@ -323,7 +323,7 @@ public class TimeSlotDAOFile implements TimeSlotDAO {
 
         if (!removed) {
             throw new DAOException(
-                    "Slot non trovato o già prenotato."
+                    "Fascia oraria non trovata o già prenotata."
             );
         }
 
@@ -374,7 +374,7 @@ public class TimeSlotDAOFile implements TimeSlotDAO {
 
         } catch (IOException e) {
             AppLogger.logError(
-                    "Errore salvataggio timeslots su file: "
+                    "Errore nel salvataggio delle fasce orarie su file: "
                             + e.getMessage()
             );
         }

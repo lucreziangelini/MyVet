@@ -1,5 +1,6 @@
 package it.ispwproject.myvet.bean;
 
+import it.ispwproject.myvet.enumerator.Gender;
 import it.ispwproject.myvet.enumerator.Role;
 
 public class RegistrationBean {
@@ -10,6 +11,7 @@ public class RegistrationBean {
     private String password;
     private String confirmPassword;
     private Role role;
+    private Gender gender;
 
     // Utilizzato solamente per la registrazione del veterinario
     private String bio;
@@ -63,6 +65,14 @@ public class RegistrationBean {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public String getBio() {

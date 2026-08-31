@@ -2,10 +2,11 @@ package it.ispwproject.myvet.view.cli;
 
 public class DashboardVeterinarianCLIView {
 
-    public void mostraBenvenuto(String nome) {
+    public void mostraBenvenuto(String nome, String saluto) {
         CLIRenderer.intestazioneBenvenuto(
                 nome,
-                "Veterinario"
+                "Veterinario",
+                saluto
         );
     }
 
@@ -19,7 +20,7 @@ public class DashboardVeterinarianCLIView {
 
         CLIRenderer.voceMenu(
                 2,
-                "I miei slot"
+                "Le mie fasce orarie"
         );
 
         CLIRenderer.voceMenu(
@@ -37,7 +38,7 @@ public class DashboardVeterinarianCLIView {
                 "Profilo"
         );
 
-        CLIRenderer.voceMenuZero("Logout");
+        CLIRenderer.voceMenuZero("Esci");
     }
 
     public String chiediScelta() {

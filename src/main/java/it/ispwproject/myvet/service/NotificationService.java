@@ -51,33 +51,33 @@ public final class NotificationService {
     }
 
     private static final String API_KEY =
-            PROPERTIES.getProperty("SENDGRID_API_KEY");
+            getConfigurationValue("SENDGRID_API_KEY");
 
     private static final String FROM_EMAIL =
-            PROPERTIES.getProperty("SENDGRID_FROM_EMAIL");
+            getConfigurationValue("SENDGRID_FROM_EMAIL");
 
     private static final String TEMPLATE_CONFIRMATION_OWNER =
-            PROPERTIES.getProperty(
+            getConfigurationValue(
                     "SENDGRID_TEMPLATE_CONFIRMATION_OWNER"
             );
 
     private static final String TEMPLATE_CANCELLATION_OWNER =
-            PROPERTIES.getProperty(
+            getConfigurationValue(
                     "SENDGRID_TEMPLATE_CANCELLATION_OWNER"
             );
 
     private static final String TEMPLATE_CONFIRMATION_VETERINARIAN =
-            PROPERTIES.getProperty(
+            getConfigurationValue(
                     "SENDGRID_TEMPLATE_CONFIRMATION_VETERINARIAN"
             );
 
     private static final String TEMPLATE_CANCELLATION_VETERINARIAN =
-            PROPERTIES.getProperty(
+            getConfigurationValue(
                     "SENDGRID_TEMPLATE_CANCELLATION_VETERINARIAN"
             );
 
     private static final String TEMPLATE_NEW_CARE_ACTIVITY =
-            PROPERTIES.getProperty(
+            getConfigurationValue(
                     "SENDGRID_TEMPLATE_NEW_CARE_ACTIVITY"
             );
 
@@ -92,6 +92,28 @@ public final class NotificationService {
 
     private NotificationService() {
         // Prevents instantiation
+    }
+
+    /**
+     * Legge i segreti dalla configurazione di esecuzione e usa
+     * db.properties solamente come fallback per i valori non sensibili.
+     */
+    private static String getConfigurationValue(String key) {
+        String environmentValue = System.getenv(key);
+
+        if (environmentValue != null
+                && !environmentValue.isBlank()) {
+            return environmentValue.trim();
+        }
+
+        String systemProperty = System.getProperty(key);
+
+        if (systemProperty != null
+                && !systemProperty.isBlank()) {
+            return systemProperty.trim();
+        }
+
+        return PROPERTIES.getProperty(key);
     }
 
     public static void sendBookingConfirmationToOwner(

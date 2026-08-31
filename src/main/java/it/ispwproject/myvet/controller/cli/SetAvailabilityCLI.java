@@ -44,7 +44,7 @@ public class SetAvailabilityCLI extends AbstractCLIState {
                     "  Orario : " + startTime + " – " + endTime
             );
 
-            if (!view.chiediConferma("Confermare lo slot?")) {
+            if (!view.chiediConferma("Confermare la fascia oraria?")) {
                 view.mostraMessaggio("Operazione annullata.");
                 goBack(context);
                 return;

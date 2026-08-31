@@ -352,7 +352,7 @@ public class DashboardVeterinarianGUIView
         return details.toString();
     }
 
-    // Mostra i dettagli dello slot selezionato
+    // Mostra i dettagli della fascia oraria selezionata
     private void showSlotDetails(
             TimeSlotBean slot,
             String details) {
@@ -360,12 +360,12 @@ public class DashboardVeterinarianGUIView
         Alert alert =
                 new Alert(Alert.AlertType.INFORMATION);
 
-        alert.setTitle("Dettagli slot");
+        alert.setTitle("Dettagli fascia oraria");
 
         alert.setHeaderText(
                 slot.isAvailable()
-                        ? "Slot disponibile"
-                        : "Slot prenotato"
+                        ? "Fascia oraria disponibile"
+                        : "Fascia oraria prenotata"
         );
 
         alert.setContentText(details);
@@ -389,13 +389,6 @@ public class DashboardVeterinarianGUIView
         section.setMaxWidth(380);
         section.setPadding(new Insets(0));
 
-        Region spacer =
-                new Region();
-
-        spacer.setPrefHeight(40);
-        spacer.setMinHeight(40);
-        spacer.setMaxHeight(40);
-
         VBox.setVgrow(
                 actionGrid,
                 Priority.NEVER
@@ -407,7 +400,6 @@ public class DashboardVeterinarianGUIView
         );
 
         section.getChildren().addAll(
-                spacer,
                 actionGrid,
                 accordion
         );
@@ -435,7 +427,7 @@ public class DashboardVeterinarianGUIView
                 ),
                 buildActionTile(
                         "time-check.png",
-                        "I miei slot",
+                        "I miei orari",
                         onSlots
                 ),
                 buildActionTile(

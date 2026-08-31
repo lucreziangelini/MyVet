@@ -1,5 +1,6 @@
 package it.ispwproject.myvet.view.gui;
 
+import it.ispwproject.myvet.model.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,7 +13,7 @@ public class DashboardAdminGUIView
         extends DashboardGUIView {
 
     public final Button reportBtn =
-            new Button("Statistiche e report");
+            new Button("Statistiche e resoconti");
 
     public DashboardAdminGUIView() {
         reportBtn.getStyleClass().add("button");
@@ -21,14 +22,16 @@ public class DashboardAdminGUIView
     }
 
     public BorderPane buildRoot(
-            String nomeUtente,
+            User user,
             Runnable onLogout) {
 
         HBox navbar =
-                buildNavbar("Admin", onLogout);
+                buildNavbar("Amministratore", onLogout);
 
         Label welcomeLabel =
-                new Label("Benvenuto, " + nomeUtente);
+                new Label(
+                        user.getWelcome() + ", " + user.getName()
+                );
 
         welcomeLabel.getStyleClass().add(
                 "page-title"

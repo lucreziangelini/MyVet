@@ -103,7 +103,7 @@ public class PetDAOMemory implements PetDAO {
                         owner.getId() == petOwnerId)
                 .findFirst()
                 .orElseThrow(() -> new DAOException(
-                        "Pet Owner non trovato."
+                        "Proprietario non trovato."
                 ));
     }
 }

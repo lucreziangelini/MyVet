@@ -76,14 +76,14 @@ public class ViewSlotsCLI extends AbstractCLIState {
                             view.mostraSlotDisponibili(disponibili);
 
                             int choice = view.chiediScelta(
-                                    "Seleziona lo slot da eliminare",
+                                    "Seleziona la fascia oraria da eliminare",
                                     0,
                                     disponibili.size()
                             );
 
                             if (choice != 0) {
                                 if (view.chiediConferma(
-                                        "Sei sicuro di voler eliminare questo slot?"
+                                        "Sei sicuro di voler eliminare questa fascia oraria?"
                                 )) {
                                     availabilityController.deleteSlot(
                                             disponibili.get(choice - 1).getId()
@@ -101,7 +101,7 @@ public class ViewSlotsCLI extends AbstractCLIState {
 
                         } else {
                             view.mostraMessaggio(
-                                    "Nessuno slot disponibile da eliminare."
+                                    "Nessuna fascia oraria disponibile da eliminare."
                             );
                         }
                     }

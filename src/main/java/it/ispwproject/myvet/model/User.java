@@ -1,5 +1,6 @@
 package it.ispwproject.myvet.model;
 
+import it.ispwproject.myvet.enumerator.Gender;
 import it.ispwproject.myvet.enumerator.Role;
 
 public abstract class User {
@@ -11,6 +12,7 @@ public abstract class User {
     private String email;
     private String password;
     private Role role;
+    private Gender gender;
 
     protected User() {
         // Used when reconstructing a User from persistence
@@ -51,4 +53,13 @@ public abstract class User {
 
     public Role getRole() {return role;}
     public void setRole(Role role) {this.role = role;}
+
+    public Gender getGender() {return gender;}
+    public void setGender(Gender gender) {this.gender = gender;}
+
+    public String getWelcome() {
+        return gender == Gender.FEMALE
+                ? Gender.FEMALE.getWelcome()
+                : Gender.MALE.getWelcome();
+    }
 }

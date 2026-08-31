@@ -34,12 +34,12 @@ public class ViewSlotsGUIView extends PageGUIView {
     }
 
     // ────────────────────────────────────────────────────────────────────────
-    // Costruzione della pagina degli slot del veterinario
+    // Costruzione della pagina delle fasce orarie del veterinario
     // ────────────────────────────────────────────────────────────────────────
 
     public BorderPane buildRoot(Runnable onBack) {
         return buildShell(
-                "I miei slot",
+                "Le mie fasce orarie",
                 onBack
         );
     }
@@ -120,7 +120,7 @@ public class ViewSlotsGUIView extends PageGUIView {
         toggleBar.setAlignment(Pos.CENTER);
         toggleBar.setMaxWidth(640);
 
-        // Contenitore della lista degli slot
+        // Contenitore della lista delle fasce orarie
         VBox listBox = new VBox(12);
 
         listBox.setAlignment(
@@ -138,19 +138,19 @@ public class ViewSlotsGUIView extends PageGUIView {
             if (availableButton.isSelected()) {
                 currentSlots = availableSlots;
                 emptyMessage =
-                        "Nessuno slot disponibile.";
+                        "Nessuna fascia oraria disponibile.";
                 past = false;
 
             } else if (bookedButton.isSelected()) {
                 currentSlots = bookedSlots;
                 emptyMessage =
-                        "Nessuno slot prenotato.";
+                        "Nessuna fascia oraria prenotata.";
                 past = false;
 
             } else {
                 currentSlots = pastSlots;
                 emptyMessage =
-                        "Nessuno slot passato.";
+                        "Nessuna fascia oraria passata.";
                 past = true;
             }
 
@@ -201,7 +201,7 @@ public class ViewSlotsGUIView extends PageGUIView {
             content.getChildren().addAll(
                     toggleBar,
                     emptyLabel(
-                            "Non hai ancora creato alcuno slot."
+                            "Non hai ancora creato alcuna fascia oraria."
                     )
             );
 
@@ -229,7 +229,7 @@ public class ViewSlotsGUIView extends PageGUIView {
         button.setPrefHeight(36);
     }
 
-    // Cerca il nome dell'animale associato allo slot
+    // Cerca il nome dell'animale associato alla fascia oraria
     private String findBookedPetName(
             TimeSlotBean slot,
             Map<Integer, String> petBySlot) {
@@ -247,7 +247,7 @@ public class ViewSlotsGUIView extends PageGUIView {
     }
 
     // ────────────────────────────────────────────────────────────────────────
-    // Costruzione della card di uno slot
+    // Costruzione della scheda di una fascia oraria
     // ────────────────────────────────────────────────────────────────────────
 
     private HBox buildSlotCard(
@@ -345,7 +345,7 @@ public class ViewSlotsGUIView extends PageGUIView {
         return card;
     }
 
-    // Configura uno slot passato
+    // Configura una fascia oraria passata
     private void configurePastSlot(
             TimeSlotBean slot,
             String bookedPetName,
@@ -384,7 +384,7 @@ public class ViewSlotsGUIView extends PageGUIView {
         }
     }
 
-    // Configura uno slot futuro già prenotato
+    // Configura una fascia oraria futura già prenotata
     private void configureBookedSlot(
             String bookedPetName,
             VBox information,
@@ -407,7 +407,7 @@ public class ViewSlotsGUIView extends PageGUIView {
         );
     }
 
-    // Configura uno slot futuro ancora disponibile
+    // Configura una fascia oraria futura ancora disponibile
     private void configureAvailableSlot(
             TimeSlotBean slot,
             VBox information,

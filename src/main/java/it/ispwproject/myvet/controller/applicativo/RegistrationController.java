@@ -67,6 +67,7 @@ public class RegistrationController {
             );
         }
 
+        user.setGender(bean.getGender());
         registrationDAO.save(user);
     }
 
@@ -95,9 +96,20 @@ public class RegistrationController {
         );
 
         validateEmail(bean.getEmail());
+        validateGender(bean);
         validatePassword(bean);
         validateRole(bean);
         validateVeterinarianFields(bean);
+    }
+
+    private void validateGender(RegistrationBean bean)
+            throws RegistrationException {
+
+        if (bean.getGender() == null) {
+            throw new RegistrationException(
+                    "Seleziona il genere."
+            );
+        }
     }
 
     private void validateRequiredField(

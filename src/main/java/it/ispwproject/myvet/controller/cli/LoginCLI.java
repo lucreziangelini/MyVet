@@ -29,11 +29,13 @@ public class LoginCLI extends AbstractCLIState {
         try {
             LoginResult result = loginController.login(email, password);
 
-            String nome = SessionManager.getInstance()
-                    .getLoggedUser()
-                    .getName();
+            var user = SessionManager.getInstance()
+                    .getLoggedUser();
 
-            view.mostraSuccesso(nome);
+            view.mostraSuccesso(
+                    user.getName(),
+                    user.getWelcome()
+            );
 
             switch (result) {
                 case SUCCESSO_PET_OWNER ->

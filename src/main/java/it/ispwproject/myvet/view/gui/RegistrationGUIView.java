@@ -17,15 +17,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class RegistrationGUIView {
 
-    private static final double FORM_WIDTH = 760;
+    private static final double FORM_WIDTH = 880;
 
     private static final double VETERINARIAN_SECTION_WIDTH =
-            720;
+            840;
 
     // Campi esposti al controller
     public final TextField nameField =
@@ -55,6 +57,12 @@ public class RegistrationGUIView {
     public final RadioButton veterinarianRadio =
             new RadioButton("Veterinario");
 
+    public final RadioButton femaleRadio =
+            new RadioButton("Donna");
+
+    public final RadioButton maleRadio =
+            new RadioButton("Uomo");
+
     // Campi utilizzati solamente per la registrazione del veterinario
     public final TextArea bioField =
             new TextArea();
@@ -69,6 +77,14 @@ public class RegistrationGUIView {
             new Button("Registrati");
 
     private VBox veterinarianSection;
+
+    private final Label registrationTitle =
+            new Label("Crea un account proprietario");
+
+    private final Label registrationSubtitle =
+            new Label(
+                    "Registra i tuoi animali e prenota le visite veterinarie."
+            );
 
     public RegistrationGUIView() {
         configurePasswordFields();
@@ -204,11 +220,25 @@ public class RegistrationGUIView {
                         )
         );
 
-        // Pulsante per tornare alla schermata di login
+        // Intestazione ispirata allo storyboard, con marchio e ritorno al login
         HBox header = new HBox();
 
-        header.setAlignment(Pos.CENTER_LEFT);
-        header.setMaxWidth(FORM_WIDTH);
+        header.setAlignment(Pos.CENTER);
+        header.setMaxWidth(940);
+
+        HBox brand = new HBox(8);
+        brand.setAlignment(Pos.CENTER_LEFT);
+
+        ImageView logoView = buildLogo();
+        logoView.setFitWidth(48);
+        logoView.setFitHeight(48);
+
+        Label brandName = new Label("MyVet");
+        brandName.getStyleClass().add("myvet-brand-name");
+        brand.getChildren().addAll(logoView, brandName);
+
+        Region headerSpacer = new Region();
+        HBox.setHgrow(headerSpacer, Priority.ALWAYS);
 
         Button backButton =
                 new Button("‹ Indietro");
@@ -221,35 +251,27 @@ public class RegistrationGUIView {
                 event -> onBack.run()
         );
 
-        header.getChildren().add(
+        header.getChildren().addAll(
+                brand,
+                headerSpacer,
                 backButton
         );
 
-        Label title =
-                new Label("Crea il tuo account");
-
-        title.getStyleClass().add(
+        registrationTitle.getStyleClass().add(
                 "auth-title"
         );
 
-        Label subtitle = new Label(
-                "Registrati come proprietario di un animale "
-                        + "o come veterinario."
-        );
-        subtitle.getStyleClass().add("auth-subtitle");
-        subtitle.setWrapText(true);
-        subtitle.setMaxWidth(680);
-
-        ImageView logoView =
-                buildLogo();
+        registrationSubtitle.getStyleClass().add("auth-subtitle");
+        registrationSubtitle.setWrapText(true);
+        registrationSubtitle.setMaxWidth(680);
 
         GridPane form =
                 buildForm();
 
         VBox formCard = new VBox(
                 12,
-                title,
-                subtitle,
+                registrationTitle,
+                registrationSubtitle,
                 form,
                 veterinarianSection,
                 errorLabel,
@@ -260,12 +282,14 @@ public class RegistrationGUIView {
         formCard.setPadding(
                 new Insets(24, 28, 24, 28)
         );
-        formCard.setMaxWidth(820);
-        formCard.getStyleClass().add("auth-card");
+        formCard.setMaxWidth(940);
+        formCard.getStyleClass().addAll(
+                "auth-card",
+                "storyboard-registration-card"
+        );
 
         root.getChildren().addAll(
                 header,
-                logoView,
                 formCard
         );
 
@@ -315,6 +339,7 @@ public class RegistrationGUIView {
                 6,
                 fieldBlock("Nome *", nameField),
                 fieldBlock("Cognome *", surnameField),
+                buildGenderBlock(),
                 fieldBlock("Email *", emailField),
                 requiredLabel()
         );
@@ -369,17 +394,17 @@ public class RegistrationGUIView {
         ColumnConstraints firstColumn =
                 new ColumnConstraints();
 
-        firstColumn.setPrefWidth(235);
+        firstColumn.setPrefWidth(250);
 
         ColumnConstraints secondColumn =
                 new ColumnConstraints();
 
-        secondColumn.setPrefWidth(210);
+        secondColumn.setPrefWidth(300);
 
         ColumnConstraints thirdColumn =
                 new ColumnConstraints();
 
-        thirdColumn.setPrefWidth(260);
+        thirdColumn.setPrefWidth(265);
 
         grid.getColumnConstraints().addAll(
                 firstColumn,
@@ -390,48 +415,67 @@ public class RegistrationGUIView {
         return grid;
     }
 
+    private VBox buildGenderBlock() {
+        ToggleGroup genderGroup = new ToggleGroup();
+        femaleRadio.setToggleGroup(genderGroup);
+        maleRadio.setToggleGroup(genderGroup);
+
+        femaleRadio.getStyleClass().add("role-radio");
+        maleRadio.getStyleClass().add("role-radio");
+
+        HBox choices = new HBox(18, femaleRadio, maleRadio);
+        choices.setAlignment(Pos.CENTER_LEFT);
+        choices.setMinHeight(34);
+
+        return new VBox(
+                4,
+                fieldLabel("Genere *"),
+                choices
+        );
+    }
+
     // Configura dimensioni e prompt dei campi principali
     private void configureMainFields() {
         configureTextField(
                 nameField,
                 "Inserisci nome",
-                235
+                250
         );
 
         configureTextField(
                 surnameField,
                 "Inserisci cognome",
-                235
+                250
         );
 
         configureTextField(
                 emailField,
                 "Inserisci email",
-                235
+                250
         );
 
         configureTextField(
                 passwordField,
                 "Inserisci password",
-                260
+                265
         );
 
         configureTextField(
                 confirmPasswordField,
                 "Ripeti password",
-                260
+                265
         );
 
         configureTextField(
                 visiblePasswordField,
                 "Inserisci password",
-                260
+                265
         );
 
         configureTextField(
                 visibleConfirmPasswordField,
                 "Ripeti password",
-                260
+                265
         );
     }
 
@@ -453,11 +497,23 @@ public class RegistrationGUIView {
         veterinarianRadio.setOnAction(event -> {
             veterinarianSection.setVisible(true);
             veterinarianSection.setManaged(true);
+            registrationTitle.setText(
+                    "Crea un account veterinario"
+            );
+            registrationSubtitle.setText(
+                    "Presenta la tua specializzazione e la tua bio professionale."
+            );
         });
 
         petOwnerRadio.setOnAction(event -> {
             veterinarianSection.setVisible(false);
             veterinarianSection.setManaged(false);
+            registrationTitle.setText(
+                    "Crea un account proprietario"
+            );
+            registrationSubtitle.setText(
+                    "Registra i tuoi animali e prenota le visite veterinarie."
+            );
         });
     }
 
@@ -500,6 +556,9 @@ public class RegistrationGUIView {
     private VBox buildRoleOption(
             RadioButton radioButton,
             String descriptionText) {
+
+        radioButton.setWrapText(true);
+        radioButton.setMaxWidth(Double.MAX_VALUE);
 
         Label description = new Label(descriptionText);
         description.setWrapText(true);

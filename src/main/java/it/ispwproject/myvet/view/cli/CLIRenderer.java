@@ -53,11 +53,15 @@ public final class CLIRenderer {
     /**
      * Intestazione di benvenuto con ruolo evidenziato.
      * ════════════════════════════════════════════════════════════
-     *   Bentornata, Anna!                         [ Pet Owner ]
+     *   Bentornata, Anna!                      [ Proprietario ]
      * ════════════════════════════════════════════════════════════
      */
-    public static void intestazioneBenvenuto(String nome, String ruolo) {
-        String left  = "  Bentornato, " + nome + "!";
+    public static void intestazioneBenvenuto(
+            String nome,
+            String ruolo,
+            String saluto) {
+
+        String left  = "  " + saluto + ", " + nome + "!";
         String right = "[ " + ruolo + " ]";
         int spaces   = WIDTH - left.length() - right.length();
         String pad   = spaces > 0 ? " ".repeat(spaces) : "  ";
@@ -129,7 +133,7 @@ public final class CLIRenderer {
                 if (value >= min && value <= max) return value;
                 System.out.printf("  Inserisci un numero tra %d e %d.%n", min, max);
             } catch (NumberFormatException e) {
-                System.out.println("  Input non valido.");
+                System.out.println("  Dato inserito non valido.");
             }
         }
     }

@@ -14,12 +14,14 @@ public class DashboardAdminCLI
 
     @Override
     public void entry(CLIStateMachine context) {
-        String name = SessionManager
+        var user = SessionManager
                 .getInstance()
-                .getLoggedUser()
-                .getName();
+                .getLoggedUser();
 
-        view.mostraBenvenuto(name);
+        view.mostraBenvenuto(
+                user.getName(),
+                user.getWelcome()
+        );
     }
 
     @Override
@@ -44,7 +46,7 @@ public class DashboardAdminCLI
                             .clearSession();
 
                     view.mostraMessaggio(
-                            "Logout effettuato."
+                            "Disconnessione effettuata."
                     );
 
                     context.reset(new InitialCLI());

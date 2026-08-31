@@ -9,7 +9,7 @@ public class ViewSlotsCLIView {
 
     public void mostraIntestazione() {
         CLIRenderer.intestazione(
-                "MyVet – I miei slot"
+                "MyVet – Le mie fasce orarie"
         );
     }
 
@@ -37,7 +37,7 @@ public class ViewSlotsCLIView {
 
         CLIRenderer.voceMenu(
                 4,
-                "Elimina slot"
+                "Elimina fascia oraria"
         );
 
         CLIRenderer.voceMenuZero("Indietro");
@@ -47,14 +47,14 @@ public class ViewSlotsCLIView {
             List<TimeSlotBean> availableSlots) {
 
         CLIRenderer.sezione(
-                "Slot disponibili ("
+                "Fasce orarie disponibili ("
                         + availableSlots.size()
                         + ")"
         );
 
         if (availableSlots.isEmpty()) {
             CLIRenderer.messaggio(
-                    "Nessuno slot disponibile."
+                    "Nessuna fascia oraria disponibile."
             );
         } else {
             for (TimeSlotBean slot : availableSlots) {
@@ -76,14 +76,14 @@ public class ViewSlotsCLIView {
             Map<Integer, String> petBySlot) {
 
         CLIRenderer.sezione(
-                "Slot prenotati ("
+                "Fasce orarie prenotate ("
                         + bookedSlots.size()
                         + ")"
         );
 
         if (bookedSlots.isEmpty()) {
             CLIRenderer.messaggio(
-                    "Nessuno slot prenotato."
+                    "Nessuna fascia oraria prenotata."
             );
         } else {
             for (TimeSlotBean slot : bookedSlots) {
@@ -112,14 +112,14 @@ public class ViewSlotsCLIView {
             Map<Integer, String> petBySlot) {
 
         CLIRenderer.sezione(
-                "Slot passati ("
+                "Fasce orarie passate ("
                         + pastSlots.size()
                         + ")"
         );
 
         if (pastSlots.isEmpty()) {
             CLIRenderer.messaggio(
-                    "Nessuno slot passato."
+                    "Nessuna fascia oraria passata."
             );
 
             CLIRenderer.separatore();
@@ -182,7 +182,7 @@ public class ViewSlotsCLIView {
             List<TimeSlotBean> availableSlots) {
 
         CLIRenderer.sezione(
-                "Slot disponibili eliminabili"
+                "Fasce orarie disponibili eliminabili"
         );
 
         for (int i = 0;
@@ -222,7 +222,7 @@ public class ViewSlotsCLIView {
 
     public void mostraSuccessoEliminazione() {
         CLIRenderer.successo(
-                "Slot eliminato con successo."
+                "Fascia oraria eliminata con successo."
         );
     }
 

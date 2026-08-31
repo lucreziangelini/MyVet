@@ -1,6 +1,7 @@
 package it.ispwproject.myvet.demo;
 
 import it.ispwproject.myvet.enumerator.DocumentType;
+import it.ispwproject.myvet.enumerator.Gender;
 import it.ispwproject.myvet.model.*;
 
 import java.time.LocalDate;
@@ -81,6 +82,9 @@ public class DemoDataStore {
                 "demo"
         );
 
+        owner1.setGender(Gender.FEMALE);
+        owner2.setGender(Gender.MALE);
+
         Veterinarian veterinarian1 = new Veterinarian(
                 3,
                 "Luca",
@@ -101,6 +105,9 @@ public class DemoDataStore {
                 "Medicina preventiva"
         );
 
+        veterinarian1.setGender(Gender.MALE);
+        veterinarian2.setGender(Gender.FEMALE);
+
         Admin admin = new Admin(
                 5,
                 "Admin",
@@ -108,6 +115,8 @@ public class DemoDataStore {
                 "admin@demo.it",
                 "demo"
         );
+
+        admin.setGender(Gender.MALE);
 
         users.add(owner1);
         users.add(owner2);
@@ -120,7 +129,7 @@ public class DemoDataStore {
         Pet milo = new Pet(
                 1,
                 "Milo",
-                "Dog",
+                "Cane",
                 "Labrador",
                 LocalDate.of(2020, 5, 12)
         );
@@ -128,8 +137,8 @@ public class DemoDataStore {
         Pet luna = new Pet(
                 2,
                 "Luna",
-                "Cat",
-                "European Shorthair",
+                "Gatto",
+                "Europeo",
                 LocalDate.of(2021, 9, 3)
         );
 
@@ -235,7 +244,7 @@ public class DemoDataStore {
                 1,
                 milo,
                 veterinarian1,
-                "Medical report",
+                "Referto medico",
                 DocumentType.MEDICAL_REPORT,
                 "demo/documents/milo-medical-report.pdf",
                 now.minusDays(10)
@@ -245,7 +254,7 @@ public class DemoDataStore {
                 2,
                 luna,
                 veterinarian2,
-                "Vaccination certificate",
+                "Certificato di vaccinazione",
                 DocumentType.VACCINATION_CERTIFICATE,
                 "demo/documents/luna-vaccination-certificate.pdf",
                 now.minusDays(5)
@@ -255,7 +264,7 @@ public class DemoDataStore {
                 3,
                 milo,
                 veterinarian1,
-                "Antibiotic prescription",
+                "Prescrizione antibiotica",
                 DocumentType.PRESCRIPTION,
                 "demo/documents/milo-prescription.pdf",
                 now.minusDays(9)

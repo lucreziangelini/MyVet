@@ -1,6 +1,7 @@
 package it.ispwproject.myvet.controller.gui;
 
 import it.ispwproject.myvet.bean.BookingRequestBean;
+import it.ispwproject.myvet.bean.BookingResponseBean;
 import it.ispwproject.myvet.bean.PetBean;
 import it.ispwproject.myvet.bean.PetOwnerBean;
 import it.ispwproject.myvet.bean.TimeSlotBean;
@@ -285,8 +286,10 @@ public class BookAppointmentGUI {
             try {
                 BookingRequestBean request = buildRequest();
 
-                bookingController.prepareBookingSummary(request);
-                showCountdownDialog(request);
+                BookingResponseBean summary =
+                        bookingController.prepareBookingSummary(request);
+
+                showCountdownDialog(request, summary);
 
             } catch (DAOException | BookingException e) {
                 view.setError("Errore: " + e.getMessage());
@@ -336,7 +339,8 @@ public class BookAppointmentGUI {
     }
 
     private void showCountdownDialog(
-            BookingRequestBean request) {
+            BookingRequestBean request,
+            BookingResponseBean summary) {
 
         DateTimeFormatter formatter =
                 DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -348,11 +352,16 @@ public class BookAppointmentGUI {
 
         confirm.setTitle("Conferma appuntamento");
         confirm.setHeaderText(
-                "⏱ Slot riservato per 5 minuti"
+                "⏱ Fascia oraria riservata per 5 minuti"
         );
 
         Label contentLabel = new Label(
-                buildSummaryText(formatter, 5, 0)
+                buildSummaryText(
+                        formatter,
+                        summary,
+                        5,
+                        0
+                )
         );
 
         confirm.getDialogPane().setContent(contentLabel);
@@ -367,6 +376,7 @@ public class BookAppointmentGUI {
                     contentLabel.setText(
                             buildSummaryText(
                                     formatter,
+                                    summary,
                                     minutes,
                                     seconds
                             )
@@ -385,7 +395,7 @@ public class BookAppointmentGUI {
 
                         Platform.runLater(() ->
                                 view.setError(
-                                        "Tempo scaduto. Lo slot è stato rilasciato."
+                                        "Tempo scaduto. La fascia oraria è stata liberata."
                                 )
                         );
                     }
@@ -416,22 +426,23 @@ public class BookAppointmentGUI {
 
     private String buildSummaryText(
             DateTimeFormatter formatter,
+            BookingResponseBean summary,
             int minutes,
             int seconds) {
 
         return "Animale:       "
-                + selectedPet.getName()
+                + summary.getPet().getName()
                 + "\n"
                 + "Veterinario:  "
-                + selectedVeterinarian.getFullName()
+                + summary.getVeterinarian().getFullName()
                 + "\n"
                 + "Data:          "
-                + selectedDate.format(formatter)
+                + summary.getTimeSlot().getDate().format(formatter)
                 + "\n"
                 + "Orario:        "
-                + selectedSlot.getStartTime()
+                + summary.getTimeSlot().getStartTime()
                 + " – "
-                + selectedSlot.getEndTime()
+                + summary.getTimeSlot().getEndTime()
                 + "\n\n"
                 + String.format(
                 "Tempo rimasto: %d:%02d",
@@ -444,7 +455,8 @@ public class BookAppointmentGUI {
             BookingRequestBean request) {
 
         try {
-            bookingController.createBooking(request);
+            BookingResponseBean response =
+                    bookingController.createBooking(request);
 
             Alert alert =
                     new Alert(Alert.AlertType.INFORMATION);
@@ -453,6 +465,12 @@ public class BookAppointmentGUI {
             alert.setHeaderText(null);
             alert.setContentText(
                     "✓ Appuntamento prenotato con successo!"
+                            + "\n\nAnimale: "
+                            + response.getPet().getName()
+                            + "\nVeterinario: "
+                            + response.getVeterinarian().getFullName()
+                            + "\nStato: "
+                            + response.getStatus()
             );
 
             alert.showAndWait();

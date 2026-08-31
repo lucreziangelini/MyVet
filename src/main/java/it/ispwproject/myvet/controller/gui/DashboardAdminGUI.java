@@ -14,14 +14,15 @@ public class DashboardAdminGUI {
     public DashboardAdminGUI(Stage stage) { this.stage = stage;}
 
     public void show() {
-        String nome = SessionManager.getInstance()
-                .getLoggedUser()
-                .getName();
+        var user = SessionManager.getInstance()
+                .getLoggedUser();
 
         view.reportBtn.setOnAction(
                 event -> new StatisticsGUI(stage).show());
 
-        stage.setScene(GUIUtils.createScene(view.buildRoot(nome, this::handleLogout)));
+        stage.setScene(GUIUtils.createScene(
+                view.buildRoot(user, this::handleLogout)
+        ));
         stage.show();
     }
 

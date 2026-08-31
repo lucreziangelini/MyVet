@@ -148,7 +148,7 @@ public class BookingController {
         }
 
         if (slot == null) {
-            throw new DAOException("Slot non trovato.");
+            throw new DAOException("Fascia oraria non trovata.");
         }
 
         validateBookingSelection(
@@ -166,8 +166,8 @@ public class BookingController {
 
         if (!reserved) {
             throw new BookingException(
-                    "Lo slot è stato appena prenotato da un altro utente. "
-                            + "Seleziona un altro slot."
+                    "La fascia oraria è stata appena prenotata da un altro utente. "
+                            + "Seleziona un'altra fascia oraria."
             );
         }
 
@@ -239,7 +239,7 @@ public class BookingController {
         }
 
         if (slot == null) {
-            throw new DAOException("Slot non trovato.");
+            throw new DAOException("Fascia oraria non trovata.");
         }
 
         validateBookingSelection(
@@ -284,7 +284,7 @@ public class BookingController {
         } catch (IllegalStateException e) {
             timeSlotDAO.releaseSlot(slot.getId());
             throw new BookingException(
-                    "Lo slot non è più disponibile.",
+                    "La fascia oraria non è più disponibile.",
                     e
             );
         }
@@ -498,7 +498,7 @@ public class BookingController {
             );
         } catch (DAOException e) {
             AppLogger.logWarning(
-                    "Cache dello slot non aggiornata dopo l'annullamento: "
+                    "Dati temporanei della fascia oraria non aggiornati dopo l'annullamento: "
                             + e.getMessage()
             );
         }
@@ -632,7 +632,7 @@ public class BookingController {
                 != veterinarian.getId()) {
 
             throw new BookingException(
-                    "Lo slot selezionato non appartiene al veterinario scelto."
+                    "La fascia oraria selezionata non appartiene al veterinario scelto."
             );
         }
 
@@ -642,7 +642,7 @@ public class BookingController {
                 || !slot.getStartTime().isBefore(slot.getEndTime())) {
 
             throw new BookingException(
-                    "Lo slot selezionato non è valido."
+                    "La fascia oraria selezionata non è valida."
             );
         }
 
@@ -652,7 +652,7 @@ public class BookingController {
                 slot.getDate())) {
 
             throw new BookingException(
-                    "La data dello slot selezionato non è valida."
+                    "La data della fascia oraria selezionata non è valida."
             );
         }
 
@@ -665,7 +665,7 @@ public class BookingController {
                 LocalDateTime.now(ZoneId.systemDefault()))) {
 
             throw new BookingException(
-                    "Non puoi prenotare uno slot passato."
+                    "Non puoi prenotare una fascia oraria passata."
             );
         }
 

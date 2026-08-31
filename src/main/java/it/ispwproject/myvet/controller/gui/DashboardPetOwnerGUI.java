@@ -90,9 +90,11 @@ public class DashboardPetOwnerGUI {
                 this::handleLogout
         );
 
-        VBox mainContent = view.buildMainContent(
-                user.getName(),
-                calendarSection
+        HBox mainContent = view.buildMainContent(
+                user,
+                calendarSection,
+                bookings,
+                () -> new BookAppointmentGUI(stage).show()
         );
 
         HBox body = new HBox(24);

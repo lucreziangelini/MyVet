@@ -92,10 +92,10 @@ public class SetAvailabilityGUI {
             Alert alert =
                     new Alert(Alert.AlertType.INFORMATION);
 
-            alert.setTitle("Slot aggiunto");
+            alert.setTitle("Fascia oraria aggiunta");
             alert.setHeaderText(null);
             alert.setContentText(
-                    "✓ Slot aggiunto con successo!"
+                    "✓ Fascia oraria aggiunta con successo!"
             );
 
             alert.showAndWait();

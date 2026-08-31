@@ -287,7 +287,7 @@ public class ActivityController {
 
         if (!(user instanceof PetOwner owner)) {
             throw new DAOException(
-                    "L'utente autenticato non è un Pet Owner."
+                    "L'utente autenticato non è un proprietario."
             );
         }
 
