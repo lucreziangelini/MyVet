@@ -384,8 +384,9 @@ public class DashboardVeterinarianGUIView
                 new VBox(14);
 
         section.setAlignment(Pos.TOP_CENTER);
-        section.setPrefWidth(320);
-        section.setMinWidth(320);
+        section.setPrefWidth(340);
+        section.setMinWidth(300);
+        section.setMaxWidth(380);
         section.setPadding(new Insets(0));
 
         Region spacer =

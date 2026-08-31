@@ -75,6 +75,10 @@ public class Booking extends Observable {
         notifyObservers();
     }
 
+    public void publishStatusChange() {
+        notifyObservers();
+    }
+
 
     public boolean belongsTo(PetOwner owner) {
         return petOwner != null

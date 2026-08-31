@@ -10,6 +10,7 @@ import it.ispwproject.myvet.view.gui.DashboardVeterinarianGUIView;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -98,9 +99,11 @@ public class DashboardVeterinarianGUI {
         HBox body = new HBox(20);
         body.getStyleClass().add("myvet-background");
         body.setPadding(new Insets(20, 24, 20, 24));
-        body.setAlignment(Pos.CENTER);
+        body.setAlignment(Pos.TOP_CENTER);
 
         HBox.setHgrow(calendarSection, Priority.ALWAYS);
+        calendarSection.setMaxWidth(Double.MAX_VALUE);
+        rightSection.setMaxWidth(380);
 
         body.getChildren().addAll(
                 calendarSection,
@@ -135,11 +138,17 @@ public class DashboardVeterinarianGUI {
         MainGUI.showLogin();
     }
 
-    private void handleSaveEmail(String newEmail) {
+    private boolean handleSaveEmail(String newEmail) {
         try {
             userController.updateEmail(newEmail);
+            return true;
         } catch (DAOException ex) {
-            // L'errore viene mostrato dalla view.
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Email non aggiornata");
+            alert.setHeaderText(null);
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();
+            return false;
         }
     }
 }

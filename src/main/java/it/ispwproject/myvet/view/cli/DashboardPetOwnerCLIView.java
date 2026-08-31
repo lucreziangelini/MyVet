@@ -29,16 +29,21 @@ public class DashboardPetOwnerCLIView {
 
         CLIRenderer.voceMenu(
                 4,
-                "Attività di cura"
+                "I miei animali"
         );
 
         CLIRenderer.voceMenu(
                 5,
-                "Documenti medici"
+                "Attività di cura"
         );
 
         CLIRenderer.voceMenu(
                 6,
+                "Documenti medici"
+        );
+
+        CLIRenderer.voceMenu(
+                7,
                 "Profilo"
         );
 

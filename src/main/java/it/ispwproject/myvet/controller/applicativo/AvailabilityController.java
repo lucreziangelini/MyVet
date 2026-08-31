@@ -9,10 +9,12 @@ import it.ispwproject.myvet.exception.AvailabilityException;
 import it.ispwproject.myvet.exception.DAOException;
 import it.ispwproject.myvet.model.Booking;
 import it.ispwproject.myvet.model.TimeSlot;
+import it.ispwproject.myvet.model.User;
 import it.ispwproject.myvet.model.Veterinarian;
 import it.ispwproject.myvet.pattern.singleton.SessionManager;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,10 +36,29 @@ public class AvailabilityController {
     public void addSlot(TimeSlotBean slotBean)
             throws DAOException, AvailabilityException {
 
+        if (slotBean == null
+                || slotBean.getDate() == null
+                || slotBean.getStartTime() == null
+                || slotBean.getEndTime() == null) {
+            throw new AvailabilityException(
+                    "Dati dello slot incompleti."
+            );
+        }
+
+        LocalDate today = LocalDate.now(ZoneId.systemDefault());
+        LocalTime now = LocalTime.now(ZoneId.systemDefault());
+
         if (slotBean.getDate().isBefore(
-                LocalDate.now(ZoneId.systemDefault()))) {
+                today)) {
             throw new AvailabilityException(
                     "Non puoi aggiungere slot nel passato."
+            );
+        }
+
+        if (slotBean.getDate().isEqual(today)
+                && !slotBean.getStartTime().isAfter(now)) {
+            throw new AvailabilityException(
+                    "L'ora di inizio deve essere nel futuro."
             );
         }
 
@@ -60,8 +81,8 @@ public class AvailabilityController {
         );
 
         for (TimeSlot slot :
-                timeSlotDAO.getAvailableByVeterinarian(
-                        veterinarian)) {
+                timeSlotDAO.getAllByVeterinarian(
+                        veterinarian.getId())) {
 
             if (newSlot.overlaps(slot)) {
                 throw new AvailabilityException(
@@ -191,11 +212,26 @@ public class AvailabilityController {
     private Veterinarian getLoggedVeterinarian()
             throws DAOException {
 
-        String email = SessionManager
+        User loggedUser = SessionManager
                 .getInstance()
-                .getLoggedUser()
-                .getEmail();
+                .getLoggedUser();
 
-        return (Veterinarian) userDAO.findByEmail(email);
+        if (loggedUser == null) {
+            throw new DAOException(
+                    "Nessun utente autenticato."
+            );
+        }
+
+        User persistedUser = userDAO.findByEmail(
+                loggedUser.getEmail()
+        );
+
+        if (!(persistedUser instanceof Veterinarian veterinarian)) {
+            throw new DAOException(
+                    "L'utente autenticato non è un veterinario."
+            );
+        }
+
+        return veterinarian;
     }
 }

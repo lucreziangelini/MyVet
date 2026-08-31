@@ -47,6 +47,16 @@ public class MedicalDocumentController {
             );
         }
 
+        if (bean.getTitle() == null
+                || bean.getTitle().isBlank()
+                || bean.getType() == null
+                || bean.getStorageReference() == null
+                || bean.getStorageReference().isBlank()) {
+            throw new DAOException(
+                    "Titolo, tipo e riferimento del documento sono obbligatori."
+            );
+        }
+
         Pet pet = petDAO.findById(
                 bean.getPet().getId()
         );

@@ -26,6 +26,7 @@ public class DemoDataStore {
     private final List<TimeSlot> timeSlots = new ArrayList<>();
     private final List<Booking> bookings = new ArrayList<>();
     private final List<CareActivity> careActivities = new ArrayList<>();
+    private final List<Progress> progresses = new ArrayList<>();
     private final List<MedicalDocument> medicalDocuments =
             new ArrayList<>();
 
@@ -34,6 +35,7 @@ public class DemoDataStore {
     private int nextSlotId = 5;
     private int nextBookingId = 3;
     private int nextActivityId = 3;
+    private int nextProgressId = 1;
     private int nextMedicalDocumentId = 4;
 
     private DemoDataStore() {
@@ -207,8 +209,7 @@ public class DemoDataStore {
         CareActivity activity1 = new CareActivity(
                 veterinarian1,
                 milo,
-                "Administer medication",
-                "Give one tablet after the evening meal for five days."
+                "Somministrare una compressa dopo il pasto serale per cinque giorni."
         );
 
         activity1.setId(1);
@@ -219,8 +220,7 @@ public class DemoDataStore {
         CareActivity activity2 = new CareActivity(
                 veterinarian2,
                 luna,
-                "Monitor appetite",
-                "Check whether Luna completes each daily meal."
+                "Controllare ogni giorno se Luna completa tutti i pasti."
         );
 
         activity2.setId(2);
@@ -282,6 +282,10 @@ public class DemoDataStore {
         return careActivities;
     }
 
+    public List<Progress> getProgresses() {
+        return progresses;
+    }
+
     public List<MedicalDocument> getMedicalDocuments() {
         return medicalDocuments;
     }
@@ -304,6 +308,10 @@ public class DemoDataStore {
 
     public int nextActivityId() {
         return nextActivityId++;
+    }
+
+    public int nextProgressId() {
+        return nextProgressId++;
     }
 
     public int nextMedicalDocumentId() {

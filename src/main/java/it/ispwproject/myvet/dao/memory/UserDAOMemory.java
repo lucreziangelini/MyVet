@@ -30,6 +30,16 @@ public class UserDAOMemory implements UserDAO {
             int id,
             String newEmail) throws DAOException {
 
+        boolean alreadyUsed = store.getUsers().stream()
+                .anyMatch(user -> user.getId() != id
+                        && user.getEmail().equalsIgnoreCase(newEmail));
+
+        if (alreadyUsed) {
+            throw new DAOException(
+                    "Email già utilizzata da un altro account."
+            );
+        }
+
         store.getUsers().stream()
                 .filter(user -> user.getId() == id)
                 .findFirst()

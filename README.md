@@ -3,14 +3,14 @@
 Developed for the Software Engineering and Web Design course, University of Rome Tor Vergata.
 
 <p align="center">
-  <img src="src/main/resources/images/logo.png" width="300" style="background-color: white; padding: 10px; border-radius: 10px;"/>
+  <img src="src/main/resources/images/myvet_logo.png" width="300" style="background-color: white; padding: 10px; border-radius: 10px;"/>
 </p>
 
 ## Description
 
-MyVet is a Java-based veterinary platform that connects Pet Owners and Veterinarians. It enables Pet Owners to select one of their registered pets, choose a preferred date, view the Veterinarians available on that date and book an available time slot. Favourite Veterinarians are highlighted during the booking process. Veterinarians can manage their availability, assign care activities, monitor pet progress and upload medical documents. An Administrator role provides access to platform usage statistics and reports. The application supports both a graphical interface developed with JavaFX and a command-line interface, with email notifications for booking confirmations, cancellations and new care activities.
+MyVet is a Java-based veterinary platform that connects Pet Owners and Veterinarians. It enables Pet Owners to register and manage their pets, choose a preferred date, view the Veterinarians available on that date and book an available time slot. Favourite Veterinarians are highlighted during the booking process. Veterinarians can manage their availability, assign care activities, monitor pet progress and upload medical documents. An Administrator role provides access to platform usage statistics and reports. The application supports both a graphical interface developed with JavaFX and a command-line interface, with email notifications for booking confirmations, cancellations and new care activities.
 
-- **Pet Owners** can book and cancel appointments, manage care activities and access medical documents
+- **Pet Owners** can register and update their pets, book and cancel appointments, manage care activities and access medical documents
 - **Veterinarians** can manage their availability, monitor pets and upload medical documents
 - **Administrators** can view reports and statistics on platform usage
 
@@ -41,7 +41,7 @@ MyVet is a Java-based veterinary platform that connects Pet Owners and Veterinar
 The system supports three persistence modes:
 
 - **DATABASE** — MySQL persistence
-- **FILE** — JSON persistence for bookings and time slots
+- **FILE** — JSON persistence for bookings and time slots; the remaining data uses MySQL
 - **MEMORY** — in-memory demo version
 
 ## Getting started
@@ -50,14 +50,14 @@ At startup, the application asks the user to select the persistence mode:
 
 - `Demo` → simulated in-memory data
 - `Database` → MySQL persistence
-- `File` → JSON persistence for bookings and time slots
+- `File` → JSON persistence for bookings and time slots; MySQL is still required for users, pets, activities and medical documents
 
 Then, the interface must be selected:
 
 - `CLI` → text-based interface
 - `GUI` → graphical JavaFX interface
 
-To use database mode, execute:
+To use Database or File mode, execute:
 
 ```text
 database/MyVet_db.sql

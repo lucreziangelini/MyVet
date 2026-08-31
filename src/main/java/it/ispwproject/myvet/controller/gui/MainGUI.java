@@ -36,6 +36,10 @@ public class MainGUI extends Application {
         new DashboardPetOwnerGUI(primaryStage).show();
     }
 
+    public static void showManagePets() {
+        new ManagePetsGUI(primaryStage).show();
+    }
+
     public static void showDashboardVeterinarian() {
         new DashboardVeterinarianGUI(primaryStage).show();
     }

@@ -187,7 +187,7 @@ public class BookAppointmentCLI extends AbstractCLIState {
                     "Confermare? "
                             + "(hai 5 minuti per decidere)")) {
 
-                bookingController.releaseTimeSlot(
+                bookingController.releaseSlot(
                         slot.getId()
                 );
 
@@ -228,7 +228,7 @@ public class BookAppointmentCLI extends AbstractCLIState {
 
             if (slot != null) {
                 try {
-                    bookingController.releaseTimeSlot(
+                    bookingController.releaseSlot(
                             slot.getId()
                     );
                 } catch (DAOException ignored) {

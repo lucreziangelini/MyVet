@@ -24,6 +24,19 @@ public class LoginController {
     public LoginResult login(String email, String password)
             throws LoginException {
 
+        if (email == null || email.isBlank()
+                || password == null || password.isBlank()) {
+            throw new LoginException(
+                    "Inserisci sia email che password."
+            );
+        }
+
+        if (SessionManager.getInstance().isLoggedIn()) {
+            throw new LoginException(
+                    "È già presente una sessione autenticata."
+            );
+        }
+
         String hashedPassword =
                 PasswordUtils.hash(password);
 

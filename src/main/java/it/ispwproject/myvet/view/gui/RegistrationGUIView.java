@@ -22,10 +22,10 @@ import javafx.scene.layout.VBox;
 
 public class RegistrationGUIView {
 
-    private static final double FORM_WIDTH = 900;
+    private static final double FORM_WIDTH = 760;
 
     private static final double VETERINARIAN_SECTION_WIDTH =
-            820;
+            720;
 
     // Campi esposti al controller
     public final TextField nameField =
@@ -50,7 +50,7 @@ public class RegistrationGUIView {
             new TextField();
 
     public final RadioButton petOwnerRadio =
-            new RadioButton("Proprietario di animale");
+            new RadioButton("Proprietario di un animale");
 
     public final RadioButton veterinarianRadio =
             new RadioButton("Veterinario");
@@ -170,7 +170,7 @@ public class RegistrationGUIView {
         VBox root = new VBox(14);
 
         root.setPadding(
-                new Insets(18, 60, 24, 60)
+                new Insets(18, 40, 28, 40)
         );
 
         root.setAlignment(Pos.TOP_CENTER);
@@ -226,11 +226,19 @@ public class RegistrationGUIView {
         );
 
         Label title =
-                new Label("Registrazione MyVet");
+                new Label("Crea il tuo account");
 
         title.getStyleClass().add(
-                "title-label"
+                "auth-title"
         );
+
+        Label subtitle = new Label(
+                "Registrati come proprietario di un animale "
+                        + "o come veterinario."
+        );
+        subtitle.getStyleClass().add("auth-subtitle");
+        subtitle.setWrapText(true);
+        subtitle.setMaxWidth(680);
 
         ImageView logoView =
                 buildLogo();
@@ -238,14 +246,27 @@ public class RegistrationGUIView {
         GridPane form =
                 buildForm();
 
-        root.getChildren().addAll(
-                header,
+        VBox formCard = new VBox(
+                12,
                 title,
-                logoView,
+                subtitle,
                 form,
                 veterinarianSection,
                 errorLabel,
                 registerBtn
+        );
+
+        formCard.setAlignment(Pos.TOP_CENTER);
+        formCard.setPadding(
+                new Insets(24, 28, 24, 28)
+        );
+        formCard.setMaxWidth(820);
+        formCard.getStyleClass().add("auth-card");
+
+        root.getChildren().addAll(
+                header,
+                logoView,
+                formCard
         );
 
         scrollPane.setContent(root);
@@ -255,30 +276,21 @@ public class RegistrationGUIView {
 
     // Carica il logo MyVet se la risorsa è disponibile
     private ImageView buildLogo() {
-        ImageView logoView =
-                new ImageView();
+        ImageView logoView = new ImageView();
 
-        var logoStream =
-                getClass().getResourceAsStream(
-                        "/images/logo.png"
-                );
+        var logoStream = getClass().getResourceAsStream(
+                "/images/myvet_logo.png"
+        );
 
         if (logoStream != null) {
             logoView.setImage(
-                    new Image(
-                            logoStream,
-                            80,
-                            80,
-                            true,
-                            true
-                    )
+                    new Image(logoStream, 90, 90, true, true)
             );
+            logoView.setFitHeight(68);
+            logoView.setFitWidth(68);
+            logoView.setPreserveRatio(true);
+            logoView.setSmooth(true);
         }
-
-        logoView.setFitHeight(58);
-        logoView.setFitWidth(58);
-        logoView.setPreserveRatio(true);
-        logoView.setSmooth(true);
 
         return logoView;
     }
@@ -290,7 +302,7 @@ public class RegistrationGUIView {
     private GridPane buildForm() {
         GridPane grid = new GridPane();
 
-        grid.setHgap(34);
+        grid.setHgap(16);
         grid.setVgap(8);
         grid.setPrefWidth(FORM_WIDTH);
         grid.setMaxWidth(FORM_WIDTH);
@@ -357,17 +369,17 @@ public class RegistrationGUIView {
         ColumnConstraints firstColumn =
                 new ColumnConstraints();
 
-        firstColumn.setPrefWidth(270);
+        firstColumn.setPrefWidth(235);
 
         ColumnConstraints secondColumn =
                 new ColumnConstraints();
 
-        secondColumn.setPrefWidth(180);
+        secondColumn.setPrefWidth(210);
 
         ColumnConstraints thirdColumn =
                 new ColumnConstraints();
 
-        thirdColumn.setPrefWidth(320);
+        thirdColumn.setPrefWidth(260);
 
         grid.getColumnConstraints().addAll(
                 firstColumn,
@@ -383,43 +395,43 @@ public class RegistrationGUIView {
         configureTextField(
                 nameField,
                 "Inserisci nome",
-                270
+                235
         );
 
         configureTextField(
                 surnameField,
                 "Inserisci cognome",
-                270
+                235
         );
 
         configureTextField(
                 emailField,
                 "Inserisci email",
-                270
+                235
         );
 
         configureTextField(
                 passwordField,
                 "Inserisci password",
-                320
+                260
         );
 
         configureTextField(
                 confirmPasswordField,
                 "Ripeti password",
-                320
+                260
         );
 
         configureTextField(
                 visiblePasswordField,
                 "Inserisci password",
-                320
+                260
         );
 
         configureTextField(
                 visibleConfirmPasswordField,
                 "Ripeti password",
-                320
+                260
         );
     }
 
@@ -458,17 +470,47 @@ public class RegistrationGUIView {
 
         veterinarianRadio.setToggleGroup(roleGroup);
 
+        petOwnerRadio.getStyleClass().add("role-radio");
+        veterinarianRadio.getStyleClass().add("role-radio");
+
         VBox roleBox = new VBox(
-                8,
-                petOwnerRadio,
-                veterinarianRadio
+                10,
+                buildRoleOption(
+                        petOwnerRadio,
+                        "Prenota visite e gestisci animali, "
+                                + "attività e documenti."
+                ),
+                buildRoleOption(
+                        veterinarianRadio,
+                        "Gestisci disponibilità, appuntamenti "
+                                + "e percorsi di cura."
+                )
         );
 
         roleBox.setAlignment(
                 Pos.CENTER_LEFT
         );
 
+        roleBox.setMaxWidth(Double.MAX_VALUE);
+
         return roleBox;
+    }
+
+    // Costruisce una scelta di ruolo leggibile con una breve descrizione
+    private VBox buildRoleOption(
+            RadioButton radioButton,
+            String descriptionText) {
+
+        Label description = new Label(descriptionText);
+        description.setWrapText(true);
+        description.getStyleClass().add("role-description");
+
+        VBox option = new VBox(3, radioButton, description);
+        option.setMaxWidth(Double.MAX_VALUE);
+        option.setPadding(new Insets(10, 12, 10, 12));
+        option.getStyleClass().add("registration-role-option");
+
+        return option;
     }
 
     // Costruisce la sezione visibile solamente al veterinario
@@ -486,13 +528,25 @@ public class RegistrationGUIView {
         );
 
         section.setPadding(
-                new Insets(12, 0, 0, 0)
+                new Insets(16)
+        );
+
+        section.getStyleClass().add(
+                "registration-veterinarian-section"
+        );
+
+        Label sectionTitle = new Label(
+                "Informazioni professionali"
+        );
+        sectionTitle.getStyleClass().add(
+                "veterinarian-section-title"
         );
 
         section.getChildren().addAll(
+                sectionTitle,
                 fieldLabel("Specializzazione *"),
                 specializationField,
-                fieldLabel("Bio"),
+                fieldLabel("Bio *"),
                 bioField
         );
 
@@ -549,6 +603,8 @@ public class RegistrationGUIView {
 
         label.setWrapText(true);
         label.setMaxWidth(300);
+        label.setMinHeight(82);
+        label.setMaxHeight(Double.MAX_VALUE);
 
         return label;
     }

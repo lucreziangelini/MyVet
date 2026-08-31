@@ -87,7 +87,6 @@ public final class NotificationService {
     private static final String KEY_DATE = "date";
     private static final String KEY_START_TIME = "startTime";
     private static final String KEY_END_TIME = "endTime";
-    private static final String KEY_ACTIVITY_TITLE = "activityTitle";
     private static final String KEY_ACTIVITY_DESCRIPTION =
             "activityDescription";
 
@@ -151,9 +150,15 @@ public final class NotificationService {
             String toEmail,
             ActivityBean activity) throws NotificationException {
 
-        if (activity == null) {
+        validateRecipient(toEmail);
+
+        if (activity == null
+                || activity.getPet() == null
+                || activity.getVeterinarian() == null
+                || activity.getDescription() == null
+                || activity.getDescription().isBlank()) {
             throw new NotificationException(
-                    "L'attività di cura non può essere nulla"
+                    "Dati della notifica dell'attività incompleti"
             );
         }
 
@@ -171,11 +176,6 @@ public final class NotificationService {
         );
 
         personalization.addDynamicTemplateData(
-                KEY_ACTIVITY_TITLE,
-                activity.getTitle()
-        );
-
-        personalization.addDynamicTemplateData(
                 KEY_ACTIVITY_DESCRIPTION,
                 activity.getDescription()
         );
@@ -190,9 +190,18 @@ public final class NotificationService {
             String toEmail,
             BookingResponseBean booking) throws NotificationException {
 
-        if (booking == null) {
+        validateRecipient(toEmail);
+
+        if (booking == null
+                || booking.getPetOwner() == null
+                || booking.getVeterinarian() == null
+                || booking.getPet() == null
+                || booking.getTimeSlot() == null
+                || booking.getTimeSlot().getDate() == null
+                || booking.getTimeSlot().getStartTime() == null
+                || booking.getTimeSlot().getEndTime() == null) {
             throw new NotificationException(
-                    "La prenotazione non può essere nulla"
+                    "Dati della notifica della prenotazione incompleti"
             );
         }
 
@@ -237,19 +246,19 @@ public final class NotificationService {
             Personalization personalization)
             throws NotificationException {
 
-        if (API_KEY == null || API_KEY.isBlank()) {
+        if (!isConfigured(API_KEY)) {
             throw new NotificationException(
                     "Chiave API SendGrid non configurata"
             );
         }
 
-        if (FROM_EMAIL == null || FROM_EMAIL.isBlank()) {
+        if (!isConfigured(FROM_EMAIL)) {
             throw new NotificationException(
                     "Email mittente SendGrid non configurata"
             );
         }
 
-        if (templateId == null || templateId.isBlank()) {
+        if (!isConfigured(templateId)) {
             throw new NotificationException(
                     "Template SendGrid non configurato"
             );
@@ -286,5 +295,21 @@ public final class NotificationService {
                     e
             );
         }
+    }
+
+    private static void validateRecipient(String toEmail)
+            throws NotificationException {
+
+        if (toEmail == null || toEmail.isBlank()) {
+            throw new NotificationException(
+                    "Destinatario della notifica non configurato"
+            );
+        }
+    }
+
+    private static boolean isConfigured(String value) {
+        return value != null
+                && !value.isBlank()
+                && !value.startsWith("your_");
     }
 }

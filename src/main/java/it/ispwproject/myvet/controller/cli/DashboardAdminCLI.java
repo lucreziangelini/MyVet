@@ -47,10 +47,7 @@ public class DashboardAdminCLI
                             "Logout effettuato."
                     );
 
-                    goNext(
-                            context,
-                            new InitialCLI()
-                    );
+                    context.reset(new InitialCLI());
 
                 } catch (java.sql.SQLException e) {
 

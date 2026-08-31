@@ -7,9 +7,13 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -345,9 +349,103 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
     }
 
     // ────────────────────────────────────────────────────────────────────────
-    // Sezione destra del Pet Owner
+    // Sidebar del Pet Owner
     // ────────────────────────────────────────────────────────────────────────
 
+    public VBox buildSidebar(
+            VBox actionButtons,
+            VBox accordion,
+            Runnable onLogout) {
+
+        VBox sidebar = new VBox(13);
+        sidebar.setPrefWidth(235);
+        sidebar.setMinWidth(235);
+        sidebar.setMaxWidth(235);
+        sidebar.setPadding(new Insets(18));
+        sidebar.getStyleClass().add("dashboard-sidebar");
+
+        Label dashboardLabel = new Label("Dashboard");
+        dashboardLabel.getStyleClass().add("sidebar-section-title");
+
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+
+        Button logoutButton = new Button("↪  Log out");
+        logoutButton.setMaxWidth(Double.MAX_VALUE);
+        logoutButton.getStyleClass().add("sidebar-logout");
+        logoutButton.setOnAction(event -> onLogout.run());
+
+        HBox brand = new HBox(7);
+        brand.setAlignment(Pos.CENTER_LEFT);
+        brand.getStyleClass().add("myvet-brand");
+
+        var logoStream = getClass().getResourceAsStream(
+                "/images/myvet_logo.png"
+        );
+
+        if (logoStream != null) {
+            ImageView logo = new ImageView(
+                    new Image(logoStream, 54, 54, true, true)
+            );
+            logo.setFitHeight(46);
+            logo.setFitWidth(46);
+            logo.setPreserveRatio(true);
+            logo.setSmooth(true);
+            brand.getChildren().add(logo);
+        }
+
+        Label brandName = new Label("MyVet");
+        brandName.getStyleClass().add("myvet-brand-name");
+        brand.getChildren().add(brandName);
+
+        sidebar.getChildren().addAll(
+                brand,
+                dashboardLabel,
+                actionButtons,
+                accordion,
+                spacer,
+                logoutButton
+        );
+
+        return sidebar;
+    }
+
+    // Costruisce l'area principale con benvenuto e calendario
+    public VBox buildMainContent(
+            String ownerName,
+            VBox calendarSection) {
+
+        VBox content = new VBox(16);
+        content.setAlignment(Pos.TOP_LEFT);
+        HBox.setHgrow(content, Priority.ALWAYS);
+
+        VBox welcomeCard = new VBox(4);
+        welcomeCard.setPadding(new Insets(18, 22, 18, 22));
+        welcomeCard.setMaxWidth(Double.MAX_VALUE);
+        welcomeCard.getStyleClass().add("welcome-card");
+
+        String displayedName = ownerName == null || ownerName.isBlank()
+                ? "Pet Owner"
+                : ownerName;
+
+        Label title = new Label("Bentornato, " + displayedName + "!");
+        title.getStyleClass().add("dashboard-welcome-title");
+
+        Label subtitle = new Label(
+                "Qui trovi i tuoi prossimi appuntamenti e tutti i servizi "
+                        + "dedicati ai tuoi animali."
+        );
+        subtitle.getStyleClass().add("info-text");
+        subtitle.setWrapText(true);
+
+        welcomeCard.getChildren().addAll(title, subtitle);
+        VBox.setVgrow(calendarSection, Priority.ALWAYS);
+        content.getChildren().addAll(welcomeCard, calendarSection);
+
+        return content;
+    }
+
+    // Sezione destra mantenuta per le altre viste che la riutilizzano
     public VBox buildRightSection(
             VBox actionButtons,
             VBox accordion) {
@@ -388,10 +486,11 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
     public VBox buildActionButtons(
             EventHandler<ActionEvent> onBook,
             EventHandler<ActionEvent> onViewAppointments,
+            EventHandler<ActionEvent> onManagePets,
             EventHandler<ActionEvent> onActivities,
             EventHandler<ActionEvent> onMedicalDocuments) {
 
-        VBox buttons = new VBox(14);
+        VBox buttons = new VBox(9);
         buttons.setAlignment(Pos.CENTER);
 
         buttons.getChildren().addAll(
@@ -404,6 +503,11 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
                         "calendar.png",
                         "I miei appuntamenti",
                         onViewAppointments
+                ),
+                buildActionTile(
+                        "pet-care.png",
+                        "I miei animali",
+                        onManagePets
                 ),
                 buildActionTile(
                         "task-checklist.png",

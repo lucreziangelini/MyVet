@@ -153,6 +153,34 @@ public class TimeSlotDAOFile implements TimeSlotDAO {
     }
 
     @Override
+    public List<Integer> getAvailableVeterinarianIds(
+            LocalDate date) throws DAOException {
+
+        LocalDate today =
+                LocalDate.now(
+                        ZoneId.systemDefault()
+                );
+
+        LocalTime now =
+                LocalTime.now(
+                        ZoneId.systemDefault()
+                );
+
+        return cache.stream()
+                .filter(slot -> slot.getVeterinarian() != null)
+                .filter(slot -> slot.getDate().equals(date))
+                .filter(TimeSlot::isAvailable)
+                .filter(slot ->
+                        slot.getDate().isAfter(today)
+                                || (slot.getDate().isEqual(today)
+                                && slot.getStartTime().isAfter(now))
+                )
+                .map(slot -> slot.getVeterinarian().getId())
+                .distinct()
+                .toList();
+    }
+
+    @Override
     public List<TimeSlot> getAllByVeterinarian(
             int veterinarianId) throws DAOException {
 

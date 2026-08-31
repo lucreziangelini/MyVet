@@ -9,6 +9,7 @@ import it.ispwproject.myvet.model.*;
 import it.ispwproject.myvet.pattern.observer.BookingCancellationObserver;
 import it.ispwproject.myvet.pattern.observer.BookingConfirmationObserver;
 import it.ispwproject.myvet.pattern.singleton.SessionManager;
+import it.ispwproject.myvet.util.logger.AppLogger;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -55,11 +56,22 @@ public class BookingController {
     public List<VeterinarianBean> getAvailableVeterinarians(LocalDate date)
             throws DAOException {
 
+        if (date == null) {
+            throw new DAOException("Data non valida.");
+        }
+
         PetOwner owner = getLoggedPetOwner();
         List<VeterinarianBean> result = new ArrayList<>();
 
-        for (Veterinarian veterinarian :
-                veterinarianDAO.getAvailableByDate(date)) {
+        for (int veterinarianId :
+                timeSlotDAO.getAvailableVeterinarianIds(date)) {
+
+            Veterinarian veterinarian =
+                    veterinarianDAO.findById(veterinarianId);
+
+            if (veterinarian == null) {
+                continue;
+            }
 
             boolean favourite =
                     petOwnerDAO.isFavouriteVeterinarian(
@@ -267,12 +279,31 @@ public class BookingController {
                 slot
         );
 
+        try {
+            booking.confirm();
+        } catch (IllegalStateException e) {
+            timeSlotDAO.releaseSlot(slot.getId());
+            throw new BookingException(
+                    "Lo slot non è più disponibile.",
+                    e
+            );
+        }
+
+        try {
+            bookingDAO.save(booking);
+        } catch (DAOException e) {
+            try {
+                timeSlotDAO.releaseSlot(slot.getId());
+            } catch (DAOException releaseException) {
+                e.addSuppressed(releaseException);
+            }
+            throw e;
+        }
+
         booking.attach(
                 new BookingConfirmationObserver(booking)
         );
-
-        booking.confirm();
-        bookingDAO.save(booking);
+        booking.publishStatusChange();
 
         return new BookingResponseBean(
                 booking.getId(),
@@ -456,14 +487,26 @@ public class BookingController {
             );
         }
 
-        booking.attach(
-                new BookingCancellationObserver(booking)
-        );
-
         bookingDAO.cancel(
                 bookingId,
                 petOwnerId
         );
+
+        try {
+            timeSlotDAO.releaseSlot(
+                    booking.getTimeSlot().getId()
+            );
+        } catch (DAOException e) {
+            AppLogger.logWarning(
+                    "Cache dello slot non aggiornata dopo l'annullamento: "
+                            + e.getMessage()
+            );
+        }
+
+        booking.attach(
+                new BookingCancellationObserver(booking)
+        );
+        booking.publishStatusChange();
     }
 
     public void addVeterinarianToFavourites(

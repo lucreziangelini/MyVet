@@ -18,6 +18,10 @@ public interface TimeSlotDAO {
             LocalDate date
     ) throws DAOException;
 
+    List<Integer> getAvailableVeterinarianIds(
+            LocalDate date
+    ) throws DAOException;
+
     List<TimeSlot> getAllByVeterinarian(
             int veterinarianId
     ) throws DAOException;

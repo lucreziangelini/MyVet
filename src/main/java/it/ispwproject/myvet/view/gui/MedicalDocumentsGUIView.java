@@ -10,14 +10,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 public class MedicalDocumentsGUIView extends PageGUIView {
 
@@ -30,8 +34,18 @@ public class MedicalDocumentsGUIView extends PageGUIView {
     public final Label errorLabel =
             buildErrorLabel();
 
+    public final TextField searchField =
+            new TextField();
+
     private final VBox documentsContainer =
             new VBox(14);
+
+    private final Label emptyStateLabel =
+            new Label();
+
+    private PetBean selectedPet;
+    private List<MedicalDocumentBean> currentDocuments =
+            List.of();
 
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -44,7 +58,25 @@ public class MedicalDocumentsGUIView extends PageGUIView {
         uploadBtn.getStyleClass().add("button");
 
         documentsContainer.setAlignment(Pos.TOP_CENTER);
-        documentsContainer.setMaxWidth(680);
+        documentsContainer.setMaxWidth(760);
+        documentsContainer.setPadding(new Insets(22));
+        documentsContainer.getStyleClass().add("documents-panel");
+        documentsContainer.setVisible(false);
+        documentsContainer.setManaged(false);
+
+        emptyStateLabel.getStyleClass().add("empty-state-card");
+        emptyStateLabel.setWrapText(true);
+        emptyStateLabel.setMaxWidth(760);
+        emptyStateLabel.setVisible(false);
+        emptyStateLabel.setManaged(false);
+
+        searchField.setPromptText("Cerca nei documenti...");
+        searchField.setMaxWidth(720);
+        searchField.getStyleClass().add("document-search");
+        searchField.textProperty().addListener(
+                (observable, oldValue, newValue) ->
+                        renderDocuments(newValue)
+        );
     }
 
     public BorderPane buildRoot(Runnable onBack) {
@@ -76,6 +108,8 @@ public class MedicalDocumentsGUIView extends PageGUIView {
                 uploadBtn
         );
         actions.setAlignment(Pos.CENTER);
+        actions.setMaxWidth(760);
+        HBox.setHgrow(petCombo, Priority.ALWAYS);
 
         documentsContainer.getChildren().setAll(
                 new Label(
@@ -87,9 +121,14 @@ public class MedicalDocumentsGUIView extends PageGUIView {
                 title,
                 instruction,
                 actions,
+                searchField,
+                emptyStateLabel,
                 errorLabel,
                 documentsContainer
         );
+
+        searchField.setVisible(false);
+        searchField.setManaged(false);
 
         root.setCenter(
                 transparentScroll(content)
@@ -101,6 +140,7 @@ public class MedicalDocumentsGUIView extends PageGUIView {
     private void configurePetCombo() {
         petCombo.setPromptText("Seleziona un animale");
         petCombo.setPrefWidth(300);
+        petCombo.setMaxWidth(Double.MAX_VALUE);
 
         petCombo.setConverter(
                 new StringConverter<>() {
@@ -135,22 +175,90 @@ public class MedicalDocumentsGUIView extends PageGUIView {
     }
 
     public void showDocuments(
-            BorderPane root,
             PetBean pet,
             List<MedicalDocumentBean> documents) {
 
+        selectedPet = pet;
+        currentDocuments = documents == null
+                ? List.of()
+                : List.copyOf(documents);
+
+        emptyStateLabel.setVisible(false);
+        emptyStateLabel.setManaged(false);
+        searchField.setVisible(true);
+        searchField.setManaged(true);
+        documentsContainer.setVisible(true);
+        documentsContainer.setManaged(true);
+
+        renderDocuments(searchField.getText());
+    }
+
+    public void setPets(
+            List<PetBean> pets,
+            boolean veterinarian) {
+
+        List<PetBean> safePets = pets == null
+                ? List.of()
+                : pets;
+
+        petCombo.getItems().setAll(safePets);
+
+        boolean hasPets = !safePets.isEmpty();
+        petCombo.setDisable(!hasPets);
+        uploadBtn.setDisable(!hasPets);
+        petCombo.setPromptText(
+                hasPets
+                        ? "Seleziona un animale"
+                        : "Nessun animale disponibile"
+        );
+
+        selectedPet = null;
+        currentDocuments = List.of();
+        searchField.clear();
+        searchField.setVisible(false);
+        searchField.setManaged(false);
+        documentsContainer.setVisible(false);
+        documentsContainer.setManaged(false);
+
+        emptyStateLabel.setText(
+                veterinarian
+                        ? "Non ci sono ancora animali associati ai tuoi appuntamenti."
+                        : "Non hai ancora registrato animali. Aggiungine uno dalla sezione I miei animali."
+        );
+        emptyStateLabel.setVisible(!hasPets);
+        emptyStateLabel.setManaged(!hasPets);
+    }
+
+    // Aggiorna l'elenco applicando l'eventuale ricerca inserita dall'utente
+    private void renderDocuments(String query) {
         documentsContainer.getChildren().clear();
 
+        if (selectedPet == null) {
+            Label emptyLabel = new Label(
+                    "Seleziona un animale per continuare."
+            );
+            emptyLabel.getStyleClass().add("info-text");
+            documentsContainer.getChildren().add(emptyLabel);
+            return;
+        }
+
         Label title = new Label(
-                "Documenti medici di " + pet.getName()
+                "Documenti di " + selectedPet.getName()
         );
         title.getStyleClass().add("section-title");
 
         documentsContainer.getChildren().add(title);
 
-        if (documents == null || documents.isEmpty()) {
+        List<MedicalDocumentBean> filteredDocuments =
+                currentDocuments.stream()
+                        .filter(document -> matchesQuery(document, query))
+                        .toList();
+
+        if (filteredDocuments.isEmpty()) {
             Label emptyLabel = new Label(
-                    "Nessun documento medico disponibile."
+                    query == null || query.isBlank()
+                            ? "Nessun documento medico disponibile."
+                            : "Nessun documento corrisponde alla ricerca."
             );
             emptyLabel.getStyleClass().add("info-text");
 
@@ -161,37 +269,85 @@ public class MedicalDocumentsGUIView extends PageGUIView {
             return;
         }
 
-        for (MedicalDocumentBean document : documents) {
+        for (MedicalDocumentBean document : filteredDocuments) {
             documentsContainer
                     .getChildren()
                     .add(buildDocumentCard(document));
         }
     }
 
+    private boolean matchesQuery(
+            MedicalDocumentBean document,
+            String query) {
+
+        if (query == null || query.isBlank()) {
+            return true;
+        }
+
+        String normalizedQuery = query
+                .trim()
+                .toLowerCase(Locale.ROOT);
+
+        String veterinarianName = document.getVeterinarian() == null
+                ? ""
+                : document.getVeterinarian().getFullName();
+
+        return containsIgnoreCase(document.getTitle(), normalizedQuery)
+                || containsIgnoreCase(
+                formatDocumentType(document.getType()),
+                normalizedQuery
+        )
+                || containsIgnoreCase(veterinarianName, normalizedQuery);
+    }
+
+    private boolean containsIgnoreCase(
+            String value,
+            String normalizedQuery) {
+
+        return value != null
+                && value.toLowerCase(Locale.ROOT)
+                .contains(normalizedQuery);
+    }
+
     private VBox buildDocumentCard(
             MedicalDocumentBean document) {
 
         VBox card = new VBox(7);
-        card.setMaxWidth(650);
-        card.setPadding(new Insets(16));
-        card.getStyleClass().add("info-card");
+        card.setMaxWidth(Double.MAX_VALUE);
+        card.setPadding(new Insets(13, 8, 13, 8));
+        card.getStyleClass().add("document-card");
 
         Label title = new Label(
-                document.getTitle()
+                "▧  " + document.getTitle()
         );
         title.getStyleClass().add("section-title");
         title.setWrapText(true);
 
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        Label uploadedAt = new Label("");
+        uploadedAt.getStyleClass().add("document-date");
+
+        if (document.getUploadedAt() != null) {
+            uploadedAt.setText(
+                    document.getUploadedAt()
+                            .format(DATE_FORMATTER)
+            );
+        }
+
+        HBox header = new HBox(12, title, spacer, uploadedAt);
+        header.setAlignment(Pos.CENTER_LEFT);
+
         Label type = new Label(
-                "Tipo: "
-                        + formatDocumentType(
+                formatDocumentType(
                         document.getType()
                 )
         );
-        type.getStyleClass().add("info-text");
+        type.getStyleClass().add("document-type-badge");
 
         card.getChildren().addAll(
-                title,
+                header,
                 type
         );
 
@@ -208,21 +364,6 @@ public class MedicalDocumentsGUIView extends PageGUIView {
                     .add("info-text");
 
             card.getChildren().add(veterinarian);
-        }
-
-        if (document.getUploadedAt() != null) {
-            Label uploadedAt = new Label(
-                    "Caricato il: "
-                            + document
-                            .getUploadedAt()
-                            .format(DATE_FORMATTER)
-            );
-
-            uploadedAt
-                    .getStyleClass()
-                    .add("info-text");
-
-            card.getChildren().add(uploadedAt);
         }
 
         if (document.getStorageReference() != null

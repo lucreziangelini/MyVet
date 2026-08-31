@@ -44,6 +44,15 @@ public class ActivityController {
     public void assignActivity(ActivityBean bean)
             throws DAOException {
 
+        if (bean == null
+                || bean.getPet() == null
+                || bean.getDescription() == null
+                || bean.getDescription().isBlank()) {
+            throw new DAOException(
+                    "Dati dell'attività incompleti."
+            );
+        }
+
         Veterinarian veterinarian =
                 getLoggedVeterinarian();
 
@@ -54,6 +63,8 @@ public class ActivityController {
         if (pet == null) {
             throw new DAOException("Animale non trovato.");
         }
+
+        validateVeterinarianAccess(veterinarian, pet);
 
         CareActivity activity = new CareActivity(
                 veterinarian,
@@ -93,6 +104,14 @@ public class ActivityController {
 
         Veterinarian veterinarian =
                 getLoggedVeterinarian();
+
+        Pet pet = petDAO.findById(petId);
+
+        if (pet == null) {
+            throw new DAOException("Animale non trovato.");
+        }
+
+        validateVeterinarianAccess(veterinarian, pet);
 
         List<ActivityBean> result = new ArrayList<>();
 
@@ -151,6 +170,15 @@ public class ActivityController {
     public void updateProgress(ProgressBean bean)
             throws DAOException {
 
+        if (bean == null
+                || bean.getPet() == null
+                || bean.getNotes() == null
+                || bean.getNotes().isBlank()) {
+            throw new DAOException(
+                    "Dati del progresso incompleti."
+            );
+        }
+
         Veterinarian veterinarian =
                 getLoggedVeterinarian();
 
@@ -161,6 +189,8 @@ public class ActivityController {
         if (pet == null) {
             throw new DAOException("Animale non trovato.");
         }
+
+        validateVeterinarianAccess(veterinarian, pet);
 
         Progress progress =
                 progressDAO.findByPetAndVeterinarian(
@@ -187,6 +217,14 @@ public class ActivityController {
         Veterinarian veterinarian =
                 getLoggedVeterinarian();
 
+        Pet pet = petDAO.findById(petId);
+
+        if (pet == null) {
+            throw new DAOException("Animale non trovato.");
+        }
+
+        validateVeterinarianAccess(veterinarian, pet);
+
         Progress progress =
                 progressDAO.findByPetAndVeterinarian(
                         veterinarian.getId(),
@@ -205,12 +243,18 @@ public class ActivityController {
     }
 
     private User getLoggedUser() throws DAOException {
-        SessionBean session = SessionManager
+        User loggedUser = SessionManager
                 .getInstance()
                 .getLoggedUser();
 
+        if (loggedUser == null) {
+            throw new DAOException(
+                    "Nessun utente autenticato."
+            );
+        }
+
         User user = userDAO.findByEmail(
-                session.getEmail()
+                loggedUser.getEmail()
         );
 
         if (user == null) {
@@ -287,5 +331,21 @@ public class ActivityController {
                 veterinarian.getSpecialization(),
                 false
         );
+    }
+
+    private void validateVeterinarianAccess(
+            Veterinarian veterinarian,
+            Pet pet) throws DAOException {
+
+        boolean associatedPet = petDAO
+                .getByVeterinarian(veterinarian.getId())
+                .stream()
+                .anyMatch(current -> current.getId() == pet.getId());
+
+        if (!associatedPet) {
+            throw new DAOException(
+                    "Il veterinario non è associato a questo animale."
+            );
+        }
     }
 }

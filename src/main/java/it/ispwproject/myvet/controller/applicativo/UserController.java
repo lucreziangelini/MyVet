@@ -3,6 +3,7 @@ package it.ispwproject.myvet.controller.applicativo;
 import it.ispwproject.myvet.dao.DAOFactory;
 import it.ispwproject.myvet.dao.UserDAO;
 import it.ispwproject.myvet.exception.DAOException;
+import it.ispwproject.myvet.model.User;
 import it.ispwproject.myvet.pattern.singleton.SessionManager;
 import it.ispwproject.myvet.util.ValidationUtils;
 
@@ -29,16 +30,19 @@ public class UserController {
             );
         }
 
-        int userId = SessionManager
-                .getInstance()
-                .getLoggedUser()
-                .getId();
+        SessionManager sessionManager =
+                SessionManager.getInstance();
 
-        userDAO.updateEmail(userId, newEmail);
+        User loggedUser = sessionManager.getLoggedUser();
 
-        SessionManager
-                .getInstance()
-                .getLoggedUser()
-                .setEmail(newEmail);
+        if (loggedUser == null) {
+            throw new DAOException(
+                    "Nessun utente autenticato."
+            );
+        }
+
+        userDAO.updateEmail(loggedUser.getId(), newEmail);
+
+        sessionManager.updateEmail(newEmail);
     }
 }

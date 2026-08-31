@@ -6,6 +6,7 @@ import it.ispwproject.myvet.bean.PetOwnerBean;
 import it.ispwproject.myvet.bean.TimeSlotBean;
 import it.ispwproject.myvet.bean.VeterinarianBean;
 import it.ispwproject.myvet.controller.applicativo.BookingController;
+import it.ispwproject.myvet.dao.DAOFactory;
 import it.ispwproject.myvet.exception.BookingException;
 import it.ispwproject.myvet.exception.DAOException;
 import it.ispwproject.myvet.model.PetOwner;
@@ -147,9 +148,16 @@ public class BookAppointmentGUI {
             view.setVeterinarianSectionEnabled(true);
 
             if (veterinarians.isEmpty()) {
+                String message = DAOFactory.MEMORY.equals(
+                        DAOFactory.getPersistence()
+                )
+                        ? "Nessun veterinario disponibile in questa data. "
+                        + "In modalità Demo prova domani o dopodomani."
+                        : "Nessun veterinario disponibile nella data selezionata.";
+
                 view.veterinarianList.getChildren().add(
                         view.buildHintLabel(
-                                "Nessun veterinario disponibile nella data selezionata"
+                                message
                         )
                 );
                 return;

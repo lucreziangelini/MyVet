@@ -4,8 +4,7 @@ import it.ispwproject.myvet.controller.cli.MainCLI;
 import it.ispwproject.myvet.controller.cli.ModeSelectorCLI;
 import it.ispwproject.myvet.controller.gui.MainGUI;
 import it.ispwproject.myvet.util.Printer;
-
-import java.util.Scanner;
+import it.ispwproject.myvet.view.cli.CLIRenderer;
 
 public class Main {
 
@@ -23,9 +22,6 @@ public class Main {
         }
 
         // ── Step 2 — selezione interfaccia ───────────────────────────
-        Scanner scanner =
-                new Scanner(System.in);
-
         String scelta = "";
 
         while (!scelta.equals("1")
@@ -46,7 +42,7 @@ public class Main {
             Printer.print("\n  Scelta: ");
 
             scelta =
-                    scanner.nextLine().trim();
+                    CLIRenderer.SCANNER.nextLine().trim();
 
             if (!scelta.equals("1")
                     && !scelta.equals("2")) {

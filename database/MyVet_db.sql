@@ -79,7 +79,7 @@ CREATE TABLE myvetdb.booking (
     status ENUM(
         'PENDING',
         'CONFIRMED',
-        'CANCELLED',
+        'CANCELLED'
     ) NOT NULL DEFAULT 'PENDING',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
@@ -342,7 +342,7 @@ GRANT SELECT
 ON myvetdb.veterinarian_detail
 TO 'myvet_pet_owner'@'localhost';
 
-GRANT SELECT
+GRANT SELECT, INSERT, UPDATE
 ON myvetdb.pet
 TO 'myvet_pet_owner'@'localhost';
 

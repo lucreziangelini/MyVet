@@ -11,6 +11,12 @@ public final class PasswordUtils {
     private PasswordUtils() {}
 
     public static String hash(String password) throws LoginException {
+        if (password == null) {
+            throw new LoginException(
+                    "La password non può essere nulla."
+            );
+        }
+
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] bytes = digest.digest(password.getBytes(StandardCharsets.UTF_8));

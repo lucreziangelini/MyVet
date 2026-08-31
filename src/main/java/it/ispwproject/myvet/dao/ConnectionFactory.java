@@ -2,7 +2,6 @@ package it.ispwproject.myvet.dao;
 
 import it.ispwproject.myvet.enumerator.Role;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -15,16 +14,22 @@ public class ConnectionFactory {
     private static Connection connection;
     private static Role currentRole;
 
-    private static final String PROPERTIES_FILE =
-            "src/main/resources/db.properties";
-
     private static final Properties properties = new Properties();
 
     private ConnectionFactory() {
     }
 
     static {
-        try (InputStream input = new FileInputStream(PROPERTIES_FILE)) {
+        try (InputStream input = ConnectionFactory.class
+                .getClassLoader()
+                .getResourceAsStream("db.properties")) {
+
+            if (input == null) {
+                throw new ExceptionInInitializerError(
+                        "Impossibile trovare db.properties nel classpath"
+                );
+            }
+
             properties.load(input);
         } catch (IOException e) {
             throw new ExceptionInInitializerError(

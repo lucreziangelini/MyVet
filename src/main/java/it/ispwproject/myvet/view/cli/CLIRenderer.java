@@ -53,7 +53,7 @@ public final class CLIRenderer {
     /**
      * Intestazione di benvenuto con ruolo evidenziato.
      * ════════════════════════════════════════════════════════════
-     *   Bentornata, Anna!                           [ Studente ]
+     *   Bentornata, Anna!                         [ Pet Owner ]
      * ════════════════════════════════════════════════════════════
      */
     public static void intestazioneBenvenuto(String nome, String ruolo) {

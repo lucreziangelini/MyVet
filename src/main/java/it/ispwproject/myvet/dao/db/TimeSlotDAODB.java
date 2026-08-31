@@ -32,6 +32,13 @@ public class TimeSlotDAODB implements TimeSlotDAO {
                     "AND (reserved_until IS NULL OR reserved_until < NOW()) " +
                     "ORDER BY start_time";
 
+    private static final String GET_AVAILABLE_VETERINARIAN_IDS =
+            "SELECT DISTINCT veterinarian_id FROM time_slot " +
+                    "WHERE date = ? AND available = TRUE " +
+                    "AND (date > CURDATE() OR " +
+                    "(date = CURDATE() AND start_time > CURTIME())) " +
+                    "AND (reserved_until IS NULL OR reserved_until < NOW())";
+
     private static final String GET_ALL_BY_VETERINARIAN =
             "SELECT id, veterinarian_id, date, start_time, end_time, available, reserved_until " +
                     "FROM time_slot " +
@@ -172,6 +179,36 @@ public class TimeSlotDAODB implements TimeSlotDAO {
         } catch (SQLException e) {
             throw new DAOException(
                     "Errore nel caricamento degli slot: "
+                            + e.getMessage(),
+                    e
+            );
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<Integer> getAvailableVeterinarianIds(
+            LocalDate date) throws DAOException {
+
+        List<Integer> result = new ArrayList<>();
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(
+                     GET_AVAILABLE_VETERINARIAN_IDS
+             )) {
+
+            ps.setDate(1, Date.valueOf(date));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    result.add(rs.getInt("veterinarian_id"));
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException(
+                    "Errore nel caricamento dei veterinari disponibili: "
                             + e.getMessage(),
                     e
             );

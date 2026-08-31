@@ -31,11 +31,12 @@ public abstract class PageGUIView {
 
         // Pulsante per tornare alla schermata precedente
         Button backButton =
-                new Button("⟪  Indietro");
+                new Button("←  Indietro");
 
         backButton.getStyleClass().add(
                 "back-button"
         );
+        backButton.setMinWidth(120);
 
         backButton.setOnAction(
                 event -> onBack.run()
@@ -78,26 +79,18 @@ public abstract class PageGUIView {
                 Priority.ALWAYS
         );
 
-        var logoStream =
-                getClass().getResourceAsStream(
-                        "/images/logo.png"
-                );
+        var logoStream = getClass().getResourceAsStream(
+                "/images/myvet_logo.png"
+        );
 
         if (logoStream != null) {
             ImageView logo = new ImageView(
-                    new Image(
-                            logoStream,
-                            60,
-                            60,
-                            true,
-                            true
-                    )
+                    new Image(logoStream, 60, 60, true, true)
             );
-
             logo.setFitHeight(56);
+            logo.setFitWidth(56);
             logo.setPreserveRatio(true);
             logo.setSmooth(true);
-
             right.getChildren().add(logo);
         }
 

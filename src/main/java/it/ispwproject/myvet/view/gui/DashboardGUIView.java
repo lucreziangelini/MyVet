@@ -14,7 +14,7 @@ import javafx.scene.layout.*;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 public abstract class DashboardGUIView {
 
@@ -36,7 +36,7 @@ public abstract class DashboardGUIView {
         navbar.setAlignment(Pos.CENTER_LEFT);
 
         Image logoImg = new Image(
-                getClass().getResourceAsStream("/images/logo.png"), 80, 80, true, true);
+                getClass().getResourceAsStream("/images/myvet_logo.png"), 80, 80, true, true);
         ImageView logoView = new ImageView(logoImg);
         logoView.setFitHeight(56); logoView.setFitWidth(56);
         logoView.setPreserveRatio(true); logoView.setSmooth(true);
@@ -47,6 +47,9 @@ public abstract class DashboardGUIView {
 
         HBox left = new HBox(10, logoView, welcome);
         left.setAlignment(Pos.CENTER_LEFT);
+        left.setMinWidth(220);
+        left.setPrefWidth(220);
+        left.setMaxWidth(220);
 
         Label ruolo = new Label(ruoloText);
         ruolo.getStyleClass().add("role-label");
@@ -60,10 +63,13 @@ public abstract class DashboardGUIView {
 
         HBox right = new HBox(logoutBtn);
         right.setAlignment(Pos.CENTER_RIGHT);
+        right.setMinWidth(220);
+        right.setPrefWidth(220);
+        right.setMaxWidth(220);
 
-        HBox.setHgrow(left,  Priority.ALWAYS);
+        HBox.setHgrow(left,  Priority.NEVER);
         HBox.setHgrow(ruolo, Priority.ALWAYS);
-        HBox.setHgrow(right, Priority.ALWAYS);
+        HBox.setHgrow(right, Priority.NEVER);
 
         navbar.getChildren().addAll(left, ruolo, right);
         return navbar;
@@ -77,7 +83,8 @@ public abstract class DashboardGUIView {
                                      Runnable onToday, ScrollPane scroll) {
         VBox section = new VBox(10);
         section.setPrefWidth(620);
-        section.setMaxWidth(620);
+        section.setMinWidth(520);
+        section.setMaxWidth(Double.MAX_VALUE);
         section.setAlignment(Pos.TOP_LEFT);
         VBox.setVgrow(section, Priority.ALWAYS);
 
@@ -201,7 +208,7 @@ public abstract class DashboardGUIView {
     // Accordion info utente comune
     // ────────────────────────────────────────────────────────────────────────
 
-    public VBox buildUserInfoAccordion(User user, Consumer<String> onSaveEmail) {
+    public VBox buildUserInfoAccordion(User user, Function<String, Boolean> onSaveEmail) {
         HBox header = new HBox(8);
         header.getStyleClass().add("accordion-header");
         header.setAlignment(Pos.CENTER_LEFT);
@@ -240,7 +247,7 @@ public abstract class DashboardGUIView {
         return accordion;
     }
 
-    public HBox buildEmailRow(User user, Consumer<String> onSave) {
+    public HBox buildEmailRow(User user, Function<String, Boolean> onSave) {
         Label emailLbl = new Label(user.getEmail() != null ? user.getEmail() : "—");
         emailLbl.getStyleClass().add("info-text");
 
@@ -300,11 +307,11 @@ public abstract class DashboardGUIView {
             confirm.setContentText("Vuoi cambiare l'email a:\n" + newEmail + "?");
             confirm.showAndWait().ifPresent(r -> {
                 if (r == ButtonType.OK) {
-                    // aggiorna label ottimisticamente, il controller gestisce l'errore
-                    emailLbl.setText(newEmail);
-                    editRow.setVisible(false);  editRow.setManaged(false);
-                    viewRow.setVisible(true);   viewRow.setManaged(true);
-                    onSave.accept(newEmail);
+                    if (onSave.apply(newEmail)) {
+                        emailLbl.setText(newEmail);
+                        editRow.setVisible(false);  editRow.setManaged(false);
+                        viewRow.setVisible(true);   viewRow.setManaged(true);
+                    }
                 }
             });
         });
@@ -323,9 +330,10 @@ public abstract class DashboardGUIView {
         HBox tile = new HBox(14);
         tile.getStyleClass().add("action-tile");
         tile.setAlignment(Pos.CENTER_LEFT);
-        tile.setPrefHeight(58);
+        tile.setMinHeight(50);
+        tile.setPrefHeight(Region.USE_COMPUTED_SIZE);
         tile.setMaxWidth(Double.MAX_VALUE);
-        tile.setPadding(new Insets(12, 16, 12, 16));
+        tile.setPadding(new Insets(9, 12, 9, 12));
         tile.setOnMouseClicked(e -> handler.handle(new ActionEvent(tile, null)));
 
         var iconStream = getClass().getResourceAsStream("/icons/" + iconFile);
@@ -341,7 +349,10 @@ public abstract class DashboardGUIView {
 
         Label lbl = new Label(text);
         lbl.getStyleClass().add("action-tile-label");
-        lbl.setWrapText(false);
+        lbl.setWrapText(true);
+        lbl.setTextOverrun(OverrunStyle.CLIP);
+        lbl.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(lbl, Priority.ALWAYS);
         tile.getChildren().add(lbl);
         return tile;
     }

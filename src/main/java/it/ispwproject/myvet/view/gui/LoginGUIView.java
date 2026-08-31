@@ -8,11 +8,15 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 
 public class LoginGUIView {
 
@@ -32,176 +36,111 @@ public class LoginGUIView {
             new Button("Accedi");
 
     public LoginGUIView() {
-        configureEmailField();
-        configurePasswordFields();
-        configureErrorLabel();
-        configureLoginButton();
-    }
-
-    // Configurazione del campo email
-    private void configureEmailField() {
-        emailField.setPromptText(
-                "Inserisci email"
-        );
-
+        emailField.setPromptText("Inserisci email");
         emailField.setPrefWidth(250);
         emailField.setPrefHeight(48);
-    }
 
-    // Configurazione dei campi password nascosta e visibile
-    private void configurePasswordFields() {
-        passwordField.setPromptText(
-                "Inserisci password"
-        );
-
+        passwordField.setPromptText("Inserisci password");
         passwordField.setPrefWidth(250);
         passwordField.setPrefHeight(48);
 
-        visiblePasswordField.setPromptText(
-                "Inserisci password"
-        );
-
+        visiblePasswordField.setPromptText("Inserisci password");
         visiblePasswordField.setPrefWidth(250);
         visiblePasswordField.setPrefHeight(48);
         visiblePasswordField.setVisible(false);
 
-        visiblePasswordField.managedProperty().bind(
-                visiblePasswordField.visibleProperty()
-        );
+        visiblePasswordField.managedProperty().bind(visiblePasswordField.visibleProperty());
+        passwordField.managedProperty().bind(passwordField.visibleProperty());
+        visiblePasswordField.textProperty().bindBidirectional(passwordField.textProperty());
 
-        passwordField.managedProperty().bind(
-                passwordField.visibleProperty()
-        );
-
-        // I due campi condividono lo stesso contenuto
-        visiblePasswordField.textProperty()
-                .bindBidirectional(
-                        passwordField.textProperty()
-                );
-    }
-
-    // Configurazione dell'etichetta usata per mostrare gli errori
-    private void configureErrorLabel() {
         errorLabel.setWrapText(true);
-
-        errorLabel.getStyleClass().add(
-                "error-label"
-        );
-    }
-
-    // Configurazione del pulsante di accesso
-    private void configureLoginButton() {
-        loginBtn.getStyleClass().add(
-                "button"
-        );
+        errorLabel.getStyleClass().add("error-label");
 
         loginBtn.setPrefWidth(95);
         loginBtn.setPrefHeight(42);
     }
 
     // Costruisce la schermata completa di login
-    public HBox buildRoot(
+    public StackPane buildRoot(
             Runnable onLogin,
             Runnable onRegister) {
 
-        HBox root = new HBox(75);
+        StackPane root = new StackPane();
+        root.getStyleClass().add("auth-background");
 
-        root.setAlignment(Pos.CENTER);
+        Pane decorations = buildDecorations();
 
-        root.setPadding(
-                new Insets(25, 40, 25, 40)
+        BorderPane layout = new BorderPane();
+        layout.setPadding(new Insets(16, 34, 12, 34));
+
+        HBox header = new HBox(8);
+        header.setAlignment(Pos.CENTER_LEFT);
+
+        var logoStream = getClass().getResourceAsStream(
+                "/images/myvet_logo.png"
         );
 
-        root.getStyleClass().add(
-                "myvet-background"
+        if (logoStream != null) {
+            ImageView logoView = new ImageView(
+                    new Image(logoStream, 54, 54, true, true)
+            );
+            logoView.setFitWidth(40);
+            logoView.setFitHeight(40);
+            logoView.setPreserveRatio(true);
+            logoView.setSmooth(true);
+            header.getChildren().add(logoView);
+        }
+
+        Label brandName = new Label("MyVet");
+        brandName.getStyleClass().add("myvet-brand-name");
+        header.getChildren().add(brandName);
+
+        VBox loginCard = buildLoginCard(
+                onLogin,
+                onRegister
         );
 
-        root.getChildren().addAll(
-                buildLeftPanel(),
-                buildRightPanel(
-                        onLogin,
-                        onRegister
-                )
-        );
+        BorderPane.setAlignment(loginCard, Pos.CENTER);
+        BorderPane.setMargin(loginCard, new Insets(6, 0, 6, 0));
+        layout.setTop(header);
+        layout.setCenter(loginCard);
+
+        HBox animals = buildAnimalDecoration();
+        BorderPane.setAlignment(animals, Pos.BOTTOM_CENTER);
+        BorderPane.setMargin(animals, new Insets(4, 0, 4, 0));
+        layout.setBottom(animals);
+
+        root.getChildren().addAll(decorations, layout);
 
         return root;
     }
 
-    // Costruisce il pannello con logo e identità di MyVet
-    private VBox buildLeftPanel() {
-        VBox panel = new VBox(12);
-
-        panel.setAlignment(Pos.CENTER);
-        panel.setPadding(new Insets(10));
-
-        Label welcomeLabel =
-                new Label("Benvenuto su");
-
-        welcomeLabel.getStyleClass().add(
-                "title-label"
-        );
-
-        ImageView logoView = buildLogo();
-
-        Label brandLabel =
-                new Label("MyVet");
-
-        brandLabel.getStyleClass().add(
-                "brand-label"
-        );
-
-        Label taglineLabel =
-                new Label(
-                        "La salute del tuo animale, sempre con te!"
-                );
-
-        taglineLabel.getStyleClass().add(
-                "subtitle-label"
-        );
-
-        panel.getChildren().addAll(
-                welcomeLabel,
-                logoView,
-                brandLabel,
-                taglineLabel
-        );
-
-        return panel;
-    }
-
-    // Carica il logo senza generare errori se la risorsa non è disponibile
-    private ImageView buildLogo() {
-        ImageView logoView =
-                new ImageView();
-
-        var logoStream =
-                getClass().getResourceAsStream(
-                        "/images/logo.png"
-                );
-
-        if (logoStream != null) {
-            logoView.setImage(
-                    new Image(logoStream)
-            );
-        }
-
-        logoView.setFitWidth(145);
-        logoView.setPreserveRatio(true);
-        logoView.setSmooth(true);
-
-        return logoView;
-    }
-
     // Costruisce il pannello contenente il form di accesso
-    private VBox buildRightPanel(
+    private VBox buildLoginCard(
             Runnable onLogin,
             Runnable onRegister) {
 
-        VBox panel = new VBox(14);
+        VBox panel = new VBox(10);
 
         panel.setAlignment(Pos.CENTER);
-        panel.setPadding(new Insets(20));
-        panel.setMaxWidth(300);
+        panel.setPadding(new Insets(20, 34, 18, 34));
+        panel.setMinWidth(340);
+        panel.setPrefWidth(390);
+        panel.setMaxWidth(430);
+        panel.getStyleClass().add("auth-card");
+
+        Label title = new Label("Accedi");
+        title.getStyleClass().add("auth-title");
+
+        Label subtitle = new Label(
+                "Bentornato!\nAccedi per prenderti cura dei tuoi animali."
+        );
+        subtitle.getStyleClass().add("auth-subtitle");
+        subtitle.setWrapText(true);
+        subtitle.setTextOverrun(OverrunStyle.CLIP);
+        subtitle.setMinHeight(42);
+        subtitle.setMaxWidth(340);
+        subtitle.setAlignment(Pos.CENTER);
 
         // Email
         Label emailLabel =
@@ -243,6 +182,11 @@ public class LoginGUIView {
         CheckBox showPasswordCheck =
                 new CheckBox("Mostra password");
 
+        VBox.setMargin(
+                showPasswordCheck,
+                new Insets(7, 0, 0, 0)
+        );
+
         showPasswordCheck.selectedProperty().addListener(
                 (observable, oldValue, showPassword) -> {
 
@@ -257,7 +201,7 @@ public class LoginGUIView {
         );
 
         VBox passwordContainer = new VBox(
-                5,
+                4,
                 passwordLabel,
                 passwordBox,
                 showPasswordCheck
@@ -298,6 +242,8 @@ public class LoginGUIView {
         registrationBox.setAlignment(Pos.CENTER);
 
         panel.getChildren().addAll(
+                title,
+                subtitle,
                 emailBox,
                 passwordContainer,
                 errorLabel,
@@ -306,6 +252,56 @@ public class LoginGUIView {
         );
 
         return panel;
+    }
+
+    private Pane buildDecorations() {
+        Pane pane = new Pane();
+        pane.setMouseTransparent(true);
+
+        Circle topLeft = new Circle(95);
+        topLeft.getStyleClass().add("auth-shape-sage");
+        topLeft.setLayoutX(98);
+        topLeft.setLayoutY(105);
+
+        Circle bottomRight = new Circle(125);
+        bottomRight.getStyleClass().add("auth-shape-yellow");
+        bottomRight.layoutXProperty().bind(
+                pane.widthProperty().subtract(100)
+        );
+        bottomRight.layoutYProperty().bind(
+                pane.heightProperty().subtract(105)
+        );
+
+        Circle middle = new Circle(72);
+        middle.getStyleClass().add("auth-shape-peach");
+        middle.layoutXProperty().bind(
+                pane.widthProperty().subtract(95)
+        );
+        middle.setLayoutY(125);
+
+        pane.getChildren().addAll(
+                topLeft,
+                bottomRight,
+                middle
+        );
+
+        return pane;
+    }
+
+    private HBox buildAnimalDecoration() {
+        Label cat = new Label("🐈");
+        Label paw = new Label("🐾");
+        Label dog = new Label("🐕");
+
+        cat.getStyleClass().add("auth-animal");
+        paw.getStyleClass().add("auth-paw");
+        dog.getStyleClass().add("auth-animal");
+
+        HBox animals = new HBox(18, cat, paw, dog);
+        animals.setAlignment(Pos.BOTTOM_CENTER);
+        animals.setPadding(new Insets(0, 0, 6, 0));
+
+        return animals;
     }
 
     // Mostra un messaggio di errore nel form

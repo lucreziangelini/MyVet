@@ -52,16 +52,22 @@ public class DashboardPetOwnerCLI
             case "4" ->
                     goNext(
                             context,
-                            new ViewActivitiesCLI()
+                            new ManagePetsCLI()
                     );
 
             case "5" ->
                     goNext(
                             context,
-                            new MedicalDocumentsCLI()
+                            new ViewActivitiesCLI()
                     );
 
             case "6" ->
+                    goNext(
+                            context,
+                            new MedicalDocumentsCLI()
+                    );
+
+            case "7" ->
                     goNext(
                             context,
                             new EditProfileCLI()
@@ -79,10 +85,7 @@ public class DashboardPetOwnerCLI
                             "Logout effettuato."
                     );
 
-                    goNext(
-                            context,
-                            new InitialCLI()
-                    );
+                    context.reset(new InitialCLI());
 
                 } catch (java.sql.SQLException e) {
 

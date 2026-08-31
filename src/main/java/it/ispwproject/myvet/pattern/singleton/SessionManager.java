@@ -87,6 +87,20 @@ public class SessionManager {
                 && loggedUser.hasRole(Role.ADMIN);
     }
 
+    public void updateEmail(String newEmail) {
+        if (!isLoggedIn()) {
+            throw new IllegalStateException(
+                    "No active session"
+            );
+        }
+
+        loggedUser.setEmail(newEmail);
+        session = new SessionBean(
+                newEmail,
+                session.getRole()
+        );
+    }
+
     public void clearSession() {
         loggedUser = null;
         session = null;

@@ -31,6 +31,11 @@ public class ManagePetCareGUIView extends PageGUIView {
     public final Label errorLabel =
             buildErrorLabel();
 
+    private final Label emptyStateLabel =
+            new Label(
+                    "Non ci sono ancora animali associati ai tuoi appuntamenti."
+            );
+
     public ManagePetCareGUIView() {
         petCombo.getStyleClass().add(
                 "combo-box"
@@ -49,6 +54,12 @@ public class ManagePetCareGUIView extends PageGUIView {
         petCombo.setButtonCell(
                 petCell()
         );
+
+        emptyStateLabel.getStyleClass().add("empty-state-card");
+        emptyStateLabel.setWrapText(true);
+        emptyStateLabel.setMaxWidth(720);
+        emptyStateLabel.setVisible(false);
+        emptyStateLabel.setManaged(false);
     }
 
     // ────────────────────────────────────────────────────────────────────────
@@ -107,6 +118,7 @@ public class ManagePetCareGUIView extends PageGUIView {
 
         content.getChildren().addAll(
                 selectorCard,
+                emptyStateLabel,
                 petCard,
                 errorLabel
         );
@@ -128,6 +140,31 @@ public class ManagePetCareGUIView extends PageGUIView {
     // Restituisce la card aggiornata dal controller
     public VBox getPetCard() {
         return (VBox) petCombo.getUserData();
+    }
+
+    public void setPets(List<PetBean> pets) {
+        List<PetBean> safePets = pets == null
+                ? List.of()
+                : pets;
+
+        petCombo.getItems().setAll(safePets);
+
+        boolean hasPets = !safePets.isEmpty();
+        petCombo.setDisable(!hasPets);
+        petCombo.setPromptText(
+                hasPets
+                        ? "Seleziona un animale..."
+                        : "Nessun animale disponibile"
+        );
+
+        emptyStateLabel.setVisible(!hasPets);
+        emptyStateLabel.setManaged(!hasPets);
+
+        if (!hasPets) {
+            VBox petCard = getPetCard();
+            petCard.setVisible(false);
+            petCard.setManaged(false);
+        }
     }
 
     // ────────────────────────────────────────────────────────────────────────
@@ -502,7 +539,7 @@ public class ManagePetCareGUIView extends PageGUIView {
                 new HBox(8);
 
         activityRow.setAlignment(
-                Pos.CENTER_LEFT
+                Pos.TOP_LEFT
         );
 
         activityRow.setMaxWidth(
@@ -538,7 +575,10 @@ public class ManagePetCareGUIView extends PageGUIView {
         );
 
         descriptionLabel.setMaxWidth(240);
-        descriptionLabel.setEllipsisString("...");
+        descriptionLabel.setWrapText(true);
+        descriptionLabel.setTextOverrun(
+                javafx.scene.control.OverrunStyle.CLIP
+        );
 
         HBox.setHgrow(
                 descriptionLabel,

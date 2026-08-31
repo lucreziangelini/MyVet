@@ -26,7 +26,10 @@ public class CLIStateMachineImpl implements CLIStateMachine {
         stateHistory.clear();
         currentState = new InitialCLI();
         currentState.entry(this);
-        goNext();
+
+        while (currentState != null) {
+            currentState.action(this);
+        }
     }
 
     @Override
@@ -45,7 +48,6 @@ public class CLIStateMachineImpl implements CLIStateMachine {
         currentState.exit(this);
         currentState = stateHistory.pop();
         currentState.entry(this);
-        goNext();
     }
 
     @Override
@@ -62,7 +64,6 @@ public class CLIStateMachineImpl implements CLIStateMachine {
 
         currentState = nextState;
         currentState.entry(this);
-        goNext();
     }
 
     @Override
@@ -79,7 +80,6 @@ public class CLIStateMachineImpl implements CLIStateMachine {
         stateHistory.clear();
         currentState = initialState;
         currentState.entry(this);
-        goNext();
     }
 
     @Override
@@ -89,9 +89,16 @@ public class CLIStateMachineImpl implements CLIStateMachine {
 
     @Override
     public void setState(AbstractCLIState state) {
-        currentState = Objects.requireNonNull(
-                state,
-                "State cannot be null"
-        );
+        if (state == null) {
+            if (currentState != null) {
+                currentState.exit(this);
+            }
+
+            stateHistory.clear();
+            currentState = null;
+            return;
+        }
+
+        currentState = state;
     }
 }

@@ -83,6 +83,7 @@ public class BookAppointmentGUIView {
         datePicker.setPromptText("Seleziona una data");
         datePicker.setMaxWidth(Double.MAX_VALUE);
         datePicker.setPrefHeight(40);
+        datePicker.setShowWeekNumbers(false);
 
         dateSection.setOpacity(0.5);
         datePicker.setDisable(true);
@@ -199,7 +200,9 @@ public class BookAppointmentGUIView {
         button.setToggleGroup(group);
         button.setUserData(userData);
         button.setMaxWidth(Double.MAX_VALUE);
-        button.setPrefHeight(38);
+        button.setMinHeight(38);
+        button.setPrefHeight(Region.USE_COMPUTED_SIZE);
+        button.setWrapText(true);
 
         return button;
     }
@@ -221,8 +224,10 @@ public class BookAppointmentGUIView {
 
         toggle.setToggleGroup(group);
         toggle.setUserData(veterinarian);
-        toggle.setPrefHeight(40);
+        toggle.setMinHeight(40);
+        toggle.setPrefHeight(Region.USE_COMPUTED_SIZE);
         toggle.setMaxWidth(Double.MAX_VALUE);
+        toggle.setWrapText(true);
 
         HBox.setHgrow(
                 toggle,
@@ -444,11 +449,12 @@ public class BookAppointmentGUIView {
         bar.setAlignment(Pos.CENTER_LEFT);
 
         Button backButton =
-                new Button("⟪  Indietro");
+                new Button("←  Indietro");
 
         backButton.getStyleClass().add(
                 "back-button"
         );
+        backButton.setMinWidth(120);
 
         backButton.setOnAction(
                 event ->
@@ -491,7 +497,7 @@ public class BookAppointmentGUIView {
 
         var logoStream =
                 getClass().getResourceAsStream(
-                        "/images/logo.png"
+                        "/images/myvet_logo.png"
                 );
 
         if (logoStream != null) {
@@ -591,6 +597,9 @@ public class BookAppointmentGUIView {
                         + "-fx-font-style: italic;"
         );
 
+        label.setWrapText(true);
+        label.setMaxWidth(Double.MAX_VALUE);
+
         return label;
     }
 
@@ -607,6 +616,10 @@ public class BookAppointmentGUIView {
                     setText(null);
                     return;
                 }
+
+                setWrapText(true);
+                setMinHeight(40);
+                setPrefHeight(Region.USE_COMPUTED_SIZE);
 
                 String text =
                         pet.getName()

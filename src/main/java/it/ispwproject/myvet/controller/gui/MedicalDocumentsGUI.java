@@ -93,15 +93,10 @@ public class MedicalDocumentsGUI {
                 pets = bookingController.getRegisteredPets();
             }
 
-            view.petCombo.getItems().setAll(pets);
-
-            if (pets.isEmpty()) {
-                view.setError(
-                        "Nessun animale disponibile."
-                );
-            }
+            view.setPets(pets, veterinarian);
 
         } catch (DAOException e) {
+            view.setPets(List.of(), veterinarian);
             view.setError(
                     "Errore: " + e.getMessage()
             );
@@ -116,7 +111,6 @@ public class MedicalDocumentsGUI {
                     );
 
             view.showDocuments(
-                    root,
                     selectedPet,
                     documents
             );

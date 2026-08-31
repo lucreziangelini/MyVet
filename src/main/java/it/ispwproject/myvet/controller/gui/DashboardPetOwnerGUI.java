@@ -10,6 +10,7 @@ import it.ispwproject.myvet.view.gui.DashboardPetOwnerGUIView;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -37,11 +38,6 @@ public class DashboardPetOwnerGUI {
 
     public void show() {
         User user = SessionManager.getInstance().getLoggedUser();
-
-        HBox navbar = view.buildNavbar(
-                "Pet Owner",
-                this::handleLogout
-        );
 
         VBox calendarSection = view.buildCalendarSection(
                 () -> {
@@ -78,6 +74,7 @@ public class DashboardPetOwnerGUI {
         VBox actionButtons = view.buildActionButtons(
                 event -> new BookAppointmentGUI(stage).show(),
                 event -> new ViewAppointmentGUI(stage).show(),
+                event -> MainGUI.showManagePets(),
                 event -> new ViewActivitiesGUI(stage).show(),
                 event -> new MedicalDocumentsGUI(stage).show()
         );
@@ -87,26 +84,31 @@ public class DashboardPetOwnerGUI {
                 this::handleSaveEmail
         );
 
-        VBox rightSection = view.buildRightSection(
+        VBox sidebar = view.buildSidebar(
                 actionButtons,
-                accordion
+                accordion,
+                this::handleLogout
         );
 
-        HBox body = new HBox(20);
+        VBox mainContent = view.buildMainContent(
+                user.getName(),
+                calendarSection
+        );
+
+        HBox body = new HBox(24);
         body.getStyleClass().add("myvet-background");
         body.setPadding(new Insets(20, 24, 20, 24));
-        body.setAlignment(Pos.CENTER);
+        body.setAlignment(Pos.TOP_CENTER);
 
-        HBox.setHgrow(calendarSection, Priority.ALWAYS);
+        HBox.setHgrow(mainContent, Priority.ALWAYS);
 
         body.getChildren().addAll(
-                calendarSection,
-                rightSection
+                sidebar,
+                mainContent
         );
 
         BorderPane root = new BorderPane();
         root.getStyleClass().add("myvet-background");
-        root.setTop(navbar);
         root.setCenter(body);
 
         stage.setScene(GUIUtils.createScene(root));
@@ -139,11 +141,17 @@ public class DashboardPetOwnerGUI {
         MainGUI.showLogin();
     }
 
-    private void handleSaveEmail(String newEmail) {
+    private boolean handleSaveEmail(String newEmail) {
         try {
             userController.updateEmail(newEmail);
+            return true;
         } catch (DAOException ex) {
-            // L'errore viene mostrato dalla view.
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Email non aggiornata");
+            alert.setHeaderText(null);
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();
+            return false;
         }
     }
 }

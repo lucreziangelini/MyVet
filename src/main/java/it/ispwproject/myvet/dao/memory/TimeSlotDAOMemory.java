@@ -20,15 +20,16 @@ public class TimeSlotDAOMemory implements TimeSlotDAO {
     public List<TimeSlot> getAvailableByVeterinarian(
             Veterinarian veterinarian) throws DAOException {
 
+        LocalDate today = LocalDate.now(ZoneId.systemDefault());
+        LocalTime now = LocalTime.now(ZoneId.systemDefault());
+
         return store.getTimeSlots().stream()
                 .filter(slot ->
                         slot.getVeterinarian() != null
                                 && slot.getVeterinarian().getId()
                                 == veterinarian.getId()
-                                && slot.isAvailable()
-                                && !slot.getDate().isBefore(
-                                LocalDate.now(
-                                        ZoneId.systemDefault())))
+                                && slot.isAvailable())
+                .filter(slot -> isFutureSlot(slot, today, now))
                 .toList();
     }
 
@@ -37,6 +38,9 @@ public class TimeSlotDAOMemory implements TimeSlotDAO {
             int veterinarianId,
             LocalDate date) throws DAOException {
 
+        LocalDate today = LocalDate.now(ZoneId.systemDefault());
+        LocalTime now = LocalTime.now(ZoneId.systemDefault());
+
         return store.getTimeSlots().stream()
                 .filter(slot ->
                         slot.getVeterinarian() != null
@@ -44,6 +48,24 @@ public class TimeSlotDAOMemory implements TimeSlotDAO {
                                 == veterinarianId
                                 && slot.getDate().equals(date)
                                 && slot.isAvailable())
+                .filter(slot -> isFutureSlot(slot, today, now))
+                .toList();
+    }
+
+    @Override
+    public List<Integer> getAvailableVeterinarianIds(
+            LocalDate date) throws DAOException {
+
+        LocalDate today = LocalDate.now(ZoneId.systemDefault());
+        LocalTime now = LocalTime.now(ZoneId.systemDefault());
+
+        return store.getTimeSlots().stream()
+                .filter(slot -> slot.getVeterinarian() != null)
+                .filter(slot -> slot.getDate().equals(date))
+                .filter(TimeSlot::isAvailable)
+                .filter(slot -> isFutureSlot(slot, today, now))
+                .map(slot -> slot.getVeterinarian().getId())
+                .distinct()
                 .toList();
     }
 
@@ -169,5 +191,15 @@ public class TimeSlotDAOMemory implements TimeSlotDAO {
             throw new DAOException(
                     "Slot non trovato o già prenotato.");
         }
+    }
+
+    private boolean isFutureSlot(
+            TimeSlot slot,
+            LocalDate today,
+            LocalTime now) {
+
+        return slot.getDate().isAfter(today)
+                || (slot.getDate().isEqual(today)
+                && slot.getStartTime().isAfter(now));
     }
 }

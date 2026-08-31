@@ -47,6 +47,12 @@
     -fx-text-fill: #4B4B4B;
 }
 
+.login-tagline-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #4B4B4B;
+    -fx-text-alignment: center;
+}
+
 .role-label {
     -fx-font-size: 20px;
     -fx-font-style: italic;
@@ -516,8 +522,8 @@
     -fx-padding: 0;
 }
 
-.brainbank-scroll .viewport { -fx-background-color: #8EADC2; }
-.brainbank-scroll > .corner { -fx-background-color: #8EADC2; }
+.myvet-scroll .viewport { -fx-background-color: #8EADC2; }
+.myvet-scroll > .corner { -fx-background-color: #8EADC2; }
 
 
 /* ── Misc ────────────────────────────────────────────── */
@@ -542,4 +548,416 @@
     -fx-border-width: 2;
     -fx-border-radius: 7;
     -fx-background-radius: 7;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   Storyboard refresh — MyVet cream & green
+   ═══════════════════════════════════════════════════════ */
+
+.root {
+    -fx-background-color: #F8F5DC;
+    -fx-font-family: "Poppins";
+}
+
+.myvet-background,
+.auth-background {
+    -fx-background-color: #F8F5DC;
+}
+
+.myvet-brand {
+    -fx-padding: 2 4;
+}
+
+.myvet-brand-logo {
+    -fx-opacity: 1;
+}
+
+.myvet-brand-mark {
+    -fx-font-family: "Segoe UI Symbol";
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #075B4E;
+}
+
+.myvet-brand-name {
+    -fx-font-size: 23px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #075B4E;
+}
+
+.auth-card {
+    -fx-background-color: rgba(255, 255, 255, 0.94);
+    -fx-background-radius: 28;
+    -fx-border-color: rgba(7, 91, 78, 0.08);
+    -fx-border-radius: 28;
+    -fx-effect: dropshadow(gaussian, rgba(44, 75, 60, 0.14), 24, 0.15, 0, 7);
+}
+
+.auth-title {
+    -fx-font-size: 29px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #075B4E;
+}
+
+.auth-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #61756D;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.auth-shape-sage {
+    -fx-fill: #DCE4C7;
+    -fx-opacity: 0.78;
+}
+
+.auth-shape-yellow {
+    -fx-fill: #F2E875;
+    -fx-opacity: 0.62;
+}
+
+.auth-shape-peach {
+    -fx-fill: #F7DDB4;
+    -fx-opacity: 0.70;
+}
+
+.auth-animal {
+    -fx-font-family: "Segoe UI Emoji";
+    -fx-font-size: 42px;
+}
+
+.auth-paw {
+    -fx-font-family: "Segoe UI Emoji";
+    -fx-font-size: 22px;
+    -fx-text-fill: #E99372;
+}
+
+.navbar,
+.page-topbar {
+    -fx-background-color: #FFFDF2;
+    -fx-border-color: transparent transparent #E1E6CE transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 10 22;
+}
+
+.title-label,
+.brand-label,
+.page-title,
+.calendar-title,
+.role-label,
+.field-label,
+.section-title,
+.small-label {
+    -fx-text-fill: #075B4E;
+}
+
+.subtitle-label,
+.login-tagline-label,
+.register-label,
+.info-text,
+.welcome-label {
+    -fx-text-fill: #526B62;
+}
+
+.text-field,
+.password-field,
+.text-area,
+.text-area .content,
+.date-picker .text-field,
+.combo-box,
+.combo-box .list-cell,
+.combo-box-popup .list-view,
+.list-view,
+.list-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #194F45;
+    -fx-border-color: #E2E7D5;
+    -fx-border-radius: 18;
+    -fx-background-radius: 18;
+}
+
+.text-field:focused,
+.password-field:focused,
+.text-area:focused,
+.date-picker:focused,
+.combo-box:focused {
+    -fx-border-color: #0B6B5B;
+    -fx-border-width: 1.5;
+}
+
+.combo-box:disabled,
+.combo-box:disabled .list-cell {
+    -fx-opacity: 1;
+    -fx-text-fill: #526B62;
+}
+
+.button {
+    -fx-background-color: #075B4E;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 22;
+    -fx-border-radius: 22;
+}
+
+.button:hover {
+    -fx-background-color: #0B6B5B;
+}
+
+.back-button,
+.next-button,
+.nav-button {
+    -fx-text-fill: #FFFFFF;
+}
+
+.back-button {
+    -fx-background-color: #075B4E;
+    -fx-background-radius: 18;
+    -fx-padding: 7 14 7 14;
+}
+
+.back-button:hover {
+    -fx-background-color: #0B6B5B;
+    -fx-text-fill: #FFFFFF;
+}
+
+.today-button,
+.success-button,
+.save-button {
+    -fx-background-color: #075B4E;
+    -fx-text-fill: #FFFFFF;
+}
+
+.action-tile {
+    -fx-background-color: #075B4E;
+    -fx-background-radius: 18;
+    -fx-effect: dropshadow(gaussian, rgba(7, 91, 78, 0.16), 10, 0.08, 0, 3);
+}
+
+.action-tile:hover {
+    -fx-background-color: #0B6B5B;
+}
+
+.action-tile-label {
+    -fx-text-fill: #FFFFFF;
+}
+
+/* DatePicker: mese, anno e giorni sempre leggibili */
+.date-picker-popup > .month-year-pane {
+    -fx-background-color: #F8F5DC;
+}
+
+.date-picker-popup > .month-year-pane .label,
+.date-picker-popup > .month-year-pane > .spinner > .label {
+    -fx-text-fill: #075B4E;
+    -fx-font-weight: bold;
+}
+
+.date-picker-popup .day-name-cell {
+    -fx-text-fill: #075B4E;
+    -fx-font-weight: bold;
+}
+
+.date-picker-popup .day-cell {
+    -fx-text-fill: #194F45;
+}
+
+.date-picker-popup .day-cell:disabled {
+    -fx-text-fill: #AAB2AC;
+}
+
+.info-card,
+.ranking-card,
+.stat-card-green,
+.stat-card-red,
+.stat-card-orange,
+.calendar-pane,
+.accordion-header,
+.accordion-header-open,
+.accordion-content {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E4E8D8;
+    -fx-border-radius: 18;
+    -fx-background-radius: 18;
+    -fx-effect: dropshadow(gaussian, rgba(44, 75, 60, 0.10), 12, 0.10, 0, 4);
+}
+
+.accordion-header-open {
+    -fx-background-radius: 18 18 0 0;
+    -fx-border-radius: 18 18 0 0;
+}
+
+.accordion-content {
+    -fx-background-radius: 0 0 18 18;
+    -fx-border-radius: 0 0 18 18;
+}
+
+.calendar-month-label,
+.calendar-day-label,
+.calendar-hour-label {
+    -fx-text-fill: #075B4E;
+}
+
+.calendar-today-badge {
+    -fx-background-color: #F0E56E;
+    -fx-text-fill: #075B4E;
+}
+
+.calendar-separator {
+    -fx-background-color: #DCE3D0;
+}
+
+.calendar-grid-line {
+    -fx-background-color: #EFF1E6;
+}
+
+.transparent-scroll,
+.transparent-scroll .viewport,
+.myvet-scroll,
+.myvet-scroll .viewport,
+.myvet-scroll > .corner {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.separator {
+    -fx-background-color: #DCE3D0;
+}
+
+.dashboard-sidebar {
+    -fx-background-color: #FFFDF2;
+    -fx-background-radius: 24;
+    -fx-border-color: #E1E6CE;
+    -fx-border-radius: 24;
+    -fx-effect: dropshadow(gaussian, rgba(44, 75, 60, 0.12), 16, 0.10, 0, 5);
+}
+
+.sidebar-section-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #075B4E;
+    -fx-padding: 7 4 0 4;
+}
+
+.sidebar-logout {
+    -fx-background-color: transparent;
+    -fx-text-fill: #075B4E;
+    -fx-font-weight: bold;
+    -fx-alignment: center-left;
+    -fx-padding: 9 10 9 10;
+}
+
+.sidebar-logout:hover {
+    -fx-background-color: #EEF1DE;
+}
+
+.welcome-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 22;
+    -fx-border-color: #E4E8D8;
+    -fx-border-radius: 22;
+    -fx-effect: dropshadow(gaussian, rgba(44, 75, 60, 0.10), 12, 0.10, 0, 4);
+}
+
+.dashboard-welcome-title {
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #075B4E;
+}
+
+.documents-panel {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 24;
+    -fx-border-color: #E4E8D8;
+    -fx-border-radius: 24;
+    -fx-effect: dropshadow(gaussian, rgba(44, 75, 60, 0.10), 14, 0.10, 0, 4);
+}
+
+.empty-state-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 18;
+    -fx-border-color: #E4E8D8;
+    -fx-border-radius: 18;
+    -fx-padding: 18 22 18 22;
+    -fx-text-fill: #45665E;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(44, 75, 60, 0.08), 10, 0.08, 0, 3);
+}
+
+.document-search {
+    -fx-pref-height: 42;
+    -fx-background-radius: 21;
+    -fx-border-radius: 21;
+    -fx-padding: 0 18 0 18;
+}
+
+.document-card {
+    -fx-border-color: transparent transparent #E7E9DB transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.document-type-badge {
+    -fx-background-color: #EEF1DE;
+    -fx-background-radius: 12;
+    -fx-padding: 3 9 3 9;
+    -fx-text-fill: #075B4E;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.document-date {
+    -fx-text-fill: #7C877D;
+    -fx-font-size: 11px;
+}
+
+/* Registrazione: ruoli e informazioni professionali */
+.role-radio {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #075B4E;
+}
+
+.role-radio .radio {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #0B6B5B;
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    -fx-border-width: 1.5;
+}
+
+.role-radio:selected .dot {
+    -fx-background-color: #0B6B5B;
+    -fx-background-insets: 0;
+}
+
+.registration-role-option {
+    -fx-background-color: #F8F7EA;
+    -fx-background-radius: 14;
+    -fx-border-color: #E1E6CE;
+    -fx-border-radius: 14;
+}
+
+.registration-role-option:hover {
+    -fx-background-color: #F0F2DF;
+    -fx-border-color: #A9BEA7;
+}
+
+.role-description {
+    -fx-font-size: 10px;
+    -fx-text-fill: #64766F;
+    -fx-padding: 0 0 0 23;
+}
+
+.registration-veterinarian-section {
+    -fx-background-color: #F8F7EA;
+    -fx-background-radius: 16;
+    -fx-border-color: #E1E6CE;
+    -fx-border-radius: 16;
+}
+
+.veterinarian-section-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #075B4E;
 }

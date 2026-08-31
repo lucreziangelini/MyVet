@@ -28,17 +28,18 @@ public class BookingDAODB extends AbstractBookingDAO {
 
     private static final String CANCEL_BOOKING =
             "UPDATE booking SET status = 'CANCELLED' " +
-                    "WHERE id = ? AND pet_owner_id = ?";
+                    "WHERE id = ? AND pet_owner_id = ? " +
+                    "AND status = 'CONFIRMED'";
 
     private static final String FREE_SLOT =
-            "UPDATE time_slot SET available = TRUE " +
+            "UPDATE time_slot SET available = TRUE, reserved_until = NULL " +
                     "WHERE id = (" +
                     "SELECT slot_id FROM booking " +
                     "WHERE id = ? AND pet_owner_id = ?" +
                     ")";
 
     private static final String UPDATE_SLOT_AVAILABILITY =
-            "UPDATE time_slot SET available = ? WHERE id = ?";
+            "UPDATE time_slot SET available = ?, reserved_until = NULL WHERE id = ?";
 
     private static final String SELECT_BOOKINGS =
             "SELECT b.id, b.status, b.created_at, " +
@@ -90,53 +91,34 @@ public class BookingDAODB extends AbstractBookingDAO {
     @Override
     public void save(Booking booking) throws DAOException {
         try (Connection connection =
-                     ConnectionFactory.getConnection();
+                     ConnectionFactory.getConnection()) {
 
-             PreparedStatement statement =
-                     connection.prepareStatement(
-                             INSERT_BOOKING,
-                             Statement.RETURN_GENERATED_KEYS
-                     )) {
+            connection.setAutoCommit(false);
 
-            statement.setInt(
-                    1,
-                    booking.getPetOwner().getId()
-            );
+            try {
+                int bookingId = insertBooking(
+                        connection,
+                        booking
+                );
 
-            statement.setInt(
-                    2,
-                    booking.getVeterinarian().getId()
-            );
+                updateSlotAvailability(
+                        connection,
+                        booking.getTimeSlot().getId(),
+                        false
+                );
 
-            statement.setInt(
-                    3,
-                    booking.getPet().getId()
-            );
+                connection.commit();
 
-            statement.setInt(
-                    4,
-                    booking.getTimeSlot().getId()
-            );
+                booking.setId(bookingId);
+                booking.setStatus(BookingStatus.CONFIRMED);
+                addToCache(booking);
 
-            statement.executeUpdate();
-
-            try (ResultSet keys =
-                         statement.getGeneratedKeys()) {
-
-                if (keys.next()) {
-                    booking.setId(keys.getInt(1));
-                }
+            } catch (SQLException e) {
+                rollback(connection, e);
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
             }
-
-            booking.setStatus(BookingStatus.CONFIRMED);
-
-            updateSlotAvailability(
-                    connection,
-                    booking.getTimeSlot().getId(),
-                    false
-            );
-
-            addToCache(booking);
 
         } catch (SQLException e) {
             throw new DAOException(
@@ -145,6 +127,34 @@ public class BookingDAODB extends AbstractBookingDAO {
                     e
             );
         }
+    }
+
+    private int insertBooking(
+            Connection connection,
+            Booking booking) throws SQLException {
+
+        try (PreparedStatement statement =
+                     connection.prepareStatement(
+                             INSERT_BOOKING,
+                             Statement.RETURN_GENERATED_KEYS
+                     )) {
+
+            statement.setInt(1, booking.getPetOwner().getId());
+            statement.setInt(2, booking.getVeterinarian().getId());
+            statement.setInt(3, booking.getPet().getId());
+            statement.setInt(4, booking.getTimeSlot().getId());
+            statement.executeUpdate();
+
+            try (ResultSet keys = statement.getGeneratedKeys()) {
+                if (keys.next()) {
+                    return keys.getInt(1);
+                }
+            }
+        }
+
+        throw new SQLException(
+                "ID dell'appuntamento non generato."
+        );
     }
 
     @Override
@@ -310,14 +320,20 @@ public class BookingDAODB extends AbstractBookingDAO {
 
             connection.setAutoCommit(false);
 
-            executeCancel(
-                    connection,
-                    bookingId,
-                    petOwnerId
-            );
+            try {
+                executeCancel(
+                        connection,
+                        bookingId,
+                        petOwnerId
+                );
 
-            connection.commit();
-            connection.setAutoCommit(true);
+                connection.commit();
+            } catch (SQLException | DAOException e) {
+                rollback(connection, e);
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
+            }
 
             updateInCache(bookingId);
 
@@ -333,6 +349,17 @@ public class BookingDAODB extends AbstractBookingDAO {
                             + e.getMessage(),
                     e
             );
+        }
+    }
+
+    private void rollback(
+            Connection connection,
+            Exception originalException) {
+
+        try {
+            connection.rollback();
+        } catch (SQLException rollbackException) {
+            originalException.addSuppressed(rollbackException);
         }
     }
 

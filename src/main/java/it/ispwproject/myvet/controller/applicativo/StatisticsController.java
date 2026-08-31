@@ -6,6 +6,7 @@ import it.ispwproject.myvet.dao.DAOFactory;
 import it.ispwproject.myvet.enumerator.BookingStatus;
 import it.ispwproject.myvet.exception.DAOException;
 import it.ispwproject.myvet.model.Booking;
+import it.ispwproject.myvet.pattern.singleton.SessionManager;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,6 +23,12 @@ public class StatisticsController {
 
     public StatisticsBean getStatistics()
             throws DAOException {
+
+        if (!SessionManager.getInstance().isAdmin()) {
+            throw new DAOException(
+                    "Solo un amministratore può visualizzare le statistiche."
+            );
+        }
 
         List<Booking> all = bookingDAO.findAll();
 

@@ -34,7 +34,7 @@ public class DashboardVeterinarianCLI extends AbstractCLIState {
                     ConnectionFactory.clearRole();
                     SessionManager.getInstance().clearSession();
                     view.mostraMessaggio("✓ Logout effettuato.");
-                    goNext(context, new InitialCLI());
+                    context.reset(new InitialCLI());
                 } catch (java.sql.SQLException ex) {
                     view.mostraMessaggio(
                             "❌ Errore: impossibile effettuare il logout in sicurezza. Riprova."

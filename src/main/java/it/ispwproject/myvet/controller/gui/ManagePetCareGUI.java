@@ -34,10 +34,9 @@ public class ManagePetCareGUI {
         );
 
         try {
-            view.petCombo.getItems().setAll(
-                    activityController.getPets()
-            );
+            view.setPets(activityController.getPets());
         } catch (DAOException e) {
+            view.setPets(List.of());
             view.errorLabel.setText(
                     "Errore: " + e.getMessage()
             );
