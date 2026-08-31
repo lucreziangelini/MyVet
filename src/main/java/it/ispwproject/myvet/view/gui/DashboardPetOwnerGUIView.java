@@ -501,7 +501,7 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
                         booking.getTimeSlot().getStartTime() != null)
                 .filter(booking ->
                         !booking.getTimeSlot().getDate()
-                                .isBefore(LocalDate.now()))
+                                .isBefore(LocalDate.now(ZoneId.systemDefault())))
                 .sorted(Comparator
                         .comparing((BookingResponseBean booking) ->
                                 booking.getTimeSlot().getDate())

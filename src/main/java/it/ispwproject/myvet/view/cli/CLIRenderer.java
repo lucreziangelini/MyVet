@@ -10,6 +10,7 @@ import java.util.Scanner;
  *  - metodi di input interattivi (chiediScelta, chiediConferma, chiediCampo)
  * Nessuna logica di business: le view rimangono pure boundary.
  */
+@SuppressWarnings("java:S106") // System.out è l'output previsto di questa boundary CLI.
 public final class CLIRenderer {
 
 

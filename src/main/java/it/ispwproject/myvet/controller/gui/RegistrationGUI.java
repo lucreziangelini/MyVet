@@ -68,13 +68,13 @@ public class RegistrationGUI {
                         : Role.PET_OWNER
         );
 
-        bean.setGender(
-                view.femaleRadio.isSelected()
-                        ? Gender.FEMALE
-                        : view.maleRadio.isSelected()
-                        ? Gender.MALE
-                        : null
-        );
+        Gender selectedGender = null;
+        if (view.femaleRadio.isSelected()) {
+            selectedGender = Gender.FEMALE;
+        } else if (view.maleRadio.isSelected()) {
+            selectedGender = Gender.MALE;
+        }
+        bean.setGender(selectedGender);
 
         if (view.veterinarianRadio.isSelected()) {
             bean.setBio(

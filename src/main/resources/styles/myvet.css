@@ -233,10 +233,11 @@
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-text-fill: #4B4B4B;
-    -fx-font-size: 20px;
+    -fx-font-size: 11px;
     -fx-font-weight: bold;
     -fx-cursor: hand;
     -fx-padding: 0;
+    -fx-background-radius: 11;
 }
 
 .nav-button:hover {
@@ -1018,17 +1019,6 @@
 
 .registration-role-option .radio-button {
     -fx-text-overrun: clip;
-}
-
-.nav-button {
-    -fx-font-size: 11px;
-    -fx-padding: 0;
-    -fx-background-radius: 11;
-}
-
-.today-button {
-    -fx-font-size: 11px;
-    -fx-padding: 3 10 3 10;
 }
 
 .dashboard-calendar-section {

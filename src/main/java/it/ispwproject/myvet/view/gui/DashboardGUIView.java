@@ -103,7 +103,7 @@ public abstract class DashboardGUIView {
         scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scroll.setFitToWidth(true);
         scroll.setMinHeight(200);
-        double calendarHeight = HEADER_H
+        double calendarHeight = (double) HEADER_H
                 + (HOUR_END - HOUR_START) * HOUR_HEIGHT
                 + 4;
         scroll.setPrefHeight(calendarHeight);
