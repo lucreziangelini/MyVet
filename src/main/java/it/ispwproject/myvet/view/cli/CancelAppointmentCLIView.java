@@ -4,6 +4,7 @@ import it.ispwproject.myvet.bean.BookingResponseBean;
 
 import java.util.List;
 
+@SuppressWarnings("java:S106") // System.out e' l'output previsto di questa boundary CLI.
 public class CancelAppointmentCLIView {
 
     public void mostraIntestazione() {

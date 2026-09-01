@@ -12,7 +12,7 @@
 
 .root {
     -fx-font-family: "Poppins";
-    -fx-background-color: #8EADC2;
+    -fx-background-color: #F8F5DC;
 }
 
 .myvet-background { -fx-background-color: #8EADC2; }
@@ -202,15 +202,16 @@
 /* ── Buttons ─────────────────────────────────────────── */
 
 .button {
-    -fx-background-color: #4B4B4B;
-    -fx-text-fill: white;
+    -fx-background-color: #075B4E;
+    -fx-text-fill: #FFFFFF;
     -fx-background-radius: 22;
+    -fx-border-radius: 22;
     -fx-cursor: hand;
     -fx-font-size: 15px;
     -fx-font-weight: bold;
 }
 
-.button:hover { -fx-background-color: #3A3A3A; }
+.button:hover { -fx-background-color: #0B6B5B; }
 
 .back-button,
 .next-button {
@@ -257,12 +258,13 @@
 .today-button:hover { -fx-background-color: #3A3A3A; }
 
 .action-tile {
-    -fx-background-color: #4B4B4B;
+    -fx-background-color: #075B4E;
     -fx-background-radius: 18;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(7, 91, 78, 0.16), 10, 0.08, 0, 3);
 }
 
-.action-tile:hover { -fx-background-color: #3A3A3A; }
+.action-tile:hover { -fx-background-color: #0B6B5B; }
 
 .action-tile-label {
     -fx-font-size: 14px;
@@ -458,15 +460,15 @@
 }
 
 .calendar-today-badge {
-    -fx-background-color: #8EADC2;
+    -fx-background-color: #F0E56E;
     -fx-background-radius: 12;
-    -fx-text-fill: white;
+    -fx-text-fill: #075B4E;
     -fx-font-weight: bold;
     -fx-font-size: 11px;
 }
 
-.calendar-separator { -fx-background-color: #dde6ee; }
-.calendar-grid-line { -fx-background-color: #eef2f6; }
+.calendar-separator { -fx-background-color: #DCE3D0; }
+.calendar-grid-line { -fx-background-color: #EFF1E6; }
 
 .calendar-block-title {
     -fx-font-size: 9px;
@@ -527,7 +529,7 @@
 
 /* ── Misc ────────────────────────────────────────────── */
 
-.separator { -fx-background-color: #b8d4ea; }
+.separator { -fx-background-color: #DCE3D0; }
 
 .step-dot {
     -fx-min-width: 14; -fx-min-height: 14;
@@ -553,11 +555,6 @@
 /* ═══════════════════════════════════════════════════════
    Storyboard refresh — MyVet cream & green
    ═══════════════════════════════════════════════════════ */
-
-.root {
-    -fx-background-color: #F8F5DC;
-    -fx-font-family: "Poppins";
-}
 
 .myvet-background,
 .auth-background {
@@ -723,17 +720,6 @@
     -fx-text-fill: #526B62;
 }
 
-.button {
-    -fx-background-color: #075B4E;
-    -fx-text-fill: #FFFFFF;
-    -fx-background-radius: 22;
-    -fx-border-radius: 22;
-}
-
-.button:hover {
-    -fx-background-color: #0B6B5B;
-}
-
 .back-button,
 .next-button,
 .nav-button {
@@ -755,20 +741,6 @@
 .success-button,
 .save-button {
     -fx-background-color: #075B4E;
-    -fx-text-fill: #FFFFFF;
-}
-
-.action-tile {
-    -fx-background-color: #075B4E;
-    -fx-background-radius: 18;
-    -fx-effect: dropshadow(gaussian, rgba(7, 91, 78, 0.16), 10, 0.08, 0, 3);
-}
-
-.action-tile:hover {
-    -fx-background-color: #0B6B5B;
-}
-
-.action-tile-label {
     -fx-text-fill: #FFFFFF;
 }
 
@@ -812,12 +784,12 @@
     -fx-effect: dropshadow(gaussian, rgba(44, 75, 60, 0.10), 12, 0.10, 0, 4);
 }
 
-.accordion-header-open {
+.accordion-panel > .accordion-header-open {
     -fx-background-radius: 18 18 0 0;
     -fx-border-radius: 18 18 0 0;
 }
 
-.accordion-content {
+.accordion-panel > .accordion-content {
     -fx-background-radius: 0 0 18 18;
     -fx-border-radius: 0 0 18 18;
 }
@@ -828,29 +800,12 @@
     -fx-text-fill: #075B4E;
 }
 
-.calendar-today-badge {
-    -fx-background-color: #F0E56E;
-    -fx-text-fill: #075B4E;
-}
-
-.calendar-separator {
-    -fx-background-color: #DCE3D0;
-}
-
-.calendar-grid-line {
-    -fx-background-color: #EFF1E6;
-}
-
 .transparent-scroll,
 .transparent-scroll .viewport,
 .myvet-scroll,
 .myvet-scroll .viewport,
 .myvet-scroll > .corner {
     -fx-background-color: transparent;
-}
-
-.separator {
-    -fx-background-color: #DCE3D0;
 }
 
 .dashboard-sidebar {

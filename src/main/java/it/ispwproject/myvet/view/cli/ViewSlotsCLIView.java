@@ -5,6 +5,7 @@ import it.ispwproject.myvet.bean.TimeSlotBean;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("java:S106") // System.out e' l'output previsto di questa boundary CLI.
 public class ViewSlotsCLIView {
 
     public void mostraIntestazione() {

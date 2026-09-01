@@ -1,5 +1,6 @@
 package it.ispwproject.myvet.view.cli;
 
+@SuppressWarnings("java:S106") // System.out e' l'output previsto di questa boundary CLI.
 public class InitialCLIView {
 
     public void mostraBenvenuto() {

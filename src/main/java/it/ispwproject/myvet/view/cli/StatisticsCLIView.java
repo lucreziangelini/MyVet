@@ -4,6 +4,7 @@ import it.ispwproject.myvet.bean.StatisticsBean;
 
 import java.util.Map;
 
+@SuppressWarnings("java:S106") // System.out e' l'output previsto di questa boundary CLI.
 public class StatisticsCLIView {
 
     public void mostraIntestazione() {

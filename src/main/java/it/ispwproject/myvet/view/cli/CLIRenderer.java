@@ -143,7 +143,7 @@ public final class CLIRenderer {
      * Variante stringa (per menu che restituisce String)
      */
     public static String chiediSceltaStringa(String prompt) {
-        System.out.printf("\n  %s: ", prompt);
+        System.out.printf("%n  %s: ", prompt);
         return SCANNER.nextLine().trim();
     }
 

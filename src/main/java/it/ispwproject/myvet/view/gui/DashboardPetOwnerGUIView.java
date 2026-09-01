@@ -113,7 +113,7 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
         );
 
         Pane pane =
-                buildCalendarPane(monday, columnWidth);
+                buildCalendarPane(columnWidth);
 
         addMonthRow(
                 pane,
@@ -155,15 +155,7 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
             int columnWidth) {
 
         for (BookingResponseBean booking : bookings) {
-
-            if (booking.getStatus() == BookingStatus.CANCELLED) {
-                continue;
-            }
-
-            // Ignora eventuali prenotazioni incomplete
-            if (booking.getTimeSlot() == null
-                    || booking.getPet() == null
-                    || booking.getVeterinarian() == null) {
+            if (!isDisplayable(booking, firstDay, totalHours)) {
                 continue;
             }
 
@@ -182,11 +174,6 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
                             bookingDate
                     );
 
-            // L'appuntamento non appartiene alla settimana visualizzata
-            if (dayOffset < 0) {
-                continue;
-            }
-
             double startFraction =
                     startTime.getHour()
                             + startTime.getMinute() / 60.0
@@ -196,12 +183,6 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
                     endTime.getHour()
                             + endTime.getMinute() / 60.0
                             - HOUR_START;
-
-            // Ignora appuntamenti esterni alla fascia oraria del calendario
-            if (startFraction < 0
-                    || endFraction > totalHours) {
-                continue;
-            }
 
             VBox block = new VBox(1);
 
@@ -284,6 +265,34 @@ public class DashboardPetOwnerGUIView extends DashboardGUIView {
 
             pane.getChildren().add(block);
         }
+    }
+
+    private boolean isDisplayable(
+            BookingResponseBean booking,
+            LocalDate firstDay,
+            int totalHours) {
+
+        if (booking.getStatus() == BookingStatus.CANCELLED
+                || booking.getTimeSlot() == null
+                || booking.getPet() == null
+                || booking.getVeterinarian() == null) {
+            return false;
+        }
+
+        LocalDate date = booking.getTimeSlot().getDate();
+        LocalTime start = booking.getTimeSlot().getStartTime();
+        LocalTime end = booking.getTimeSlot().getEndTime();
+        if (date == null || start == null || end == null) {
+            return false;
+        }
+
+        double startFraction = start.getHour()
+                + start.getMinute() / 60.0 - HOUR_START;
+        double endFraction = end.getHour()
+                + end.getMinute() / 60.0 - HOUR_START;
+        return findDayOffset(firstDay, date) >= 0
+                && startFraction >= 0
+                && endFraction <= totalHours;
     }
 
     // Calcola la colonna della settimana in cui mostrare l'appuntamento

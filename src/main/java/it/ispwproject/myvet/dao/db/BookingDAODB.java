@@ -92,33 +92,7 @@ public class BookingDAODB extends AbstractBookingDAO {
     public void save(Booking booking) throws DAOException {
         try (Connection connection =
                      ConnectionFactory.getConnection()) {
-
-            connection.setAutoCommit(false);
-
-            try {
-                int bookingId = insertBooking(
-                        connection,
-                        booking
-                );
-
-                updateSlotAvailability(
-                        connection,
-                        booking.getTimeSlot().getId(),
-                        false
-                );
-
-                connection.commit();
-
-                booking.setId(bookingId);
-                booking.setStatus(BookingStatus.CONFIRMED);
-                addToCache(booking);
-
-            } catch (SQLException e) {
-                rollback(connection, e);
-                throw e;
-            } finally {
-                connection.setAutoCommit(true);
-            }
+            saveInTransaction(connection, booking);
 
         } catch (SQLException e) {
             throw new DAOException(
@@ -126,6 +100,31 @@ public class BookingDAODB extends AbstractBookingDAO {
                             + e.getMessage(),
                     e
             );
+        }
+    }
+
+    private void saveInTransaction(
+            Connection connection,
+            Booking booking) throws SQLException {
+
+        connection.setAutoCommit(false);
+        try {
+            int bookingId = insertBooking(connection, booking);
+            updateSlotAvailability(
+                    connection,
+                    booking.getTimeSlot().getId(),
+                    false
+            );
+            connection.commit();
+
+            booking.setId(bookingId);
+            booking.setStatus(BookingStatus.CONFIRMED);
+            addToCache(booking);
+        } catch (SQLException e) {
+            rollback(connection, e);
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
         }
     }
 
@@ -317,23 +316,7 @@ public class BookingDAODB extends AbstractBookingDAO {
 
         try (Connection connection =
                      ConnectionFactory.getConnection()) {
-
-            connection.setAutoCommit(false);
-
-            try {
-                executeCancel(
-                        connection,
-                        bookingId,
-                        petOwnerId
-                );
-
-                connection.commit();
-            } catch (SQLException | DAOException e) {
-                rollback(connection, e);
-                throw e;
-            } finally {
-                connection.setAutoCommit(true);
-            }
+            cancelInTransaction(connection, bookingId, petOwnerId);
 
             updateInCache(bookingId);
 
@@ -349,6 +332,23 @@ public class BookingDAODB extends AbstractBookingDAO {
                             + e.getMessage(),
                     e
             );
+        }
+    }
+
+    private void cancelInTransaction(
+            Connection connection,
+            int bookingId,
+            int petOwnerId) throws SQLException, DAOException {
+
+        connection.setAutoCommit(false);
+        try {
+            executeCancel(connection, bookingId, petOwnerId);
+            connection.commit();
+        } catch (SQLException | DAOException e) {
+            rollback(connection, e);
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
         }
     }
 

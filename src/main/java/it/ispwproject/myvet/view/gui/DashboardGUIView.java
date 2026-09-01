@@ -14,7 +14,7 @@ import javafx.scene.layout.*;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 public abstract class DashboardGUIView {
 
@@ -125,7 +125,7 @@ public abstract class DashboardGUIView {
         return section;
     }
 
-    public Pane buildCalendarPane(LocalDate monday, int colW) {
+    public Pane buildCalendarPane(int colW) {
         int totalHours = HOUR_END - HOUR_START;
         int gridHeight = totalHours * HOUR_HEIGHT;
 
@@ -193,7 +193,7 @@ public abstract class DashboardGUIView {
         for (int h = 0; h < totalHours; h++) {
             int hour = HOUR_START + h;
             int y    = HEADER_H + h * HOUR_HEIGHT;
-            String ht = hour < 12 ? hour + " AM" : hour == 12 ? "12 PM" : (hour - 12) + " PM";
+            String ht = formatHour(hour);
 
             Label lbl = new Label(ht);
             lbl.getStyleClass().add("calendar-hour-label");
@@ -221,7 +221,7 @@ public abstract class DashboardGUIView {
     // Accordion info utente comune
     // ────────────────────────────────────────────────────────────────────────
 
-    public VBox buildUserInfoAccordion(User user, Function<String, Boolean> onSaveEmail) {
+    public VBox buildUserInfoAccordion(User user, Predicate<String> onSaveEmail) {
         HBox header = new HBox(8);
         header.getStyleClass().add("accordion-header");
         header.setAlignment(Pos.CENTER_LEFT);
@@ -260,7 +260,7 @@ public abstract class DashboardGUIView {
         return accordion;
     }
 
-    public HBox buildEmailRow(User user, Function<String, Boolean> onSave) {
+    public HBox buildEmailRow(User user, Predicate<String> onSave) {
         Label emailLbl = new Label(user.getEmail() != null ? user.getEmail() : "—");
         emailLbl.getStyleClass().add("info-text");
         emailLbl.setWrapText(true);
@@ -328,12 +328,10 @@ public abstract class DashboardGUIView {
             confirm.setHeaderText(null);
             confirm.setContentText("Vuoi cambiare l'email a:\n" + newEmail + "?");
             confirm.showAndWait().ifPresent(r -> {
-                if (r == ButtonType.OK) {
-                    if (onSave.apply(newEmail)) {
-                        emailLbl.setText(newEmail);
-                        editPanel.setVisible(false);  editPanel.setManaged(false);
-                        viewRow.setVisible(true);   viewRow.setManaged(true);
-                    }
+                if (r == ButtonType.OK && onSave.test(newEmail)) {
+                    emailLbl.setText(newEmail);
+                    editPanel.setVisible(false);  editPanel.setManaged(false);
+                    viewRow.setVisible(true);   viewRow.setManaged(true);
                 }
             });
         });
@@ -415,5 +413,15 @@ public abstract class DashboardGUIView {
     public String cap(String s) {
         return (s == null || s.isEmpty()) ? s :
                 Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    }
+
+    private String formatHour(int hour) {
+        if (hour < 12) {
+            return hour + " AM";
+        }
+        if (hour == 12) {
+            return "12 PM";
+        }
+        return (hour - 12) + " PM";
     }
 }

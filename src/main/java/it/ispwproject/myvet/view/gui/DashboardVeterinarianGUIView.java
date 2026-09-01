@@ -113,7 +113,7 @@ public class DashboardVeterinarianGUIView
         );
 
         Pane pane =
-                buildCalendarPane(monday, columnWidth);
+                buildCalendarPane(columnWidth);
 
         addMonthRow(
                 pane,
@@ -155,17 +155,15 @@ public class DashboardVeterinarianGUIView
             int columnWidth) {
 
         for (TimeSlotBean slot : slots) {
+            if (!isDisplayable(slot, firstDay, totalHours)) {
+                continue;
+            }
 
             int dayOffset =
                     findDayOffset(
                             firstDay,
                             slot.getDate()
                     );
-
-            // Lo slot non appartiene alla settimana visualizzata
-            if (dayOffset < 0) {
-                continue;
-            }
 
             LocalTime startTime =
                     slot.getStartTime();
@@ -182,12 +180,6 @@ public class DashboardVeterinarianGUIView
                     endTime.getHour()
                             + endTime.getMinute() / 60.0
                             - HOUR_START;
-
-            // Ignora gli slot esterni alla fascia oraria del calendario
-            if (startFraction < 0
-                    || endFraction > totalHours) {
-                continue;
-            }
 
             VBox block = new VBox(2);
 
@@ -302,6 +294,29 @@ public class DashboardVeterinarianGUIView
 
             pane.getChildren().add(block);
         }
+    }
+
+    private boolean isDisplayable(
+            TimeSlotBean slot,
+            LocalDate firstDay,
+            int totalHours) {
+
+        if (slot == null
+                || slot.getDate() == null
+                || slot.getStartTime() == null
+                || slot.getEndTime() == null) {
+            return false;
+        }
+
+        LocalTime start = slot.getStartTime();
+        LocalTime end = slot.getEndTime();
+        double startFraction = start.getHour()
+                + start.getMinute() / 60.0 - HOUR_START;
+        double endFraction = end.getHour()
+                + end.getMinute() / 60.0 - HOUR_START;
+        return findDayOffset(firstDay, slot.getDate()) >= 0
+                && startFraction >= 0
+                && endFraction <= totalHours;
     }
 
     // Calcola la colonna della settimana in cui mostrare lo slot

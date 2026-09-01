@@ -7,6 +7,7 @@ import it.ispwproject.myvet.bean.ProgressBean;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@SuppressWarnings("java:S106") // System.out e' l'output previsto di questa boundary CLI.
 public class ManagePetCareCLIView {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER =

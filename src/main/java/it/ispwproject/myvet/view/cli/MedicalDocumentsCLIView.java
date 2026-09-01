@@ -7,6 +7,7 @@ import it.ispwproject.myvet.enumerator.DocumentType;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@SuppressWarnings("java:S106") // System.out e' l'output previsto di questa boundary CLI.
 public class MedicalDocumentsCLIView {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
